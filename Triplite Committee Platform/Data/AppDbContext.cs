@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Triplite_Committee_Platform.Models;
 
 namespace Triplite_Committee_Platform.Data
 {
@@ -12,5 +13,6 @@ namespace Triplite_Committee_Platform.Data
         {
 
         }
+        public DbSet<ScholarshipModel> Scholarship { get; set; }
     }
 }
