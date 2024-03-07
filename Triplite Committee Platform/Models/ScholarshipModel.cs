@@ -22,6 +22,6 @@ namespace Triplite_Committee_Platform.Models
         [Required] public string Degree { get; set; }
 
         //public List<BoardModel> Board { get; set; } = new List<BoardModel>();
-        //hello
+        //hello 123
     }
 }
