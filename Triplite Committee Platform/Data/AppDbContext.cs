@@ -14,5 +14,7 @@ namespace Triplite_Committee_Platform.Data
 
         }
         public DbSet<ScholarshipModel> Scholarship { get; set; }
+        public DbSet<CollegeModel> College { get; set; }
+        public DbSet<DepartmentModel> Department { get; set; }
     }
 }
