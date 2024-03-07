@@ -18,8 +18,9 @@ namespace Triplite_Committee_Platform.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Privacy(string name)
         {
+            ViewData["name"] = name;
             return View();
         }
 
