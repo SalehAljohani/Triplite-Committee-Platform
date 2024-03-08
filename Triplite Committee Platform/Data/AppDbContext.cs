@@ -18,5 +18,6 @@ namespace Triplite_Committee_Platform.Data
         public DbSet<DepartmentModel> Department { get; set; }
         public DbSet<RequestTypeModel> RequestType { get; set; }
         public DbSet<UserModel> User { get; set; }
+        public DbSet<Roles> Roles { get; set; }
     }
 }
