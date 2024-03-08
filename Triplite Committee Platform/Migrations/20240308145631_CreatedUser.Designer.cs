@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Triplite_Committee_Platform.Data;
 
@@ -11,9 +12,11 @@ using Triplite_Committee_Platform.Data;
 namespace Triplite_Committee_Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240308145631_CreatedUser")]
+    partial class CreatedUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,31 +64,6 @@ namespace Triplite_Committee_Platform.Migrations
                     b.ToTable("Department");
                 });
 
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.ReasonsModel", b =>
-                {
-                    b.Property<int>("ReasonID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReasonID"));
-
-                    b.Property<bool>("Connected")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Context")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ReqTypeID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ReasonID");
-
-                    b.HasIndex("ReqTypeID");
-
-                    b.ToTable("ReasonsModel");
-                });
-
             modelBuilder.Entity("Triplite_Committee_Platform.Models.RequestTypeModel", b =>
                 {
                     b.Property<int>("RequestTypeID")
@@ -101,23 +79,6 @@ namespace Triplite_Committee_Platform.Migrations
                     b.HasKey("RequestTypeID");
 
                     b.ToTable("RequestType");
-                });
-
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.Roles", b =>
-                {
-                    b.Property<int>("RoleID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleID"));
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RoleID");
-
-                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.ScholarshipModel", b =>
@@ -241,17 +202,6 @@ namespace Triplite_Committee_Platform.Migrations
                     b.Navigation("College");
                 });
 
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.ReasonsModel", b =>
-                {
-                    b.HasOne("Triplite_Committee_Platform.Models.RequestTypeModel", "RequestType")
-                        .WithMany("Reasons")
-                        .HasForeignKey("ReqTypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("RequestType");
-                });
-
             modelBuilder.Entity("Triplite_Committee_Platform.Models.ScholarshipModel", b =>
                 {
                     b.HasOne("Triplite_Committee_Platform.Models.DepartmentModel", "Department")
@@ -284,11 +234,6 @@ namespace Triplite_Committee_Platform.Migrations
                     b.Navigation("Scholarship");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.RequestTypeModel", b =>
-                {
-                    b.Navigation("Reasons");
                 });
 #pragma warning restore 612, 618
         }
