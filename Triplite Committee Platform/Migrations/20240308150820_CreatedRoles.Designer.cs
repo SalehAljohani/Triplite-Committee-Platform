@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Triplite_Committee_Platform.Data;
 
@@ -11,9 +12,11 @@ using Triplite_Committee_Platform.Data;
 namespace Triplite_Committee_Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240308150820_CreatedRoles")]
+    partial class CreatedRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace Triplite_Committee_Platform.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("RolesModelsUserModel", b =>
-                {
-                    b.Property<int>("RolesRoleID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserEmployeeID")
-                        .HasColumnType("int");
-
-                    b.HasKey("RolesRoleID", "UserEmployeeID");
-
-                    b.HasIndex("UserEmployeeID");
-
-                    b.ToTable("RolesModelsUserModel");
-                });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.CollegeModel", b =>
                 {
@@ -76,7 +64,32 @@ namespace Triplite_Committee_Platform.Migrations
                     b.ToTable("Department");
                 });
 
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.RequestType", b =>
+            modelBuilder.Entity("Triplite_Committee_Platform.Models.ReasonsModel", b =>
+                {
+                    b.Property<int>("ReasonID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReasonID"));
+
+                    b.Property<bool>("Connected")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Context")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ReqTypeID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReasonID");
+
+                    b.HasIndex("ReqTypeID");
+
+                    b.ToTable("ReasonsModel");
+                });
+
+            modelBuilder.Entity("Triplite_Committee_Platform.Models.RequestTypeModel", b =>
                 {
                     b.Property<int>("RequestTypeID")
                         .ValueGeneratedOnAdd()
@@ -93,7 +106,7 @@ namespace Triplite_Committee_Platform.Migrations
                     b.ToTable("RequestType");
                 });
 
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.RolesModels", b =>
+            modelBuilder.Entity("Triplite_Committee_Platform.Models.Roles", b =>
                 {
                     b.Property<int>("RoleID")
                         .ValueGeneratedOnAdd()
@@ -182,10 +195,48 @@ namespace Triplite_Committee_Platform.Migrations
                     b.ToTable("Scholarship");
                 });
 
+            modelBuilder.Entity("Triplite_Committee_Platform.Models.UserModel", b =>
+                {
+                    b.Property<int>("EmployeeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeID"));
+
+                    b.Property<int>("DeptNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Signature")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EmployeeID");
+
+                    b.HasIndex("DeptNo");
+
+                    b.ToTable("User");
+                });
+
             modelBuilder.Entity("Triplite_Committee_Platform.Models.DepartmentModel", b =>
                 {
                     b.HasOne("Triplite_Committee_Platform.Models.CollegeModel", "College")
-                        .WithMany()
+                        .WithMany("Department")
                         .HasForeignKey("CollegeNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -204,6 +255,28 @@ namespace Triplite_Committee_Platform.Migrations
                     b.Navigation("RequestType");
                 });
 
+            modelBuilder.Entity("Triplite_Committee_Platform.Models.ScholarshipModel", b =>
+                {
+                    b.HasOne("Triplite_Committee_Platform.Models.DepartmentModel", "Department")
+                        .WithMany("Scholarship")
+                        .HasForeignKey("DeptNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("Triplite_Committee_Platform.Models.UserModel", b =>
+                {
+                    b.HasOne("Triplite_Committee_Platform.Models.DepartmentModel", "Department")
+                        .WithMany("User")
+                        .HasForeignKey("DeptNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
             modelBuilder.Entity("Triplite_Committee_Platform.Models.CollegeModel", b =>
                 {
                     b.Navigation("Department");
@@ -212,6 +285,13 @@ namespace Triplite_Committee_Platform.Migrations
             modelBuilder.Entity("Triplite_Committee_Platform.Models.DepartmentModel", b =>
                 {
                     b.Navigation("Scholarship");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Triplite_Committee_Platform.Models.RequestTypeModel", b =>
+                {
+                    b.Navigation("Reasons");
                 });
 #pragma warning restore 612, 618
         }
