@@ -6,5 +6,6 @@ namespace Triplite_Committee_Platform.Models
     {
         [Key] public int RoleID { get; set; }
         [Required] public string RoleName { get; set; }
+        public List<UserModel> User { get; set; } = new List<UserModel>();
     }
 }

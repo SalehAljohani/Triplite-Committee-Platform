@@ -13,6 +13,7 @@ namespace Triplite_Committee_Platform.Models
         [Required] public string Name { get; set; }
         [Required] public string Password { get; set; }
         [Required] public string Signature { get; set; }
+        public List<RolesModels> Roles { get; set; } = new List<RolesModels>();
 
     }
 }
