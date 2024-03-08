@@ -185,7 +185,7 @@ namespace Triplite_Committee_Platform.Migrations
             modelBuilder.Entity("Triplite_Committee_Platform.Models.DepartmentModel", b =>
                 {
                     b.HasOne("Triplite_Committee_Platform.Models.CollegeModel", "College")
-                        .WithMany("Department")
+                        .WithMany()
                         .HasForeignKey("CollegeNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -207,27 +207,12 @@ namespace Triplite_Committee_Platform.Migrations
             modelBuilder.Entity("Triplite_Committee_Platform.Models.ScholarshipModel", b =>
                 {
                     b.HasOne("Triplite_Committee_Platform.Models.DepartmentModel", "Department")
-                        .WithMany("Scholarship")
+                        .WithMany()
                         .HasForeignKey("DeptNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Department");
-                });
-
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.CollegeModel", b =>
-                {
-                    b.Navigation("Department");
-                });
-
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.DepartmentModel", b =>
-                {
-                    b.Navigation("Scholarship");
-                });
-
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.RequestTypeModel", b =>
-                {
-                    b.Navigation("Reasons");
                 });
 #pragma warning restore 612, 618
         }

@@ -23,6 +23,8 @@ namespace Triplite_Committee_Platform.Models
         [Required] public DateTime Beginning_date { get; set; }
         [Required] public string Degree { get; set; }
 
-        public List<BoardModel> Board { get; set; }
+        //public List<BoardModel> Board { get; set; } = new List<BoardModel>();
+        
+
     }
 }
