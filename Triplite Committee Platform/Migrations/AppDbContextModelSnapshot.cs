@@ -193,15 +193,15 @@ namespace Triplite_Committee_Platform.Migrations
                     b.Navigation("College");
                 });
 
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.ReasonsModel", b =>
+            modelBuilder.Entity("Triplite_Committee_Platform.Models.ScholarshipModel", b =>
                 {
-                    b.HasOne("Triplite_Committee_Platform.Models.RequestTypeModel", "RequestType")
-                        .WithMany("Reasons")
-                        .HasForeignKey("ReqTypeID")
+                    b.HasOne("Triplite_Committee_Platform.Models.DepartmentModel", "Department")
+                        .WithMany("Scholarship")
+                        .HasForeignKey("DeptNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("RequestType");
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.CollegeModel", b =>
