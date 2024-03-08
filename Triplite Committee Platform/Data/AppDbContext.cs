@@ -21,6 +21,7 @@ namespace Triplite_Committee_Platform.Data
         public DbSet<RolesModels> Roles { get; set; }
         public DbSet<ReasonsModel> Reasons { get; set; }
         public DbSet<BoardModel> Board { get; set; }
+        public DbSet<FileModel> File { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

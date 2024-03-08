@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Triplite_Committee_Platform.Models
 {
-    public class BoardModel
+    public class BoardModel // Board Model when migrated create two rows of National_ID for some reason
     {
         [Key] public int BoardNo { get; set; }
         [Required] public int ReqTypeID { get; set; }
@@ -14,5 +14,6 @@ namespace Triplite_Committee_Platform.Models
         [ForeignKey("DeptNo")] public DepartmentModel Department { get; set; }
         [Required] public string ReqStatus { get; set; }
         [Required] public DateTime ReqDate { get; set; }
+        public List<FileModel> File { get; set; }
     }
 }

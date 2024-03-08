@@ -6,7 +6,7 @@ namespace Triplite_Committee_Platform.Models
     public class ScholarshipModel
     {
         [Key] public int National_ID { get; set; }
-
+        public List<BoardModel> Board { get; set; }
         [Required] public int DeptNo { get; set; }
         [ForeignKey("DeptNo")] public DepartmentModel Department { get; set; }
         [Required] public int EmployeeID { get; set; }
@@ -23,6 +23,5 @@ namespace Triplite_Committee_Platform.Models
         [Required] public string Duration { get; set; }
         [Required] public DateTime Beginning_date { get; set; }
         [Required] public string Degree { get; set; }
-        public List<BoardModel> Board { get; set; }
     }
 }

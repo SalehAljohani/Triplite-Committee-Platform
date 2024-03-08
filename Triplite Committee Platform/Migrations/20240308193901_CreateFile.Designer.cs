@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Triplite_Committee_Platform.Data;
 
@@ -11,9 +12,11 @@ using Triplite_Committee_Platform.Data;
 namespace Triplite_Committee_Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240308193901_CreateFile")]
+    partial class CreateFile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("UserEmployeeID");
 
-                    b.ToTable("RolesModelsUserModel", (string)null);
+                    b.ToTable("RolesModelsUserModel");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.BoardModel", b =>
@@ -74,7 +77,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("ScholarshipModelNational_ID");
 
-                    b.ToTable("Board", (string)null);
+                    b.ToTable("Board");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.CollegeModel", b =>
@@ -91,7 +94,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasKey("CollegeNo");
 
-                    b.ToTable("College", (string)null);
+                    b.ToTable("College");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.DepartmentModel", b =>
@@ -113,7 +116,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("CollegeNo");
 
-                    b.ToTable("Department", (string)null);
+                    b.ToTable("Department");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.FileModel", b =>
@@ -139,7 +142,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("BoardNo");
 
-                    b.ToTable("File", (string)null);
+                    b.ToTable("File");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.ReasonsModel", b =>
@@ -164,7 +167,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("ReqTypeID");
 
-                    b.ToTable("Reasons", (string)null);
+                    b.ToTable("Reasons");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.RequestTypeModel", b =>
@@ -181,7 +184,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasKey("RequestTypeID");
 
-                    b.ToTable("RequestType", (string)null);
+                    b.ToTable("RequestType");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.RolesModels", b =>
@@ -198,7 +201,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasKey("RoleID");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.ScholarshipModel", b =>
@@ -270,7 +273,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("DeptNo");
 
-                    b.ToTable("Scholarship", (string)null);
+                    b.ToTable("Scholarship");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.UserModel", b =>
@@ -308,7 +311,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("DeptNo");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("RolesModelsUserModel", b =>
