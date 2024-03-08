@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Triplite_Committee_Platform.Models
 {
@@ -6,6 +7,7 @@ namespace Triplite_Committee_Platform.Models
     {
         [Key] public int National_ID { get; set; }
         [Required] public int DeptNo { get; set; }
+        [ForeignKey("DeptNo")] public DepartmentModel Department { get; set; }
         [Required] public int EmployeeID { get; set; }
         [Required] public string Phone { get; set; }
         [Required] public string Email { get; set; }

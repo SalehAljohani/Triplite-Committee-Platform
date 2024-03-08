@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Triplite_Committee_Platform.Data;
 
@@ -11,9 +12,11 @@ using Triplite_Committee_Platform.Data;
 namespace Triplite_Committee_Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240308133714_UpdatedDeptNoName")]
+    partial class UpdatedDeptNoName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,6 +91,9 @@ namespace Triplite_Committee_Platform.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("DepartmentDeptNo")
+                        .HasColumnType("int");
+
                     b.Property<int>("DeptNo")
                         .HasColumnType("int");
 
@@ -128,7 +134,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasKey("National_ID");
 
-                    b.HasIndex("DeptNo");
+                    b.HasIndex("DepartmentDeptNo");
 
                     b.ToTable("Scholarship");
                 });
@@ -148,7 +154,7 @@ namespace Triplite_Committee_Platform.Migrations
                 {
                     b.HasOne("Triplite_Committee_Platform.Models.DepartmentModel", "Department")
                         .WithMany()
-                        .HasForeignKey("DeptNo")
+                        .HasForeignKey("DepartmentDeptNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
