@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Triplite_Committee_Platform.Data;
 
@@ -11,9 +12,11 @@ using Triplite_Committee_Platform.Data;
 namespace Triplite_Committee_Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240308124755_CollegeNoForeignKey")]
+    partial class CollegeNoForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,8 +58,6 @@ namespace Triplite_Committee_Platform.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DeptNo");
-
-                    b.HasIndex("CollegeNo");
 
                     b.ToTable("Department");
                 });
@@ -129,17 +130,6 @@ namespace Triplite_Committee_Platform.Migrations
                     b.HasKey("National_ID");
 
                     b.ToTable("Scholarship");
-                });
-
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.DepartmentModel", b =>
-                {
-                    b.HasOne("Triplite_Committee_Platform.Models.CollegeModel", "College")
-                        .WithMany()
-                        .HasForeignKey("CollegeNo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("College");
                 });
 #pragma warning restore 612, 618
         }
