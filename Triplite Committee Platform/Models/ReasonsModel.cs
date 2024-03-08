@@ -9,7 +9,6 @@ namespace Triplite_Committee_Platform.Models
         [Required] public int ReqTypeID { get; set; }
         [Required] public string Context { get; set; }
         [Required] public Boolean Connected { get; set; }
-
         [ForeignKey("ReqTypeID")] public RequestTypeModel RequestType { get; set; }
     }
 }

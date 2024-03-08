@@ -21,5 +21,16 @@ namespace Triplite_Committee_Platform.Data
         public DbSet<RolesModels> Roles { get; set; }
         public DbSet<ReasonsModel> Reasons { get; set; }
         public DbSet<BoardModel> Board { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<BoardModel>()
+                .HasOne(b => b.Scholarship)
+                .WithMany()
+                .HasForeignKey(b => b.National_ID)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }
