@@ -5,6 +5,7 @@ namespace Triplite_Committee_Platform.Models
     public class DepartmentModel
     {
         [Key] public int DeptNo { get; set; }
+        public List<ScholarshipModel> Scholarship { get; set; }
         [Required] public string DeptName { get; set; }
         [Required] public int CollegeNo { get; set; }
         [ForeignKey("CollegeNo")] public CollegeModel College { get; set; }
