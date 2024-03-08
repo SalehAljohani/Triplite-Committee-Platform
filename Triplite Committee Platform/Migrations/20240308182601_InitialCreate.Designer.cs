@@ -12,8 +12,8 @@ using Triplite_Committee_Platform.Data;
 namespace Triplite_Committee_Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240308151601_ConnectedUser_Roles")]
-    partial class ConnectedUser_Roles
+    [Migration("20240308182601_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,7 +101,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("ReqTypeID");
 
-                    b.ToTable("ReasonsModel");
+                    b.ToTable("Reasons");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.RequestTypeModel", b =>
@@ -299,7 +299,7 @@ namespace Triplite_Committee_Platform.Migrations
             modelBuilder.Entity("Triplite_Committee_Platform.Models.UserModel", b =>
                 {
                     b.HasOne("Triplite_Committee_Platform.Models.DepartmentModel", "Department")
-                        .WithMany("User")
+                        .WithMany()
                         .HasForeignKey("DeptNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -315,8 +315,6 @@ namespace Triplite_Committee_Platform.Migrations
             modelBuilder.Entity("Triplite_Committee_Platform.Models.DepartmentModel", b =>
                 {
                     b.Navigation("Scholarship");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.RequestTypeModel", b =>

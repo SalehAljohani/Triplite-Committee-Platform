@@ -9,7 +9,6 @@ namespace Triplite_Committee_Platform.Models
         [Required] public string DeptName { get; set; }
         [Required] public int CollegeNo { get; set; }
         [ForeignKey("CollegeNo")] public CollegeModel College { get; set; }
-
         public List<BoardModel> Board { get; set; }
     }
 }

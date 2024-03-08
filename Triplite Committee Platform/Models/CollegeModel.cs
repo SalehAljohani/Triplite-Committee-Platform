@@ -5,7 +5,6 @@ namespace Triplite_Committee_Platform.Models
     {
         [Key] public int CollegeNo { get; set; }
         [Required] public string CollegeName { get; set; }
-
         public List<DepartmentModel> Department { get; set; }
     }
 }
