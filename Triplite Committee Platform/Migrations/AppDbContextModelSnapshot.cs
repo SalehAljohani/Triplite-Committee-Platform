@@ -61,7 +61,7 @@ namespace Triplite_Committee_Platform.Migrations
                     b.ToTable("Department");
                 });
 
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.RequestTypeModel", b =>
+            modelBuilder.Entity("Triplite_Committee_Platform.Models.RequestType", b =>
                 {
                     b.Property<int>("RequestTypeID")
                         .ValueGeneratedOnAdd()
@@ -150,44 +150,6 @@ namespace Triplite_Committee_Platform.Migrations
                     b.ToTable("Scholarship");
                 });
 
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.UserModel", b =>
-                {
-                    b.Property<int>("EmployeeID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeID"));
-
-                    b.Property<int>("DeptNo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Signature")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EmployeeID");
-
-                    b.HasIndex("DeptNo");
-
-                    b.ToTable("User");
-                });
-
             modelBuilder.Entity("Triplite_Committee_Platform.Models.DepartmentModel", b =>
                 {
                     b.HasOne("Triplite_Committee_Platform.Models.CollegeModel", "College")
@@ -210,17 +172,6 @@ namespace Triplite_Committee_Platform.Migrations
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.UserModel", b =>
-                {
-                    b.HasOne("Triplite_Committee_Platform.Models.DepartmentModel", "Department")
-                        .WithMany("User")
-                        .HasForeignKey("DeptNo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-                });
-
             modelBuilder.Entity("Triplite_Committee_Platform.Models.CollegeModel", b =>
                 {
                     b.Navigation("Department");
@@ -229,8 +180,6 @@ namespace Triplite_Committee_Platform.Migrations
             modelBuilder.Entity("Triplite_Committee_Platform.Models.DepartmentModel", b =>
                 {
                     b.Navigation("Scholarship");
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
