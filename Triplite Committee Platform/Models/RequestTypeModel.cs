@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Triplite_Committee_Platform.Models
 {
 
-    public class RequestType
+    public class RequestTypeModel
     {
         [Key] public int RequestTypeID { get; set; }
         [Required] public string RequestTypeName { get; set; }
