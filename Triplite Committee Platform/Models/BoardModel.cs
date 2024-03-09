@@ -15,5 +15,6 @@ namespace Triplite_Committee_Platform.Models
         [Required] public string ReqStatus { get; set; }
         [Required] public DateTime ReqDate { get; set; }
         public List<FileModel> File { get; set; }
+        //hello 
     }
 }
