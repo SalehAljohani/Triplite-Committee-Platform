@@ -7,25 +7,42 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 
 builder.Services.AddIdentity<UserModel, IdentityRole>(
     options =>
     {
+        // Lockout settings.
         options.SignIn.RequireConfirmedAccount = true;
         options.SignIn.RequireConfirmedEmail = true;
 
+        // User settings.
+        options.User.AllowedUserNameCharacters =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
         options.User.RequireUniqueEmail = true;
 
-        options.Password.RequireLowercase = false;
+
+        // Password settings.
         options.Password.RequireNonAlphanumeric = false;
         options.Password.RequireUppercase = false;
         options.Password.RequiredLength = 8;
     }
     )
-    .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+    .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders().AddDefaultUI();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Cookie settings
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.SlidingExpiration = true;
+});
+
 
 var app = builder.Build();
 
@@ -47,5 +64,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
+
 
 app.Run();

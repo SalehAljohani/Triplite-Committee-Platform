@@ -10,6 +10,6 @@ namespace Triplite_Committee_Platform.Models
         [Required] public int DeptNo { get; set; }
         [ForeignKey("DeptNo")] public DepartmentModel Department { get; set; }
         [Required] public string Name { get; set; }
-        [Required] public string Signature { get; set; }
+        public string? Signature { get; set; }
     }
 }
