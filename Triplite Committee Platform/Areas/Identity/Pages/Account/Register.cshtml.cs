@@ -15,9 +15,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 
 namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
@@ -30,12 +33,18 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
         private readonly SignInManager<UserModel> _signInManager;
         private readonly UserManager<UserModel> _userManager;
         private readonly IUserStore<UserModel> _userStore;
+        private readonly AppDbContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
         public RegisterModel(
             UserManager<UserModel> userManager,
             IUserStore<UserModel> userStore,
             SignInManager<UserModel> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            AppDbContext context,
+            RoleManager<IdentityRole> roleManager
+            )
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,18 +52,25 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
+            _roleManager = roleManager;
         }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public IList<DepartmentModel> Departments { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
+
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            Departments = await _context.Department.ToListAsync();
+            var roles = await _roleManager.Roles.ToListAsync();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -64,6 +80,9 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.Name = Input.Name;
+                user.DeptNo = Input.DeptNo;
+                user.EmployeeID = Input.EmployeeID;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -141,28 +160,31 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
+            [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
+            [StringLength(35, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
             [RegularExpression(@"^[a-zA-Z\s\u0621-\u064A]*$", ErrorMessage = "The Name field should only contain letters, spaces.")]
             [Display(Name = "Name")]
             public string Name { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 10)]
+            [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 10)]
             [Display(Name = "Employee ID")]
             [RegularExpression("^[0-9]*$", ErrorMessage = "Employee ID must be numeric")]
-            public string EmployeeID { get; set; }
+            public int EmployeeID { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at max {1} characters long.")]
+            [Required(ErrorMessage = "Must pick a department")]
+            [StringLength(100)]
             [Display(Name = "Department")]
-            public string DeptNo { get; set; }
+            public int DeptNo { get; set; }
 
+            [Required(ErrorMessage = "Must pick a role")]
+            [Display(Name = "Role")]
+            public string Role { get; set; }
         }
     }
 }

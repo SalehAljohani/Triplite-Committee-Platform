@@ -29,6 +29,10 @@ namespace Triplite_Committee_Platform.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<UserModel>()
+                .HasIndex(u => u.EmployeeID)
+                .IsUnique();
+
             modelBuilder.Entity<BoardModel>()
                 .HasOne(b => b.Scholarship)
                 .WithMany()

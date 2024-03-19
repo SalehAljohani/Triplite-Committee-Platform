@@ -6,10 +6,19 @@ namespace Triplite_Committee_Platform.Models
 {
     public class UserModel : IdentityUser
     {
-        [Required] public int EmployeeID { get; set; }
-        [Required] public int DeptNo { get; set; }
         [ForeignKey("DeptNo")] public DepartmentModel Department { get; set; }
-        [Required] public string Name { get; set; }
+
+        [Required]
+        public int DeptNo { get; set; }
+
+        [Required]
+        public int EmployeeID { get; set; }
+
+        [Required]
+        [StringLength(35)]
+        public string Name { get; set; }
+
+        [StringLength(60)]
         public string? Signature { get; set; }
     }
 }
