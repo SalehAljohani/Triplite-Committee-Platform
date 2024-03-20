@@ -1,0 +1,18 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<h1>@ViewData["totalBoard"]</h1>
+<h1>@ViewData["CompletedBoards"]</h1>
+<h1>@ViewData["unCompletedBoards"]</h1>
+
+
+
+<div class="chart" style="width: 100px; height: 100px; position: relative; border: 1px solid #ccc;">
+	<div class="completed" style="position: absolute; left: 0; top: 0; width: @ViewBag.CompletionPercentage%; height: 100%; background-color: green;"></div>
+	<div class="remaining" style="position: absolute; left: @ViewBag.CompletionPercentage%; top: 0; width: @(100 - ViewBag.CompletionPercentage)%; height: 100%; background-color: red;"></div>
+</div>
+
