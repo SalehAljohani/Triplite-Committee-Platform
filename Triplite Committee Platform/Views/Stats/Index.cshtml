@@ -1,18 +1,41 @@
 ﻿@{
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // var totalCollege = ViewData["totalCollege"] as List<CollegeModel>;
+    var totalCollege = new List<CollegeModel>
+    {
+        new CollegeModel { CollegeNo = 1, CollegeName = "College A" },
+        new CollegeModel { CollegeNo = 2, CollegeName = "College B" },
+        new CollegeModel { CollegeNo = 3, CollegeName = "College C" }
+    };
 }
-
-
-
 
 <h1>@ViewData["totalBoard"]</h1>
 <h1>@ViewData["CompletedBoards"]</h1>
 <h1>@ViewData["unCompletedBoards"]</h1>
 
-
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Completed Boards</th>
+            <th>Current Boards</th>
+            <th>Total Boards</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var college in totalCollege)
+        {
+            <tr>
+                <td>@college.CollegeName</td>
+                <td>@ViewData[$"completedBoards_{college.CollegeNo}"]</td>
+                <td>@ViewData[$"currentBoards_{college.CollegeNo}"]</td>
+                <td>@ViewData[$"totalBoards_{college.CollegeNo}"]</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <div class="chart" style="width: 100px; height: 100px; position: relative; border: 1px solid #ccc;">
-	<div class="completed" style="position: absolute; left: 0; top: 0; width: @ViewBag.CompletionPercentage%; height: 100%; background-color: green;"></div>
-	<div class="remaining" style="position: absolute; left: @ViewBag.CompletionPercentage%; top: 0; width: @(100 - ViewBag.CompletionPercentage)%; height: 100%; background-color: red;"></div>
+    <div class="completed" style="position: absolute; left: 0; top: 0; width: @ViewBag.CompletionPercentage%; height: 100%; background-color: green;"></div>
+    <div class="remaining" style="position: absolute; left: @ViewBag.CompletionPercentage%; top: 0; width: @(100 - ViewBag.CompletionPercentage)%; height: 100%; background-color: red;"></div>
 </div>
-
