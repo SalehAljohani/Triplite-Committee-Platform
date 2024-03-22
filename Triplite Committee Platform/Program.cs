@@ -19,10 +19,7 @@ builder.Services.AddIdentity<UserModel, IdentityRole>(
         options.SignIn.RequireConfirmedEmail = true;
 
         // User settings.
-        options.User.AllowedUserNameCharacters =
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
         options.User.RequireUniqueEmail = true;
-
 
         // Password settings.
         options.Password.RequireNonAlphanumeric = false;
@@ -43,7 +40,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-
+    
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -36,6 +36,13 @@
                 <span asp-validation-for="Input.DeptNo" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
+                <select asp-for="Input.Role" asp-items="@(new SelectList(Model.Roles, "Id", "Name"))" class="form-control">
+                    <option value="">Select Role</option>
+                </select>
+                <label asp-for="Input.Role">Role</label>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.Password">Password</label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>

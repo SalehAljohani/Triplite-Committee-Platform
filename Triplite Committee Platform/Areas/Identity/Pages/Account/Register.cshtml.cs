@@ -58,6 +58,8 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
         public IList<DepartmentModel> Departments { get; set; }
+        public IList<IdentityRole> Roles { get; set; }
+
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -70,7 +72,7 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             Departments = await _context.Department.ToListAsync();
-            var roles = await _roleManager.Roles.ToListAsync();
+            Roles = await _roleManager.Roles.ToListAsync();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -90,10 +92,13 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, Input.Role);
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
