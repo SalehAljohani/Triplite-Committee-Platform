@@ -20,7 +20,6 @@ namespace Triplite_Committee_Platform.Data
         public DbSet<DepartmentModel> Department { get; set; }
         public DbSet<RequestTypeModel> RequestType { get; set; }
         public DbSet<UserModel> User { get; set; }
-        //public DbSet<RolesModels> Roles { get; set; } to be deleted
         public DbSet<ReasonsModel> Reasons { get; set; }
         public DbSet<BoardModel> Board { get; set; }
         public DbSet<FileModel> File { get; set; }
@@ -28,6 +27,10 @@ namespace Triplite_Committee_Platform.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserModel>()
+                .HasIndex(u => u.EmployeeID)
+                .IsUnique();
 
             modelBuilder.Entity<BoardModel>()
                 .HasOne(b => b.Scholarship)

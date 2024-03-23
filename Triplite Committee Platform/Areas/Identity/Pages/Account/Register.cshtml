@@ -18,7 +18,7 @@
                 <label asp-for="Input.Name">Name</label>
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3"> @* this one should be dropdown list *@
+            <div class="form-floating mb-3">
                 <input asp-for="Input.EmployeeID" class="form-control" autocomplete="ID" aria-required="true" placeholder="0123456789" /> @* placeholder not working on all input *@
                 <label asp-for="Input.EmployeeID">Employee ID</label>
                 <span asp-validation-for="Input.EmployeeID" class="text-danger"></span>
@@ -29,10 +29,18 @@
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                @* this one should be dropdown list later when we come to the actual page *@
-                <input asp-for="Input.DeptNo" class="form-control" autocomplete="username" aria-required="true" placeholder="Information System" />
+                <select asp-for="Input.DeptNo" asp-items="@(new SelectList(Model.Departments, "DeptNo", "DeptName"))" class="form-control">
+                    <option value="">Select Department</option>
+                </select>
                 <label asp-for="Input.DeptNo">Department</label>
                 <span asp-validation-for="Input.DeptNo" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Input.Role" asp-items="@(new SelectList(Model.Roles, "Id", "Name"))" class="form-control">
+                    <option value="">Select Role</option>
+                </select>
+                <label asp-for="Input.Role">Role</label>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />

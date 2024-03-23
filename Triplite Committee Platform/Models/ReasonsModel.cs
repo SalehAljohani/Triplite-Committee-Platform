@@ -5,10 +5,19 @@ namespace Triplite_Committee_Platform.Models
 {
     public class ReasonsModel
     {
-        [Key] public int ReasonID { get; set; }
-        [Required] public int ReqTypeID { get; set; }
-        [Required] public string Context { get; set; }
-        [Required] public Boolean Connected { get; set; }
+        [Key]
+        public int ReasonID { get; set; }
+
+        [Required]
+        public int ReqTypeID { get; set; }
+
+        [Required]
+        [StringLength(500)]
+        public string Context { get; set; }
+
+        [Required]
+        public Boolean Connected { get; set; }
+
         [ForeignKey("ReqTypeID")] public RequestTypeModel RequestType { get; set; }
     }
 }
