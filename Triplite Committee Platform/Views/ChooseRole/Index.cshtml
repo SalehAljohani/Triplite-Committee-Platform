@@ -1,0 +1,7 @@
+﻿@model ChooseRoleViewModel
+
+<form asp-action="ChooseRole" asp-controller="ChooseRole" method="post">
+    <select asp-for="SelectedRole" asp-items="@(new SelectList(Model.Roles, "Id", "Name"))">
+    </select>
+    <input type="submit" value="Submit" />
+</form>

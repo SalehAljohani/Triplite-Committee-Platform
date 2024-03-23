@@ -15,14 +15,12 @@ builder.Services.AddIdentity<UserModel, IdentityRole>(
     options =>
     {
         // Lockout settings.
-        options.SignIn.RequireConfirmedAccount = true;
+        //options.SignIn.RequireConfirmedAccount = false; might enable it later depending on the Dr.Fahad decision
         options.SignIn.RequireConfirmedEmail = true;
+        options.Lockout.AllowedForNewUsers = false;
 
         // User settings.
-        options.User.AllowedUserNameCharacters =
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
         options.User.RequireUniqueEmail = true;
-
 
         // Password settings.
         options.Password.RequireNonAlphanumeric = false;
