@@ -8,14 +8,14 @@ namespace Triplite_Committee_Platform.Models
         [Key]
         public int ReasonID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Request Type is Required.")]
         public int ReqTypeID { get; set; }
 
-        [Required]
-        [StringLength(500)]
+        [Required(ErrorMessage = "Context is Required.")]
+        [StringLength(600,ErrorMessage = "Context Cannot Exceed 600 Characters.")]
         public string Context { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Must Pick if The Reason Require Other Attribute From The User.")]
         public Boolean Connected { get; set; }
 
         [ForeignKey("ReqTypeID")] public RequestTypeModel RequestType { get; set; }

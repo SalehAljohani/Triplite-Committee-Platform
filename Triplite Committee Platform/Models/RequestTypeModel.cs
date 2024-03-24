@@ -7,8 +7,8 @@ namespace Triplite_Committee_Platform.Models
     {
         [Key]
         public int RequestTypeID { get; set; }
-        [Required]
-        [StringLength(30)]
+        [Required(ErrorMessage = "Request Type Name is Required.")]
+        [StringLength(30, ErrorMessage = "Request Type Name Cannot Exceed 30 Characters.")]
         public string RequestTypeName { get; set; }
         public List<BoardModel> Board { get; set; }
         public List<ReasonsModel> Reasons { get; set; }

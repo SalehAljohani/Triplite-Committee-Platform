@@ -8,17 +8,18 @@ namespace Triplite_Committee_Platform.Models
     {
         [ForeignKey("DeptNo")] public DepartmentModel Department { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Must Pick Department.")]
         public int DeptNo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "EmployeeID is Required.")]
+        [StringLength(20, ErrorMessage = "EmployeeID Cannot Exceed 20 Characters.")]
         public int EmployeeID { get; set; }
 
-        [Required]
-        [StringLength(35)]
+        [Required(ErrorMessage = "Name is Required.")]
+        [StringLength(35, ErrorMessage = "Name Cannot Exceed 35 Characters.")]
         public string Name { get; set; }
 
-        [StringLength(60)]
+        [StringLength(60, ErrorMessage = "Signature Cannot Exceed 60 Characters.")]
         public string? Signature { get; set; }
     }
 }

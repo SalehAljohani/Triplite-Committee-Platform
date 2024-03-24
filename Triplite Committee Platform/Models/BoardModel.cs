@@ -10,22 +10,22 @@ namespace Triplite_Committee_Platform.Models
 
         [ForeignKey("DeptNo")] public DepartmentModel Department { get; set; }
 
-        [Required]
+        [Required (ErrorMessage = "Must Pick a Department.")]
         public int DeptNo { get; set; }
 
         public List<FileModel> File { get; set; }
 
-        [Required]
+        [Required (ErrorMessage = "Student National ID is Required.")]
         public int National_ID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Request Date is Required.")]
         public DateTime ReqDate { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        [Required(ErrorMessage = "Request Status is Required.")]
+        [StringLength(20, ErrorMessage = "Request Status Cannot Exceed 20 characters.")]
         public string ReqStatus { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Request Type is Required.")]
         public int ReqTypeID { get; set; }
 
         [ForeignKey("ReqTypeID")] public RequestTypeModel RequestType { get; set; }

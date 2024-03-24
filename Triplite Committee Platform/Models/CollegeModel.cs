@@ -4,8 +4,8 @@ namespace Triplite_Committee_Platform.Models
 {
     public class CollegeModel
     {
-        [Required]
-        [StringLength(50)]
+        [Required (ErrorMessage = "College Name is Required.")]
+        [StringLength(50, ErrorMessage = "College name cannot exceed 50 Characters.")]
         public string CollegeName { get; set; }
 
         [Key]

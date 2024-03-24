@@ -9,11 +9,11 @@ namespace Triplite_Committee_Platform.Models
 
         [ForeignKey("CollegeNo")] public CollegeModel College { get; set; }
 
-        [Required]
+        [Required (ErrorMessage = "College Name is Required.")]
         public int CollegeNo { get; set; }
 
-        [Required]
-        [StringLength(50)]
+        [Required (ErrorMessage = "Department Name is Required.")]
+        [StringLength(50, ErrorMessage = "Department Name Cannot Exceed 50 Characters.")]
         public string DeptName { get; set; }
 
         [Key]
