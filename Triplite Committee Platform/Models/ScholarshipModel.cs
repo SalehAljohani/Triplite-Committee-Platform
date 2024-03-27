@@ -8,7 +8,7 @@ namespace Triplite_Committee_Platform.Models
         [Required]
         public DateTime Beginning_date { get; set; }
 
-        public List<BoardModel> Board { get; set; }
+        public List<BoardModel>? Board { get; set; }
 
         [Required(ErrorMessage = "City Name is Required.")]
         [StringLength(50, ErrorMessage = "City Name Cannot Exceed 50 Characters.")]

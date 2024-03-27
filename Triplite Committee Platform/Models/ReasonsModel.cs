@@ -6,6 +6,7 @@ namespace Triplite_Committee_Platform.Models
     public class ReasonsModel
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ReasonID { get; set; }
 
         [Required(ErrorMessage = "Request Type is Required.")]

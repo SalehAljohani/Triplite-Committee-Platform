@@ -5,9 +5,9 @@ namespace Triplite_Committee_Platform.Models
 {
     public class DepartmentModel
     {
-        public List<BoardModel> Board { get; set; }
+        public List<BoardModel>? Board { get; set; }
 
-        [ForeignKey("CollegeNo")] public CollegeModel College { get; set; }
+        [ForeignKey("CollegeNo")] public CollegeModel? College { get; set; }
 
         [Required (ErrorMessage = "College Name is Required.")]
         public int CollegeNo { get; set; }
@@ -17,8 +17,9 @@ namespace Triplite_Committee_Platform.Models
         public string DeptName { get; set; }
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DeptNo { get; set; }
 
-        public List<ScholarshipModel> Scholarship { get; set; }
+        public List<ScholarshipModel>? Scholarship { get; set; }
     }
 }

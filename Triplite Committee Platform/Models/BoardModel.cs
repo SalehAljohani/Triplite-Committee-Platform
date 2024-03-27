@@ -6,6 +6,7 @@ namespace Triplite_Committee_Platform.Models
     public class BoardModel
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BoardNo { get; set; }
 
         [ForeignKey("DeptNo")] public DepartmentModel Department { get; set; }
@@ -13,7 +14,7 @@ namespace Triplite_Committee_Platform.Models
         [Required (ErrorMessage = "Must Pick a Department.")]
         public int DeptNo { get; set; }
 
-        public List<FileModel> File { get; set; }
+        public List<FileModel>? File { get; set; }
 
         [Required (ErrorMessage = "Student National ID is Required.")]
         public int National_ID { get; set; }

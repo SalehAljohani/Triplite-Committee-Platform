@@ -6,6 +6,7 @@ namespace Triplite_Committee_Platform.Models
     public class FileModel
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int FileID { get; set; }
 
         [Required(ErrorMessage = "File Name is Required.")]
