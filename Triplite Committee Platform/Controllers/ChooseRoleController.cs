@@ -19,7 +19,7 @@ namespace Triplite_Committee_Platform.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> ChooseRole(ChooseRoleViewModel model)
+        public async Task<IActionResult> ChooseRole(ChooseRoleViewModel model) // commented validation for testing
         {
             //if (User?.Identity?.IsAuthenticated == false)
             //{

@@ -15,7 +15,7 @@ builder.Services.AddIdentity<UserModel, IdentityRole>(
     options =>
     {
         // Lockout settings.
-        //options.SignIn.RequireConfirmedAccount = false; might enable it later depending on the Dr.Fahad decision
+        //options.SignIn.RequireConfirmedAccount = false; might enable it later depending on the Dr.Fahad decision 
         options.SignIn.RequireConfirmedEmail = true;
         options.Lockout.AllowedForNewUsers = false;
 

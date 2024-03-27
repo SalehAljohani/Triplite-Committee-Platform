@@ -14,7 +14,7 @@ namespace Triplite_Committee_Platform.Models
         public string FileName { get; set; }
 
         public int BoardNo { get; set; }
-        [ForeignKey("BoardNo")] public BoardModel Board { get; set; }
+        [ForeignKey("BoardNo")] public BoardModel? Board { get; set; }
 
         [Required(ErrorMessage = "Failed To Register Creation Date.")]
         public string Creation_Date { get; set; }

@@ -6,7 +6,7 @@ namespace Triplite_Committee_Platform.Models
 {
     public class UserModel : IdentityUser
     {
-        [ForeignKey("DeptNo")] public DepartmentModel Department { get; set; }
+        [ForeignKey("DeptNo")] public DepartmentModel? Department { get; set; }
 
         [Required(ErrorMessage = "Must Pick Department.")]
         public int DeptNo { get; set; }

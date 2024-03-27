@@ -26,7 +26,7 @@ namespace Triplite_Committee_Platform.Models
         [StringLength(20, ErrorMessage = "Degree Cannot Exceed 20 Characters.")]
         public string Degree { get; set; }
 
-        [ForeignKey("DeptNo")] public DepartmentModel Department { get; set; }
+        [ForeignKey("DeptNo")] public DepartmentModel? Department { get; set; }
 
         [Required(ErrorMessage = "Must Pick Department.")]
         public int DeptNo { get; set; }

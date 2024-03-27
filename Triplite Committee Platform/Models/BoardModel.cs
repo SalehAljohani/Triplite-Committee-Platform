@@ -9,7 +9,7 @@ namespace Triplite_Committee_Platform.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BoardNo { get; set; }
 
-        [ForeignKey("DeptNo")] public DepartmentModel Department { get; set; }
+        [ForeignKey("DeptNo")] public DepartmentModel? Department { get; set; }
 
         [Required (ErrorMessage = "Must Pick a Department.")]
         public int DeptNo { get; set; }
@@ -29,8 +29,8 @@ namespace Triplite_Committee_Platform.Models
         [Required(ErrorMessage = "Request Type is Required.")]
         public int ReqTypeID { get; set; }
 
-        [ForeignKey("ReqTypeID")] public RequestTypeModel RequestType { get; set; }
+        [ForeignKey("ReqTypeID")] public RequestTypeModel? RequestType { get; set; }
 
-        [ForeignKey("National_ID")] public ScholarshipModel Scholarship { get; set; }
+        [ForeignKey("National_ID")] public ScholarshipModel? Scholarship { get; set; }
     }
 }

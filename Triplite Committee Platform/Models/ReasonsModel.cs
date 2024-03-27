@@ -19,6 +19,6 @@ namespace Triplite_Committee_Platform.Models
         [Required(ErrorMessage = "Must Pick if The Reason Require Other Attribute From The User.")]
         public Boolean Connected { get; set; }
 
-        [ForeignKey("ReqTypeID")] public RequestTypeModel RequestType { get; set; }
+        [ForeignKey("ReqTypeID")] public RequestTypeModel? RequestType { get; set; }
     }
 }
