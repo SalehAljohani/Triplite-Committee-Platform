@@ -162,6 +162,7 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
+            [RegularExpression(@"^[a-zA-Z\s\u0621-\u064A]*$", ErrorMessage = "The Name field should only contain letters, spaces.")]
             public string Email { get; set; }
 
             [Required]
@@ -177,13 +178,11 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
             public string Name { get; set; }
 
             [Required]
-            [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 10)]
             [Display(Name = "Employee ID")]
-            [RegularExpression("^[0-9]*$", ErrorMessage = "Employee ID must be numeric")]
+            [RegularExpression("^[0-9]{10}$", ErrorMessage = "Employee ID must be a 10 numbers")]
             public int EmployeeID { get; set; }
 
             [Required(ErrorMessage = "Must pick a department")]
-            [StringLength(100)]
             [Display(Name = "Department")]
             public int DeptNo { get; set; }
 

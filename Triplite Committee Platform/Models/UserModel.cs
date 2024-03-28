@@ -12,7 +12,6 @@ namespace Triplite_Committee_Platform.Models
         public int DeptNo { get; set; }
 
         [Required(ErrorMessage = "EmployeeID is Required.")]
-        [StringLength(20, ErrorMessage = "EmployeeID Cannot Exceed 20 Characters.")]
         public int EmployeeID { get; set; }
 
         [Required(ErrorMessage = "Name is Required.")]

@@ -9,7 +9,7 @@ namespace Triplite_Committee_Platform.Controllers
     public class ChooseRoleController : Controller
     {
         private readonly UserManager<UserModel> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager; // might delete this since there is no use of it, it was there for testing a method of listing roles
         private IHttpContextAccessor _httpContextAccessor;
 
         public ChooseRoleController(UserManager<UserModel> userManager, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor)

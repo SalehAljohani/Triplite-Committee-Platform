@@ -193,7 +193,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("ScholarshipModelNational_ID");
 
-                    b.ToTable("Board");
+                    b.ToTable("Board", (string)null);
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.CollegeModel", b =>
@@ -211,7 +211,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasKey("CollegeNo");
 
-                    b.ToTable("College");
+                    b.ToTable("College", (string)null);
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.DepartmentModel", b =>
@@ -234,7 +234,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("CollegeNo");
 
-                    b.ToTable("Department");
+                    b.ToTable("Department", (string)null);
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.FileModel", b =>
@@ -261,7 +261,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("BoardNo");
 
-                    b.ToTable("File");
+                    b.ToTable("File", (string)null);
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.ReasonsModel", b =>
@@ -287,7 +287,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("ReqTypeID");
 
-                    b.ToTable("Reasons");
+                    b.ToTable("Reasons", (string)null);
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.RequestTypeModel", b =>
@@ -305,7 +305,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasKey("RequestTypeID");
 
-                    b.ToTable("RequestType");
+                    b.ToTable("RequestType", (string)null);
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.ScholarshipModel", b =>
@@ -394,7 +394,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("DeptNo");
 
-                    b.ToTable("Scholarship");
+                    b.ToTable("Scholarship", (string)null);
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.UserModel", b =>

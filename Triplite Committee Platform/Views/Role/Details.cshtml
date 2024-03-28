@@ -1,0 +1,16 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityRole
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Role Details</h1>
+
+<table class="table">
+    <tr>
+        <th>Role Name</th>
+        <td>@Model.Name</td>
+    </tr>
+</table>
+
+<a asp-action="Index">Back to List</a>
