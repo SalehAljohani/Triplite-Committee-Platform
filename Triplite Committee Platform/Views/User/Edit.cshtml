@@ -1,0 +1,154 @@
+﻿@model Triplite_Committee_Platform.ViewModels.UserRolesViewModel
+@{
+    ViewData["Title"] = "Edit User ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit User</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="Edit">
+            <div asp-validation-summary="None" class="text-danger"></div>
+            <div class="form-group mt-3 w-75">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3 w-75">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" readonly disabled />
+            </div>
+            <div class="form-group mt-3 w-75">
+                <label asp-for="EmployeeID" class="control-label"></label>
+                <input asp-for="EmployeeID" class="form-control" readonly disabled />
+            </div>
+            <div class="form-group mt-3 w-75">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" readonly disabled />
+            </div>
+            <div class="form-group mt-4 mb-3 w-75">
+                <label class="form-check-label" asp-for="EmailConfirmed">
+                    Email Confirmed
+                </label>
+                    <div class="form-control" style="background-color: #e9ecef;">
+                        <label>
+                            @Model.EmailConfirmed
+                        </label>
+                    </div>
+            </div>
+            <div class="form-group mt-3 w-75">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-4 mb-3 w-75">
+                <label class="form-check-label" asp-for="PhoneNumberConfirmed">
+                    Phone Number Confirmed
+                </label>
+                <div class="form-control" style="background-color: #e9ecef;">
+                    <label>
+                        @Model.PhoneNumberConfirmed
+                    </label>
+                </div>
+            </div>
+            <div class="form-group mt-3 w-75">
+                <label asp-for="Department" class="control-label"></label>
+                <select asp-for="Department" asp-items="ViewBag.Departments" class="form-control"></select>
+                <span asp-validation-for="Department" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 mt-3 w-75">
+                <label asp-for="ListRoles">Role</label>
+                <div class="pt-5">
+                    @foreach (var role in ViewBag.Roles)
+                    {
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="@role.Id" name="ListRoles" value="@role.Id" onclick="return clearError()" />
+                            <label class="form-check-label" for="@role.Id">@role.Name</label>
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="ListRoles" id="MustPick" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3 w-75">
+                <label asp-for="Password">Password</label>
+                <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3 mb-3 w-75">
+                <label asp-for="ConfirmPassword">Confirm Password</label>
+                <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" type="password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group text-md-center w-75">
+                <input type="submit" value="Save" class="btn btn-primary w-50"/>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-2">
+        @if (TempData["PasswordSuccess"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["PasswordSuccess"]
+            </div>
+        }
+        @if (TempData["PasswordError"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["PasswordError"]
+            </div>
+        }
+    </div>
+    @* <div class="col-md-5">
+        <form asp-action="ChangePassword">
+            <div class="form-group mt-3 w-75">
+                <label asp-for="Password">Password</label>
+                <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3 mb-3 w-75">
+                <label asp-for="ConfirmPassword">Confirm Password</label>
+                <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" type="password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group text-center w-75">
+                <input type="submit" value="Reset Password" class="btn btn-primary w-50" />
+            </div>
+        </form>
+    </div> *@
+</div>
+
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-primary w-25">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script>
+    // Function to validate admin picked at least one role for user
+    function validateRoles() {
+        var checkboxes = document.getElementsByName("ListRoles");
+        var checked = false;
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                checked = true;
+                break;
+            }
+        }
+        if (!checked) {
+            document.getElementById("MustPick").innerHTML = "Please select at least one role";
+            return false;
+        }
+        return true;
+    }
+
+    function clearError() {
+        document.getElementById("MustPick").innerHTML = "";
+    }
+
+</script>
+

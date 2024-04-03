@@ -5,3 +5,8 @@
     </select>
     <input type="submit" value="Submit" />
 </form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

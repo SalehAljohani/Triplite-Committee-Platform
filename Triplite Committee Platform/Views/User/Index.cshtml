@@ -1,0 +1,52 @@
+﻿@using Triplite_Committee_Platform.ViewModels
+@model IEnumerable<UserRolesViewModel>
+@{
+    ViewData["Title"] = "User List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>User List</h1>
+
+<p>
+    <a asp-action="Create">Create New User</a>
+</p>
+
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>EmployeeID</th>
+            <th>Email</th>
+            <th>Email Confirmed</th>
+            <th>Phone Number</th>
+            <th>Department</th>
+            <th>Roles</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.EmployeeID</td>
+                <td>@user.Email</td>
+                <td>@user.EmailConfirmed</td>
+                <td>@user.PhoneNumber</td>
+                <td>@user.Department?.DeptName</td>
+                <td>
+                    @String.Join(", ", user.ListRoles)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@user.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

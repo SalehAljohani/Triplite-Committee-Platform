@@ -72,7 +72,7 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 return NotFound();
             }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", role.Id);
+
             return View(role);
         }
         // POST: Role Edit/5
@@ -84,12 +84,18 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _roleManager.UpdateAsync(role);
+                    var existingRole = await _roleManager.FindByIdAsync(role.Id);
+                    if (existingRole == null)
+                    {
+                        return NotFound();
+                    }
+
+                    existingRole.Name = role.Name;
+                    await _roleManager.UpdateAsync(existingRole);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
+using Triplite_Committee_Platform.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,7 @@ builder.Services.AddIdentity<UserModel, IdentityRole>(
     options =>
     {
         // Lockout settings.
-        //options.SignIn.RequireConfirmedAccount = false; might enable it later depending on the Dr.Fahad decision 
+        options.SignIn.RequireConfirmedAccount = false;
         options.SignIn.RequireConfirmedEmail = true;
         options.Lockout.AllowedForNewUsers = false;
 
@@ -41,7 +43,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-    
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
