@@ -11,12 +11,13 @@ using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.ViewModels;
 using Triplite_Committee_Platform.Services;
+using System.Security.Cryptography;
 
 namespace Triplite_Committee_Platform.Controllers
 {
-    public class UserController : Controller
+    public class AccountController : Controller
     {
-        private readonly IEmailSender _emailSender;
+        private readonly EmailSender _emailSender;
         private readonly IUserEmailStore<UserModel> _emailStore;
         private readonly SignInManager<UserModel> _signInManager;
         private readonly UserManager<UserModel> _userManager;
@@ -25,14 +26,14 @@ namespace Triplite_Committee_Platform.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
 
 
-        public UserController(
+        public AccountController(
             UserManager<UserModel> userManager,
             IUserStore<UserModel> userStore,
             SignInManager<UserModel> signInManager,
-            ILogger<UserController> logger,
+            ILogger<AccountController> logger,
             RoleManager<IdentityRole> roleManager,
             AppDbContext context,
-            IEmailSender emailSender
+            EmailSender emailSender
             )
         {
             _userManager = userManager;
@@ -115,50 +116,88 @@ namespace Triplite_Committee_Platform.Controllers
             var department = userRolesViewModel.Department;
             if (ModelState.IsValid)
             {
-                var user = new UserRolesViewModel
+                var user = new UserRolesViewModel();
+                var randomPassword = GenerateRandomPassword();
+                user.Password = randomPassword;
+                if (userRolesViewModel.Name != null)
                 {
-                    Name = userRolesViewModel.Name,
-                    EmployeeID = userRolesViewModel.EmployeeID,
-                    PhoneNumber = userRolesViewModel.PhoneNumber,
-                    DeptNo = userRolesViewModel.DeptNo
-                };
-                if(userRolesViewModel.DeptNo != null)
+                    var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Name == userRolesViewModel.Name);
+                    if (existingUser == null)
+                    {
+                        user.Name = userRolesViewModel.Name;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "User with this Name already exists.");
+                        await PopulateDepartmentsAndRoles();
+                        return View(userRolesViewModel);
+                    }
+                }else
+                {
+                    ModelState.AddModelError(string.Empty, "Name is required.");
+                    await PopulateDepartmentsAndRoles();
+                    return View(userRolesViewModel);
+                }
+                if(userRolesViewModel.EmployeeID != null)
+                {
+                    var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.EmployeeID == userRolesViewModel.EmployeeID);
+                    if (existingUser != null)
+                    {
+                        ModelState.AddModelError(string.Empty, "User with this Employee ID already exists.");
+                        await PopulateDepartmentsAndRoles();
+                        return View(userRolesViewModel);
+                    }
+                    user.EmployeeID = userRolesViewModel.EmployeeID;
+                }else
+                {
+                    ModelState.AddModelError(string.Empty, "Employee ID is required.");
+                    await PopulateDepartmentsAndRoles();
+                    return View(userRolesViewModel);
+                }
+                if(userRolesViewModel.Email != null)
+                {
+                    var existingEmail = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == userRolesViewModel.Email);
+                    if (existingEmail != null)
+                    {
+                        ModelState.AddModelError(string.Empty, "Email already exists.");
+                        await PopulateDepartmentsAndRoles();
+                        return View(userRolesViewModel);
+                    }
+                }else
+                {
+                    ModelState.AddModelError(string.Empty, "Email is required.");
+                    await PopulateDepartmentsAndRoles();
+                    return View(userRolesViewModel);
+                }
+                if(userRolesViewModel.PhoneNumber != null)
+                {
+                    user.PhoneNumber = userRolesViewModel.PhoneNumber;
+                }else
+                {
+                    ModelState.AddModelError(string.Empty, "Phone Number is required.");
+                    await PopulateDepartmentsAndRoles();
+                    return View(userRolesViewModel);
+                }
+                if (userRolesViewModel.DeptNo != null)
                 {
                     user.Department = await _context.Department.FirstOrDefaultAsync(d => d.DeptNo == userRolesViewModel.DeptNo);
-                }
-                else
+                }else
                 {
-                    ModelState.AddModelError(string.Empty, "Please Select a Department.");
+                    ModelState.AddModelError(string.Empty, "Department is required.");
                     await PopulateDepartmentsAndRoles();
                     return View(userRolesViewModel);
                 }
                 if (ListRoles == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Please Select a Departmentsssssssss.");
-                    await PopulateDepartmentsAndRoles();
-                    return View(userRolesViewModel);
-                }
-                if (await _userManager.FindByEmailAsync(userRolesViewModel.Email) != null)
-                {
-                    ModelState.AddModelError(string.Empty, "Email already exists.");
-                    await PopulateDepartmentsAndRoles();
-                    return View(userRolesViewModel);
-                }
-                if (await _userManager.FindByNameAsync(userRolesViewModel.EmployeeID.ToString()) != null)
-                {
-                    ModelState.AddModelError(string.Empty, "Employee ID already exists.");
-                    await PopulateDepartmentsAndRoles();
-                    return View(userRolesViewModel);
-                }
-                if (await _userManager.FindByNameAsync(userRolesViewModel.Name) != null)
-                {
-                    ModelState.AddModelError(string.Empty, "Name already exists.");
+                    ModelState.AddModelError(string.Empty, "Please Select at Least ONE Role.");
                     await PopulateDepartmentsAndRoles();
                     return View(userRolesViewModel);
                 }
                 await _userStore.SetUserNameAsync(user, userRolesViewModel.EmployeeID.ToString(), CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, userRolesViewModel.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, userRolesViewModel.Password);
+                // how to add phone number to user?
+                //await _userStore.SetPhoneNumberAsync(user, userRolesViewModel.PhoneNumber, CancellationToken.None);
+                var result = await _userManager.CreateAsync(user, randomPassword);
                 if (result.Succeeded)
                 {
                     if (ListRoles.Count > 0)
@@ -169,18 +208,20 @@ namespace Triplite_Committee_Platform.Controllers
                             await PopulateDepartmentsAndRoles();
                             return View(userRolesViewModel);
                         }
+
                         foreach (var role in ListRoles)
                         {
-                            if (await _roleManager.RoleExistsAsync(role))
+                            var roleExists = await _roleManager.FindByIdAsync(role);
+                            if ( roleExists != null)
                             {
-                                await _userManager.AddToRoleAsync(user, role);
+                                await _userManager.AddToRoleAsync(user, roleExists.Name);
                             }
-                            else
-                            {
-                                ModelState.AddModelError(string.Empty, "Role does not exist.");
-                                await PopulateDepartmentsAndRoles();
-                                return View(userRolesViewModel);
-                            }
+                        }
+                        if(await _userManager.GetRolesAsync(user) == null)
+                        {
+                            ModelState.AddModelError(string.Empty, "Please select at least one role.");
+                            await PopulateDepartmentsAndRoles();
+                            return View(userRolesViewModel);
                         }
                     }
                     else
@@ -194,9 +235,15 @@ namespace Triplite_Committee_Platform.Controllers
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var encodedToken = Encoding.UTF8.GetBytes(token);
                     var validToken = WebEncoders.Base64UrlEncode(encodedToken);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = validToken }, Request.Scheme);
-                    await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    var callbackUrl = Url.Action("ConfirmEmail", "ConfirmEmail", new { userId = user.Id, token = validToken }, Request.Scheme);
+                    var dynamicTemplateData = new { Subject = "Account Confirmation", ConfirmLink = callbackUrl, randomPassword };
+                    var templateId = "d-ca5e1fdee08047d1afa4448fe1cee09a";
+                    await _emailSender.SendEmailAsync(user.Email, templateId, dynamicTemplateData);
+                    
+                    //await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
+                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br /> <h1 style = \"font-weight: bold;\" >Your password is: {randomPassword}</h1>" +
+                    //    $"<br /> if click here isnt working copy this link and open it on another page <br />  {HtmlEncoder.Default.Encode(callbackUrl)}");
+
 
                     TempData["Success"] = "User created successfully.";
                     return RedirectToAction(nameof(Index));
@@ -228,7 +275,7 @@ namespace Triplite_Committee_Platform.Controllers
             }
 
             var roles = await _userManager.GetRolesAsync(user);
-            var userRolesViewModel = new UserRolesViewModel
+            var editUser = new EditUserViewModel
             {
                 Id = user.Id,
                 Name = user.Name,
@@ -237,31 +284,25 @@ namespace Triplite_Committee_Platform.Controllers
                 Email = user.Email,
                 EmailConfirmed = user.EmailConfirmed,
                 PhoneNumberConfirmed = user.PhoneNumberConfirmed,
-                Department = user.Department,
+                DeptNo = user.DeptNo,
+                PhoneNumber = user.PhoneNumber,
                 ListRoles = roles
             };
-            if(userRolesViewModel.PhoneNumber == null)
-            {
-                userRolesViewModel.PhoneNumber = "No Phone Number";
-            }
-            else
-            {
-                userRolesViewModel.PhoneNumber = user.PhoneNumber;
-            }
-            await PopulateDepartmentsAndRoles();
-            return View(userRolesViewModel);
+            var department = await _context.Department.ToListAsync();
+            ViewData["Departments"] = new SelectList(department, "DeptNo", "DeptName", user.DeptNo);
+            ViewData["Roles"] = _roleManager.Roles.ToList();
+            return View(editUser);
         }
 
         //POST: Department/Edit/5 review the code
        [HttpPost]
        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, UserRolesViewModel userRolesViewModel)
+        public async Task<IActionResult> Edit(string id, EditUserViewModel editUser)
         {
-            if (id != userRolesViewModel.Id)
+            if (id != editUser.Id)
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
@@ -271,37 +312,65 @@ namespace Triplite_Committee_Platform.Controllers
                     {
                         return NotFound();
                     }
-                    if (userRolesViewModel.Name != user.Name)
+                    if (editUser.Name != user.Name)
                     {
-                        if (userRolesViewModel.Name != null)
+                        if (editUser.Name != null)
                         {
-                            user.Name = userRolesViewModel.Name;
+                            user.Name = editUser.Name;
                         }
                     }
-                    if(userRolesViewModel.PhoneNumber != user.PhoneNumber)
+                    if(editUser.PhoneNumber != user.PhoneNumber)
                     {
-                        if (userRolesViewModel.PhoneNumber != null)
+                        if (editUser.PhoneNumber != null)
                         {
-                            user.PhoneNumber = userRolesViewModel.PhoneNumber;
+                            user.PhoneNumber = editUser.PhoneNumber;
                         }
                     }
-                    if(userRolesViewModel.Department != user.Department)
+                    if (editUser.DeptNo != null)
                     {
-                           if (userRolesViewModel.Department != null)
-                        {
-                            user.Department = userRolesViewModel.Department;
-                        }
+                        editUser.Department = await _context.Department.FirstOrDefaultAsync(d => d.DeptNo == editUser.DeptNo);
+                    }
+                    if(user.DeptNo != null)
+                    {
+                        user.Department = await _context.Department.FirstOrDefaultAsync(d => d.DeptNo == user.DeptNo);
+                    }
+                    if (editUser.Department != user.Department)
+                    {
+                           if (editUser.Department != null)
+                           {
+                            user.Department = editUser.Department;
+                           }
                     }
                     var roles = await _userManager.GetRolesAsync(user);
 
-                    if (userRolesViewModel.ListRoles != roles)
+                    if (editUser.ListRoles != roles)
                     {
-                        if(userRolesViewModel.ListRoles != null)
+                        if(editUser.ListRoles != null)
                         {
                             await _userManager.RemoveFromRolesAsync(user, roles);
-                            foreach (var role in userRolesViewModel.ListRoles)
+                            foreach (var role in editUser.ListRoles)
                             {
                                 await _userManager.AddToRoleAsync(user, role);
+                            }
+                        }
+                    }
+                    if (editUser.Password != null)
+                    {
+                        if (editUser.ConfirmPassword == editUser.Password)
+                        {
+                            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                            var result = await _userManager.ResetPasswordAsync(user, token, editUser.Password);
+                            if (result.Succeeded)
+                            {
+                                TempData["Success"] = "Password changed successfully.";
+                            }
+                            else
+                            {
+                                TempData["Error"] = "Password change failed.";
+                                foreach (var error in result.Errors)
+                                {
+                                    ModelState.AddModelError(string.Empty, error.Description);
+                                }
                             }
                         }
                     }
@@ -309,7 +378,7 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(userRolesViewModel.Id))
+                    if (!UserExists(editUser.Id))
                     {
                         return NotFound();
                     }
@@ -322,76 +391,40 @@ namespace Triplite_Committee_Platform.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-
             await PopulateDepartmentsAndRoles();
-            return View(userRolesViewModel);
+            return View(editUser);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(string id, UserRolesViewModel userRolesViewModel)
+        // GET: Department/Delete/5
+        public async Task<IActionResult> Delete(string? id)
         {
-            if (id != userRolesViewModel.Id)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var user = await _userManager.FindByIdAsync(id);
-                    if (user == null)
-                    {
-                        return NotFound();
-                    }
-                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                    var result = await _userManager.ResetPasswordAsync(user, token, userRolesViewModel.Password);
-                    if (result.Succeeded)
-                    {
-                        TempData["PasswordSuccess"] = "Password changed successfully.";
-                        return RedirectToAction(nameof(Index));
-                    }
-                    TempData["PasswordError"] = "Password change failed.";
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserExists(userRolesViewModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            }
-
-            // If we got this far, something failed, redisplay form
-            await PopulateDepartmentsAndRoles();
-            return View(userRolesViewModel);
-        }
-
-        // GET: Department/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(string id)
-        {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.Users.Include(u => u.Department).FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
             }
+            var roles = await _userManager.GetRolesAsync(user);
 
-            await _userManager.DeleteAsync(user);
-            return RedirectToAction(nameof(Index));
+            var thisViewModel = new UserRolesViewModel();
+            thisViewModel.Id = user.Id;
+            thisViewModel.Name = user.Name;
+            thisViewModel.EmployeeID = user.EmployeeID;
+            thisViewModel.Email = user.Email;
+            thisViewModel.EmailConfirmed = user.EmailConfirmed;
+            thisViewModel.PhoneNumber = user.PhoneNumber;
+            thisViewModel.Department = await _context.Department.FirstOrDefaultAsync(d => d.DeptNo == user.DeptNo);
+            thisViewModel.ListRoles = await _userManager.GetRolesAsync(user);
+
+            return View(thisViewModel);
         }
+
         // POST: Department/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
@@ -431,6 +464,32 @@ namespace Triplite_Committee_Platform.Controllers
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
             return (IUserEmailStore<UserModel>)_userStore;
+        }
+
+        // GenerateRandomPassword generate random password for user when creating new user
+
+        private string GenerateRandomPassword()
+        {
+            const string validChars = "!$#@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string validDigits = "1234567890";
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                var bytes = new byte[8];
+                rng.GetBytes(bytes);
+                var result = new char[8];
+                for (int i = 0; i < 8; i++)
+                {
+                    if (i == 0)
+                    {
+                        result[i] = validDigits[bytes[i] % validDigits.Length];
+                    }
+                    else
+                    {
+                        result[i] = validChars[bytes[i] % validChars.Length];
+                    }
+                }
+                return new string(result);
+            }
         }
 
         // UserExists check if user exists simply :)

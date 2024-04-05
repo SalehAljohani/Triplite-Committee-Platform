@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -150,6 +151,7 @@ namespace Triplite_Committee_Platform.Controllers
             if (departmentModel != null)
             {
                 _context.Department.Remove(departmentModel);
+                TempData["DeleteMessage"] = "Department deleted successfully.";
             }
 
             await _context.SaveChangesAsync();

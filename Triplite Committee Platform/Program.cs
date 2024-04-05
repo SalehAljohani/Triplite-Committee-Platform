@@ -17,8 +17,8 @@ builder.Services.AddIdentity<UserModel, IdentityRole>(
     options =>
     {
         // Lockout settings.
-        options.SignIn.RequireConfirmedAccount = false;
-        options.SignIn.RequireConfirmedEmail = true;
+        //options.SignIn.RequireConfirmedAccount = false;
+        //options.SignIn.RequireConfirmedEmail = true;
         options.Lockout.AllowedForNewUsers = false;
 
         // User settings.
@@ -43,7 +43,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddTransient<EmailSender>();
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 
 var app = builder.Build();

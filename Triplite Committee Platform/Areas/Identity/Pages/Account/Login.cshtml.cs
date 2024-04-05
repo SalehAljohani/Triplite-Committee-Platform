@@ -82,7 +82,7 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return RedirectToPage("./ChooseRole", new { ReturnUrl = returnUrl });
+                    return RedirectToAction("index", "ConfirmEmail");
                 }
                 if (result.RequiresTwoFactor)
                 {

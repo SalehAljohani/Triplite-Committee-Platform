@@ -6,7 +6,12 @@
 }
 
 <h1>Index</h1>
-
+@if (TempData["DeleteMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["DeleteMessage"]
+    </div>
+}
 <p>
     <a asp-action="Create">Create New</a>
 </p>

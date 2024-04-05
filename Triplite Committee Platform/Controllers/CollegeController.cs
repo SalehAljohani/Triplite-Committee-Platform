@@ -10,11 +10,11 @@ using Triplite_Committee_Platform.Models;
 
 namespace Triplite_Committee_Platform.Controllers
 {
-    public class ManageCollegeController : Controller
+    public class CollegeController : Controller
     {
         private readonly AppDbContext _context;
 
-        public ManageCollegeController(AppDbContext context)
+        public CollegeController(AppDbContext context)
         {
             _context = context;
         }
@@ -142,6 +142,7 @@ namespace Triplite_Committee_Platform.Controllers
             if (collegeModel != null)
             {
                 _context.College.Remove(collegeModel);
+                TempData["DeleteMessage"] = "College deleted successfully.";
             }
 
             await _context.SaveChangesAsync();

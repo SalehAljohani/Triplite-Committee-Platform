@@ -8,31 +8,20 @@ namespace Triplite_Committee_Platform.ViewModels
 {
     public class UserRolesViewModel : UserModel
     {
-        [Required(ErrorMessage = "Please select one role at least.")]
-        public IList<string> ListRoles { get; set; }
-        //public IList<DepartmentModel> Departments { get; set; }
+        public IList<string?> ListRoles { get; set; }
 
-        [Required]
-        [EmailAddress]
-        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@taibahu\.edu\.sa$", ErrorMessage = "Please enter an email from the @taibahu.edu.sa domain.")]
-        [Display(Name = "Email")]
-        public override string Email { get; set; }
+        //[EmailAddress]
+        //[RegularExpression(@"^[a-zA-Z0-9._%+-]+@taibahu\.edu\.sa$", ErrorMessage = "Please enter an email from the @taibahu.edu.sa domain.")]
+        //[Display(Name = "Email")]
+        //public override string? Email { get; set; }
 
-        [Required]
-        [RegularExpression("^[0-9]{10}$", ErrorMessage = "Please enter a 10-digit number (05XXXXXXXX).")]
-        [Display(Name = "Phone Number")]
-        public override string PhoneNumber { get; set; }
+        //[RegularExpression("^[0-9]{10}$", ErrorMessage = "Please enter a 10-digit number (05XXXXXXXX).")]
+        //[Display(Name = "Phone Number")]
+        //public override string? PhoneNumber { get; set; }
 
-        [Required]
         [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-
+        public string? Password { get; set; }
     }
 }

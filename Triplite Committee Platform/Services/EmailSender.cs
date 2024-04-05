@@ -8,7 +8,7 @@ using System.Net.Mail;
 
 namespace Triplite_Committee_Platform.Services
 {
-    public class EmailSender : IEmailSender
+    public class EmailSender
     {
         private readonly ILogger _logger;
 
@@ -21,27 +21,36 @@ namespace Triplite_Committee_Platform.Services
 
         public AuthMessageSenderOptions Options { get; }
 
-        public async Task SendEmailAsync(string toEmail, string subject, string message)
+        public async Task SendEmailAsync(string toEmail, string templateId, object dynamicTemplateData)
         {
             if (string.IsNullOrEmpty(Options.SendGridKey))
             {
                 throw new Exception("Null SendGridKey");
             }
-            await Execute(Options.SendGridKey, subject, message, toEmail);
+            if (dynamicTemplateData == null)
+            {
+                   throw new Exception("Null dynamicTemplateData");
+            } 
+            if (string.IsNullOrEmpty(toEmail))
+            {
+                throw new Exception("Null toEmail");
+            }
+
+            await Execute(Options.SendGridKey, templateId ,dynamicTemplateData, toEmail);
         }
-        public async Task Execute(string apiKey, string subject, string message, string toEmail)
+        public async Task Execute(string apiKey,string templateId, object dynamicTemplateData, string toEmail)
         {
             var client = new SendGridClient(apiKey);
+
             var msg = new SendGridMessage()
             {
                 From = new EmailAddress("TripliteCommitteePlatform@outlook.com", "Triplite Committee Platform"),
-                Subject = subject,
-                PlainTextContent = message,
-                HtmlContent = message
             };
+            msg.SetTemplateId(templateId);
+            msg.SetTemplateData(dynamicTemplateData);
             msg.AddTo(new EmailAddress(toEmail));
 
-            msg.SetClickTracking(false, false);
+            msg.SetClickTracking(true, true);
             var response = await client.SendEmailAsync(msg);
             _logger.LogInformation(response.IsSuccessStatusCode
                                    ? $"Email to {toEmail} queued successfully!"

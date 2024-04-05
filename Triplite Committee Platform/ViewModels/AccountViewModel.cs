@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Triplite_Committee_Platform.Models;
 
-public class ChooseRoleViewModel
+public class AccountViewModel
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ChooseRoleViewModel( IHttpContextAccessor httpContextAccessor)
+    public AccountViewModel( IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
     }

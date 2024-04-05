@@ -4,20 +4,7 @@
     ViewData["Title"] = "Create";
 }
 <div class="row">
-<h1>Create User</h1>
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger" role="alert">
-            @TempData["Success"]
-        </div>
-    }
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success" role="alert">
-            @TempData["Success"]
-        </div>
-    }
-</div>
+
 <hr />
 
 <div class="row">
@@ -65,16 +52,6 @@
                     }
                 </div>
                 <span asp-validation-for="ListRoles" id="MustPick" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" type="password" />
-                <label asp-for="Password">Password</label>
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" type="password" />
-                <label asp-for="ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group mt-5">
                 <input type="submit" value="Create" class="btn btn-primary" />

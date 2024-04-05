@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Confirm Email";
+    Layout = "CustomLayout.cshtml";
+}
+<br />
+<br />
+<br />
+<br />
+
+@* <h1 class="text-center mt-5 mb-3">Confirm Email</h1>
+ *@@{
+    if (ViewData["Success"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewData["Success"]
+        </div>
+    }
+    if (ViewData["Error"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewData["Error"]
+        </div>
+    }
+}
+<div class="mt-5 mb-5"></div>
+<div style="text-align: center; mt-5">
+    <p class="text-capitalize lead fs-2 mb-5">@Html.Raw(ViewData["ConfirmEmail"])</p>
+    <form method="post" asp-action="index">
+        <button type="submit" class="btn btn-primary">I have Confirmed My Account</button>
+    </form>
+</div>

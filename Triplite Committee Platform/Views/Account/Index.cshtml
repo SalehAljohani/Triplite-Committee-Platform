@@ -9,6 +9,18 @@
 <p>
     <a asp-action="Create">Create New User</a>
 </p>
+@if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["Success"]
+        </div>
+    }
+@if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["Error"]
+        </div>
+    }
 
 <table class="table text-center">
     <thead>

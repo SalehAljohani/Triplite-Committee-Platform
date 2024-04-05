@@ -1,4 +1,17 @@
-﻿<div class="text-center">
+﻿@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Success"]
+    </div>
+}
+@if (TempData["ConfirmEmail"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ConfirmEmail"]
+    </div>
+}
+
+<div class="text-center">
     <form action="Home/Privacy" method="get">
         <input type="text" name="name" />
         <button type="submit"> submit your name </button>

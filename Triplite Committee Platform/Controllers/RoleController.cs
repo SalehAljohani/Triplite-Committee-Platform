@@ -139,6 +139,7 @@ namespace Triplite_Committee_Platform.Controllers
             if (role != null)
             {
                 await _roleManager.DeleteAsync(role);
+                TempData["DeleteMessage"] = "Role deleted successfully.";
             }
             return RedirectToAction(nameof(Index));
         }

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Triplite_Committee_Platform.Models;
+using Triplite_Committee_Platform.Services;
 
 namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
 {
@@ -21,9 +22,9 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
     public class ResendEmailConfirmationModel : PageModel
     {
         private readonly UserManager<UserModel> _userManager;
-        private readonly IEmailSender _emailSender;
+        private readonly EmailSender _emailSender;
 
-        public ResendEmailConfirmationModel(UserManager<UserModel> userManager, IEmailSender emailSender)
+        public ResendEmailConfirmationModel(UserManager<UserModel> userManager, EmailSender emailSender)
         {
             _userManager = userManager;
             _emailSender = emailSender;
@@ -69,18 +70,26 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            var userId = await _userManager.GetUserIdAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { userId = userId, code = code },
-                protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                Input.Email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var encodedToken = Encoding.UTF8.GetBytes(token);
+            var validToken = WebEncoders.Base64UrlEncode(encodedToken);
+            var callbackUrl = Url.Action("ConfirmEmail", "Identity\\/Account", new { userId = user.Id, token = validToken }, Request.Scheme);
+            var dynamicTemplateData = new { Subject = "Account Confirmation", ConfirmLink = callbackUrl};
+            var templateId = "d-dea7385a3f914de398478b8ab9707772";
+            await _emailSender.SendEmailAsync(user.Email, templateId, dynamicTemplateData);
+
+            //var userId = await _userManager.GetUserIdAsync(user);
+            //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            //var callbackUrl = Url.Page(
+            //    "/Account/ConfirmEmail",
+            //    pageHandler: null,
+            //    values: new { userId = userId, code = code },
+            //    protocol: Request.Scheme);
+            //await _emailSender.SendEmailAsync(
+            //    Input.Email,
+            //    "Confirm your email",
+            //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
             ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
             return Page();
