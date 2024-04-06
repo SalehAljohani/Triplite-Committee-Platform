@@ -12,9 +12,11 @@ using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.ViewModels;
 using Triplite_Committee_Platform.Services;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Triplite_Committee_Platform.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AccountController : Controller
     {
         private readonly EmailSender _emailSender;
@@ -48,6 +50,12 @@ namespace Triplite_Committee_Platform.Controllers
 
         public async Task<ActionResult> Index()
         {
+            //var userEmail = await _userManager.GetUserAsync(User);
+            //if (userEmail.EmailConfirmed == false) 
+            //{ 
+            //    return RedirectToAction("Index", "ConfirmEmail");
+            //}
+
             var users = await _userManager.Users.ToListAsync();
             var userRolesViewModel = new List<UserRolesViewModel>();
 
@@ -195,8 +203,6 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 await _userStore.SetUserNameAsync(user, userRolesViewModel.EmployeeID.ToString(), CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, userRolesViewModel.Email, CancellationToken.None);
-                // how to add phone number to user?
-                //await _userStore.SetPhoneNumberAsync(user, userRolesViewModel.PhoneNumber, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, randomPassword);
                 if (result.Succeeded)
                 {
@@ -239,11 +245,6 @@ namespace Triplite_Committee_Platform.Controllers
                     var dynamicTemplateData = new { Subject = "Account Confirmation", ConfirmLink = callbackUrl, randomPassword };
                     var templateId = "d-ca5e1fdee08047d1afa4448fe1cee09a";
                     await _emailSender.SendEmailAsync(user.Email, templateId, dynamicTemplateData);
-                    
-                    //await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
-                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br /> <h1 style = \"font-weight: bold;\" >Your password is: {randomPassword}</h1>" +
-                    //    $"<br /> if click here isnt working copy this link and open it on another page <br />  {HtmlEncoder.Default.Encode(callbackUrl)}");
-
 
                     TempData["Success"] = "User created successfully.";
                     return RedirectToAction(nameof(Index));
@@ -340,6 +341,20 @@ namespace Triplite_Committee_Platform.Controllers
                            {
                             user.Department = editUser.Department;
                            }
+                    }
+                    if (editUser.EmailConfirmed != user.EmailConfirmed) 
+                    {
+                        if (editUser.EmailConfirmed != null)
+                        {
+                            user.EmailConfirmed = editUser.EmailConfirmed;
+                        }
+                    }
+                    if (editUser.PhoneNumberConfirmed != user.PhoneNumberConfirmed)
+                    {
+                        if (editUser.PhoneNumberConfirmed != null)
+                        {
+                            user.PhoneNumberConfirmed = editUser.PhoneNumberConfirmed;
+                        }
                     }
                     var roles = await _userManager.GetRolesAsync(user);
 

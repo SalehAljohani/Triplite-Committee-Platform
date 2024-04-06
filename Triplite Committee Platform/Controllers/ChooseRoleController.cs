@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -6,6 +7,7 @@ using Triplite_Committee_Platform.Models;
 
 namespace Triplite_Committee_Platform.Controllers
 {
+    [Authorize]
     public class ChooseRoleController : Controller
     {
         private readonly UserManager<UserModel> _userManager;
@@ -21,16 +23,20 @@ namespace Triplite_Committee_Platform.Controllers
 
         public async Task<IActionResult> ChooseRole(AccountViewModel model) // commented validation for testing
         {
-            //if (User?.Identity?.IsAuthenticated == false)
-            //{
-            //    return RedirectToPage("/Account/Login"); // Redirect to login if not authenticated
-            //}
+            if (User?.Identity?.IsAuthenticated == false)
+            {
+                return RedirectToPage("/Account/Login"); // Redirect to login if not authenticated
+            }
 
             var user = await _userManager.GetUserAsync(User);
-            //if (user == null)
-            //{
-            //    return NotFound($"Unable to load user with ID '{User.FindFirstValue(ClaimTypes.NameIdentifier)}'.");
-            //}
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{User.FindFirstValue(ClaimTypes.NameIdentifier)}'.");
+            }
+            if(user.EmailConfirmed == false)
+            {
+                return RedirectToAction("Index", "ConfirmEmail");
+            }
 
             var roles = await _userManager.GetRolesAsync(user);
 

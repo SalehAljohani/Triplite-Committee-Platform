@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,18 +12,26 @@ using Triplite_Committee_Platform.Models;
 
 namespace Triplite_Committee_Platform.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DepartmentController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<UserModel> _userManager;
 
-        public DepartmentController(AppDbContext context)
+        public DepartmentController(AppDbContext context, UserManager<UserModel> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Department
         public async Task<IActionResult> Index()
         {
+            var userEmail = await _userManager.GetUserAsync(User);
+            if (userEmail.EmailConfirmed == false)
+            {
+                return RedirectToAction("Index", "ConfirmEmail");
+            }
             var appDbContext = _context.Department.Include(d => d.College);
             return View(await appDbContext.ToListAsync());
         }

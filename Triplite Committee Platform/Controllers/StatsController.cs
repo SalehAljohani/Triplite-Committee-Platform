@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Triplite_Committee_Platform.Data;
@@ -10,6 +11,7 @@ using Triplite_Committee_Platform.ViewModels;
 
 namespace Triplite_Committee_Platform.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class StatsController : Controller
     {
 
@@ -28,16 +30,21 @@ namespace Triplite_Committee_Platform.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var userEmail = await _userManager.GetUserAsync(User);
+            if (userEmail.EmailConfirmed == false)
+            {
+                return RedirectToAction("Index", "ConfirmEmail");
+            }
             //var totalBoard = await _context.Board.CountAsync();
-			//var completedBoards = await _context.Board.Where(board => board.ReqStatus == "Completed").CountAsync();
-			//var currentBoards = await _context.Board.Where(board => board.ReqStatus == "Uncompleted").CountAsync();
+            //var completedBoards = await _context.Board.Where(board => board.ReqStatus == "Completed").CountAsync();
+            //var currentBoards = await _context.Board.Where(board => board.ReqStatus == "Uncompleted").CountAsync();
 
             //ViewData["totalBoard"] = totalBoard;
-			//ViewData["completedBoards"] = completedBoards;
-			//ViewData["currentBoards"] = currentBoards;
+            //ViewData["completedBoards"] = completedBoards;
+            //ViewData["currentBoards"] = currentBoards;
 
-			//var completionPercentage = (double) 105 / 167 * 100;  // replace 105 to CompletedBoards and 167 to totalBoard
-			//ViewBag.CompletionPercentage = completionPercentage;
+            //var completionPercentage = (double) 105 / 167 * 100;  // replace 105 to CompletedBoards and 167 to totalBoard
+            //ViewBag.CompletionPercentage = completionPercentage;
 
 
 

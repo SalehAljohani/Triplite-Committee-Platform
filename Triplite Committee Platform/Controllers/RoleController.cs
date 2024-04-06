@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -7,21 +8,29 @@ using Triplite_Committee_Platform.Models;
 
 namespace Triplite_Committee_Platform.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AppDbContext _context;
+        private readonly UserManager<UserModel> _userManager;
 
-        public RoleController(RoleManager<IdentityRole> roleManager, AppDbContext context)
+        public RoleController(RoleManager<IdentityRole> roleManager, AppDbContext context, UserManager<UserModel> userManager)
         {
             _roleManager = roleManager;
             _context = context;
+            _userManager = userManager;
         }
         public IList<IdentityRole> Roles { get; set; }
 
         // GET: Role List
         public async Task<IActionResult> Index()
         {
+            var userEmail = await _userManager.GetUserAsync(User);
+            if (userEmail.EmailConfirmed == false)
+            {
+                return RedirectToAction("Index", "ConfirmEmail");
+            }
             var role = await _roleManager.Roles.ToListAsync();
             return View(role);
         }

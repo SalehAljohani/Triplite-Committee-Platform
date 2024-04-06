@@ -32,7 +32,11 @@ namespace Triplite_Committee_Platform.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            
+            var userEmail = await _userManager.GetUserAsync(User);
+            if (userEmail.EmailConfirmed == false)
+            {
+                return RedirectToAction("Index", "ConfirmEmail");
+            }
             return View();
         }
 

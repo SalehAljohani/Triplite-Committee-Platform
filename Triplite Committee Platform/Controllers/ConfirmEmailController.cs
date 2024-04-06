@@ -77,7 +77,7 @@ namespace Triplite_Committee_Platform.Controllers
                     var validToken = WebEncoders.Base64UrlEncode(encodedToken);
                     var callbackUrl = Url.Action("ConfirmEmail", "ConfirmEmail", new { userId = user.Id, token = validToken }, Request.Scheme);
                     var dynamicTemplateData = new { Subject = "Account Confirmation", ConfirmLink = callbackUrl };
-                    var templateId = "d-dea7385a3f914de398478b8ab9707772";
+                    var templateId = "d-667c9f91699d4836b1ba1aab66bb0295";
                     await _emailSender.SendEmailAsync(user.Email, templateId, dynamicTemplateData);
                 }
             }
