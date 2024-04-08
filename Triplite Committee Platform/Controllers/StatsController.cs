@@ -65,7 +65,7 @@ namespace Triplite_Committee_Platform.Controllers
                     .Where(board => board.Department.CollegeNo == college.CollegeNo)                                                   //|
                     .Count();         // Count the total boards for each college                                                       //|
                 ViewData[$"totalBoards_{college.CollegeNo}"] = collegeTotalBoards; // Store the completed boards count in ViewData     //|
-                                                                                                                                       //|
+                                                                                   //|
             }                                                                                                                          //|
             // to here ________________________________________________________________________________________________________________//|
 
@@ -100,7 +100,8 @@ namespace Triplite_Committee_Platform.Controllers
                     };
                     return PartialView("_StatsPartial", model);
                 }
-            }else
+            }
+            else
             {
                 var model = new StatsViewModel
                 {

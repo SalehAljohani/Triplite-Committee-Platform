@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Triplite_Committee_Platform.Models
 {
@@ -13,7 +13,7 @@ namespace Triplite_Committee_Platform.Models
         public int ReqTypeID { get; set; }
 
         [Required(ErrorMessage = "Context is Required.")]
-        [StringLength(600,ErrorMessage = "Context Cannot Exceed 600 Characters.")]
+        [StringLength(600, ErrorMessage = "Context Cannot Exceed 600 Characters.")]
         public string Context { get; set; }
 
         [Required(ErrorMessage = "Must Pick if The Reason Require Other Attribute From The User.")]

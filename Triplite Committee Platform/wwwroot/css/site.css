@@ -1,22 +1,168 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+    a:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    a:not([href]):not([tabindex]) {
+        color: inherit;
+        text-decoration: none;
+    }
+
+        a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:not([href]):not([tabindex]):focus {
+            outline: 0;
+        }
+
+.sidebar-open .header {
+    padding-left: calc(var(--nav-width) + 156px);
+}
+
+.header {
+    transition: padding-left 0.5s;
+}
+
+.hLogo {
+    padding-left: calc(var(--nav-width) + -70px);
+}
+
+#sidebar {
+    min-width: 200px;
+    max-width: 200px;
+    background: #3e64ff;
+    color: #fff;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+    #sidebar.active {
+        min-width: 70px;
+        max-width: 70px;
+        text-align: center;
+    }
+
+        #sidebar.active ul.components li {
+            font-size: 14px;
+        }
+
+            #sidebar.active ul.components li a {
+                padding: 10px 0;
+            }
+
+                #sidebar.active ul.components li a span {
+                    margin-right: 0;
+                    display: none;
+                    font-size: 18px;
+                }
+
+        #sidebar.active .logo {
+            padding: 10px 0;
+        }
+
+        #sidebar.active .footer {
+            display: none;
+        }
+
+@media (prefers-reduced-motion: reduce) {
+    #sidebar .logo {
+        -webkit-transition: none;
+        -o-transition: none;
+        transition: none;
+    }
+}
+
+#sidebar ul.components {
+    padding: 0;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #sidebar ul.components {
+        -webkit-transition: none;
+        -o-transition: none;
+        transition: none;
+    }
+}
+
+#sidebar ul li {
+    font-size: 16px;
+}
+
+    #sidebar ul li > ul {
+        margin-left: 10px;
+    }
+
+        #sidebar ul li > ul li {
+            font-size: 14px;
+        }
+
+    #sidebar ul li a {
+        padding: 10px 30px;
+        display: block;
+        color: white;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+        #sidebar ul li a span {
+            margin-right: 15px;
+        }
+
+@media (max-width: 991.98px) {
+    #sidebar ul li a span {
+        display: block;
+    }
+}
+
+#sidebar ul li a:hover {
+    color: #fff;
+}
+
+#sidebar ul li.active > a {
+    background: transparent;
+    color: #fff;
+}
+
+@media (max-width: 991.98px) {
+    #sidebar {
+        min-width: 70px;
+        max-width: 70px;
+        text-align: center;
+        margin-left: -80px !important;
+    }
+
+        #sidebar.active {
+            margin-left: 0 !important;
+        }
+}
+
+#content {
+    width: 100%;
+    padding: 0;
+    min-height: 100vh;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
 }

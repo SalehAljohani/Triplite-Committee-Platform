@@ -11,12 +11,12 @@ namespace Triplite_Committee_Platform.Models
 
         [ForeignKey("DeptNo")] public DepartmentModel? Department { get; set; }
 
-        [Required (ErrorMessage = "Must Pick a Department.")]
+        [Required(ErrorMessage = "Must Pick a Department.")]
         public int DeptNo { get; set; }
 
         public List<FileModel>? File { get; set; }
 
-        [Required (ErrorMessage = "Student National ID is Required.")]
+        [Required(ErrorMessage = "Student National ID is Required.")]
         public int National_ID { get; set; }
 
         [Required(ErrorMessage = "Request Date is Required.")]

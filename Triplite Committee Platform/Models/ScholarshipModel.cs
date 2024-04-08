@@ -40,7 +40,7 @@ namespace Triplite_Committee_Platform.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "EmployeeID is Required.")]
-        public int EmployeeID { get; set; }
+        public string EmployeeID { get; set; }
 
         [Required(ErrorMessage = "Gender is Required.")]
         [StringLength(10, ErrorMessage = "Gender Cannot Exceed 10 Characters.")]

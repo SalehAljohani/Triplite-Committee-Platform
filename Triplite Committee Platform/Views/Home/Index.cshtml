@@ -1,4 +1,9 @@
-﻿@if (TempData["Success"] != null)
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["Success"] != null)
 {
     <div class="alert alert-success" role="alert">
         @TempData["Success"]

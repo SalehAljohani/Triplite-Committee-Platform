@@ -5,90 +5,90 @@
 }
 <div class="row">
 
-<hr />
+    <hr />
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" method="post" onsubmit="return validateRoles()">
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Name" class="form-control" autocomplete="Name" aria-required="true" placeholder="Your Name" maxlength="35" />
-                <label asp-for="Name">Name</label>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="EmployeeID" class="form-control" autocomplete="Username" aria-required="true" placeholder="0123456789" maxlength="10" />
-                <label asp-for="EmployeeID">Employee ID</label>
-                <span asp-validation-for="EmployeeID" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Email" class="form-control" autocomplete="Email" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Email">Email</label>
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="PhoneNumber" class="form-control" autocomplete="Phone" aria-required="true" placeholder="05xxxxxxxx" maxlength="10" />
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating mb-3">
-                <select asp-for="DeptNo" asp-items="ViewBag.Departments" class="form-control">
-                    <option disabled selected>Select Department</option>
-                </select>
-                <label asp-for="DeptNo">Department</label>
-                <span asp-validation-for="DeptNo" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating mb-3 ">
-                <label asp-for="ListRoles">Role</label>
-                <div class="pt-5">
-                    @foreach (var role in ViewBag.Roles)
-                    {
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="@role.Id" name="ListRoles" value="@role.Id" onclick="return clearError()" />
-                            <label class="form-check-label" for="@role.Id">@role.Name</label>
-                        </div>
-                    }
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" method="post" onsubmit="return validateRoles()">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Name" class="form-control" autocomplete="Name" aria-required="true" placeholder="" maxlength="35" />
+                    <label asp-for="Name">Name</label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="ListRoles" id="MustPick" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-5">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="form-floating mb-3">
+                    <input asp-for="EmployeeID" class="form-control" autocomplete="Id" aria-required="true" placeholder="" maxlength="10" maxlength="10" />
+                    <label asp-for="EmployeeID">Employee ID</label>
+                    <span asp-validation-for="EmployeeID" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Email" class="form-control" autocomplete="Email" aria-required="true" placeholder="" />
+                    <label asp-for="Email">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="PhoneNumber" class="form-control" autocomplete="Phone" aria-required="true" placeholder="" maxlength="10" />
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <select asp-for="DeptNo" asp-items="ViewBag.Departments" class="form-control">
+                        <option disabled selected>Select Department</option>
+                    </select>
+                    <label asp-for="DeptNo">Department</label>
+                    <span asp-validation-for="DeptNo" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3 ">
+                    <label asp-for="ListRoles">Role</label>
+                    <div class="pt-5">
+                        @foreach (var role in ViewBag.Roles)
+                        {
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" id="@role.Id" name="ListRoles" value="@role.Id" onclick="return clearError()" />
+                                <label class="form-check-label" for="@role.Id">@role.Name</label>
+                            </div>
+                        }
+                    </div>
+                    <span asp-validation-for="ListRoles" id="MustPick" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-5">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
     }
-}
-<script>
-    // Function to validate admin picked at least one role for user
-    function validateRoles() {
-        var checkboxes = document.getElementsByName("ListRoles");
-        var checked = false;
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                checked = true;
-                break;
+    <script>
+        // Function to validate admin picked at least one role for user
+        function validateRoles() {
+            var checkboxes = document.getElementsByName("ListRoles");
+            var checked = false;
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    checked = true;
+                    break;
+                }
             }
+            if (!checked) {
+                document.getElementById("MustPick").innerHTML = "Please select at least one role";
+                return false;
+            }
+            return true;
         }
-        if (!checked) {
-            document.getElementById("MustPick").innerHTML = "Please select at least one role";
-            return false;
-        }
-        return true;
-    }
 
-    function clearError() {
-        document.getElementById("MustPick").innerHTML = "";
-    }
-    
-</script>
+        function clearError() {
+            document.getElementById("MustPick").innerHTML = "";
+        }
+
+    </script>

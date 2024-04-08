@@ -31,7 +31,7 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
 
         public IActionResult OnPost()
         {
-            return RedirectToPage("/Error"); 
+            return RedirectToPage("/Error");
         }
     }
 }

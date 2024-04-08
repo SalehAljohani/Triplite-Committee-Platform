@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -33,7 +32,7 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 return NotFound($"Unable to load user with ID '{User.FindFirstValue(ClaimTypes.NameIdentifier)}'.");
             }
-            if(user.EmailConfirmed == false)
+            if (user.EmailConfirmed == false)
             {
                 return RedirectToAction("Index", "ConfirmEmail");
             }

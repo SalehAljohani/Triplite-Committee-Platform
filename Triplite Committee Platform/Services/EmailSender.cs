@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.CodeAnalysis;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System.Net.Mail;
 
 namespace Triplite_Committee_Platform.Services
 {
@@ -29,16 +25,16 @@ namespace Triplite_Committee_Platform.Services
             }
             if (dynamicTemplateData == null)
             {
-                   throw new Exception("Null dynamicTemplateData");
-            } 
+                throw new Exception("Null dynamicTemplateData");
+            }
             if (string.IsNullOrEmpty(toEmail))
             {
                 throw new Exception("Null toEmail");
             }
 
-            await Execute(Options.SendGridKey, templateId ,dynamicTemplateData, toEmail);
+            await Execute(Options.SendGridKey, templateId, dynamicTemplateData, toEmail);
         }
-        public async Task Execute(string apiKey,string templateId, object dynamicTemplateData, string toEmail)
+        public async Task Execute(string apiKey, string templateId, object dynamicTemplateData, string toEmail)
         {
             var client = new SendGridClient(apiKey);
 
@@ -50,7 +46,7 @@ namespace Triplite_Committee_Platform.Services
             msg.SetTemplateData(dynamicTemplateData);
             msg.AddTo(new EmailAddress(toEmail));
 
-            msg.SetClickTracking(true, true);
+            msg.SetClickTracking(false, false);
             var response = await client.SendEmailAsync(msg);
             _logger.LogInformation(response.IsSuccessStatusCode
                                    ? $"Email to {toEmail} queued successfully!"

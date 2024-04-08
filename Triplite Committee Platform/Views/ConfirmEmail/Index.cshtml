@@ -1,31 +1,36 @@
 ﻿@{
     ViewData["Title"] = "Confirm Email";
-    Layout = "CustomLayout.cshtml";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
-<br />
-<br />
-<br />
-<br />
 
-@* <h1 class="text-center mt-5 mb-3">Confirm Email</h1>
- *@@{
-    if (ViewData["Success"] != null)
+<div class="row pt-5 pb-5 text-center">
+    <p class="fs-4">@ViewData["ConfirmEmail"]</p>
+</div>
+<div class="row mb-5 text-center">
+    @if (TempData["EmailSent"] != null)
     {
-        <div class="alert alert-success" role="alert">
-            @ViewData["Success"]
+        <div class="row">
+            <div class="col-sm-3">
+                <p></p>
+            </div>
+            <div class="alert alert-success w-50 col-sm-3" role="alert">
+                @TempData["EmailSent"]
+            </div>
+            <div class="col-sm-3">
+                <p></p>
+            </div>
         </div>
     }
-    if (ViewData["Error"] != null)
-    {
-        <div class="alert alert-danger" role="alert">
-            @ViewData["Error"]
-        </div>
-    }
-}
-<div class="mt-5 mb-5"></div>
-<div style="text-align: center; mt-5">
-    <p class="text-capitalize lead fs-2 mb-5">@Html.Raw(ViewData["ConfirmEmail"])</p>
-    <form method="post" asp-action="index">
-        <button type="submit" class="btn btn-primary">I have Confirmed My Account</button>
-    </form>
+</div>
+<div style="text-align: center;" class="row pb-5">
+    <div class="col-sm-6">
+        <form method="post" asp-action="index">
+            <button type="submit" class="btn btn-success">I have Confirmed My Account</button>
+        </form>
+    </div>
+    <div class="col-sm-6">
+        <form method="post" asp-action="ResendEmail">
+            <button type="submit" class="btn btn-dark">Resend Confirmation Email</button>
+        </form>
+    </div>
 </div>

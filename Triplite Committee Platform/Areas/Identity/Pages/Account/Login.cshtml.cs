@@ -42,7 +42,7 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [Display(Name = "Email or Employee ID")]
+            [Display(Name = "Email or Username")]
             public string Email { get; set; }
 
             [Required]
@@ -72,8 +72,9 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync()
         {
             //returnUrl ??= Url.Content("~/");
-
-            var username = new EmailAddressAttribute().IsValid(Input.Email) ? _userManager.FindByEmailAsync(Input.Email).Result.UserName : Input.Email;
+            var user = new EmailAddressAttribute().IsValid(Input.Email) ? await _userManager.FindByEmailAsync(Input.Email) : null;
+            var username = user != null ? user.UserName : Input.Email;
+            //var username = new EmailAddressAttribute().IsValid(Input.Email) ? _userManager.FindByEmailAsync(Input.Email).Result.UserName : Input.Email;
 
             if (ModelState.IsValid)
             {
@@ -94,11 +95,11 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
                 //    _logger.LogWarning("User account locked out.");
                 //    return RedirectToPage("./Lockout");
                 //}
-                //else
-                //{
-                //    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                //    return Page();
-                //}
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
             }
 
             // If we got this far, something failed, redisplay form

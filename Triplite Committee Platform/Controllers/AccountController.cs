@@ -1,22 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Encodings.Web;
 using System.Text;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
-using Triplite_Committee_Platform.ViewModels;
 using Triplite_Committee_Platform.Services;
-using System.Security.Cryptography;
-using Microsoft.AspNetCore.Authorization;
+using Triplite_Committee_Platform.ViewModels;
 
 namespace Triplite_Committee_Platform.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize]
     public class AccountController : Controller
     {
         private readonly EmailSender _emailSender;
@@ -125,8 +120,8 @@ namespace Triplite_Committee_Platform.Controllers
             if (ModelState.IsValid)
             {
                 var user = new UserRolesViewModel();
-                var randomPassword = GenerateRandomPassword();
-                user.Password = randomPassword;
+
+                
                 if (userRolesViewModel.Name != null)
                 {
                     var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Name == userRolesViewModel.Name);
@@ -140,13 +135,14 @@ namespace Triplite_Committee_Platform.Controllers
                         await PopulateDepartmentsAndRoles();
                         return View(userRolesViewModel);
                     }
-                }else
+                }
+                else
                 {
                     ModelState.AddModelError(string.Empty, "Name is required.");
                     await PopulateDepartmentsAndRoles();
                     return View(userRolesViewModel);
                 }
-                if(userRolesViewModel.EmployeeID != null)
+                if (userRolesViewModel.EmployeeID != null)
                 {
                     var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.EmployeeID == userRolesViewModel.EmployeeID);
                     if (existingUser != null)
@@ -156,13 +152,14 @@ namespace Triplite_Committee_Platform.Controllers
                         return View(userRolesViewModel);
                     }
                     user.EmployeeID = userRolesViewModel.EmployeeID;
-                }else
+                }
+                else
                 {
                     ModelState.AddModelError(string.Empty, "Employee ID is required.");
                     await PopulateDepartmentsAndRoles();
                     return View(userRolesViewModel);
                 }
-                if(userRolesViewModel.Email != null)
+                if (userRolesViewModel.Email != null)
                 {
                     var existingEmail = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == userRolesViewModel.Email);
                     if (existingEmail != null)
@@ -171,16 +168,18 @@ namespace Triplite_Committee_Platform.Controllers
                         await PopulateDepartmentsAndRoles();
                         return View(userRolesViewModel);
                     }
-                }else
+                }
+                else
                 {
                     ModelState.AddModelError(string.Empty, "Email is required.");
                     await PopulateDepartmentsAndRoles();
                     return View(userRolesViewModel);
                 }
-                if(userRolesViewModel.PhoneNumber != null)
+                if (userRolesViewModel.PhoneNumber != null)
                 {
                     user.PhoneNumber = userRolesViewModel.PhoneNumber;
-                }else
+                }
+                else
                 {
                     ModelState.AddModelError(string.Empty, "Phone Number is required.");
                     await PopulateDepartmentsAndRoles();
@@ -189,7 +188,8 @@ namespace Triplite_Committee_Platform.Controllers
                 if (userRolesViewModel.DeptNo != null)
                 {
                     user.Department = await _context.Department.FirstOrDefaultAsync(d => d.DeptNo == userRolesViewModel.DeptNo);
-                }else
+                }
+                else
                 {
                     ModelState.AddModelError(string.Empty, "Department is required.");
                     await PopulateDepartmentsAndRoles();
@@ -201,9 +201,11 @@ namespace Triplite_Committee_Platform.Controllers
                     await PopulateDepartmentsAndRoles();
                     return View(userRolesViewModel);
                 }
-                await _userStore.SetUserNameAsync(user, userRolesViewModel.EmployeeID.ToString(), CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, userRolesViewModel.EmployeeID, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, userRolesViewModel.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, randomPassword);
+
+                var result = await _userManager.CreateAsync(user);
+
                 if (result.Succeeded)
                 {
                     if (ListRoles.Count > 0)
@@ -218,12 +220,12 @@ namespace Triplite_Committee_Platform.Controllers
                         foreach (var role in ListRoles)
                         {
                             var roleExists = await _roleManager.FindByIdAsync(role);
-                            if ( roleExists != null)
+                            if (roleExists != null)
                             {
                                 await _userManager.AddToRoleAsync(user, roleExists.Name);
                             }
                         }
-                        if(await _userManager.GetRolesAsync(user) == null)
+                        if (await _userManager.GetRolesAsync(user) == null)
                         {
                             ModelState.AddModelError(string.Empty, "Please select at least one role.");
                             await PopulateDepartmentsAndRoles();
@@ -241,8 +243,8 @@ namespace Triplite_Committee_Platform.Controllers
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var encodedToken = Encoding.UTF8.GetBytes(token);
                     var validToken = WebEncoders.Base64UrlEncode(encodedToken);
-                    var callbackUrl = Url.Action("ConfirmEmail", "ConfirmEmail", new { userId = user.Id, token = validToken }, Request.Scheme);
-                    var dynamicTemplateData = new { Subject = "Account Confirmation", ConfirmLink = callbackUrl, randomPassword };
+                    var callbackUrl = Url.Action("Index", "SetPassword", new { userId = user.Id, token = validToken }, Request.Scheme);
+                    var dynamicTemplateData = new { Subject = "Account Confirmation", ConfirmLink = callbackUrl};
                     var templateId = "d-ca5e1fdee08047d1afa4448fe1cee09a";
                     await _emailSender.SendEmailAsync(user.Email, templateId, dynamicTemplateData);
 
@@ -296,8 +298,8 @@ namespace Triplite_Committee_Platform.Controllers
         }
 
         //POST: Department/Edit/5 review the code
-       [HttpPost]
-       [ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, EditUserViewModel editUser)
         {
             if (id != editUser.Id)
@@ -320,7 +322,7 @@ namespace Triplite_Committee_Platform.Controllers
                             user.Name = editUser.Name;
                         }
                     }
-                    if(editUser.PhoneNumber != user.PhoneNumber)
+                    if (editUser.PhoneNumber != user.PhoneNumber)
                     {
                         if (editUser.PhoneNumber != null)
                         {
@@ -331,18 +333,18 @@ namespace Triplite_Committee_Platform.Controllers
                     {
                         editUser.Department = await _context.Department.FirstOrDefaultAsync(d => d.DeptNo == editUser.DeptNo);
                     }
-                    if(user.DeptNo != null)
+                    if (user.DeptNo != null)
                     {
                         user.Department = await _context.Department.FirstOrDefaultAsync(d => d.DeptNo == user.DeptNo);
                     }
                     if (editUser.Department != user.Department)
                     {
-                           if (editUser.Department != null)
-                           {
+                        if (editUser.Department != null)
+                        {
                             user.Department = editUser.Department;
-                           }
+                        }
                     }
-                    if (editUser.EmailConfirmed != user.EmailConfirmed) 
+                    if (editUser.EmailConfirmed != user.EmailConfirmed)
                     {
                         if (editUser.EmailConfirmed != null)
                         {
@@ -360,7 +362,7 @@ namespace Triplite_Committee_Platform.Controllers
 
                     if (editUser.ListRoles != roles)
                     {
-                        if(editUser.ListRoles != null)
+                        if (editUser.ListRoles != null)
                         {
                             await _userManager.RemoveFromRolesAsync(user, roles);
                             foreach (var role in editUser.ListRoles)
@@ -483,29 +485,29 @@ namespace Triplite_Committee_Platform.Controllers
 
         // GenerateRandomPassword generate random password for user when creating new user
 
-        private string GenerateRandomPassword()
-        {
-            const string validChars = "!$#@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const string validDigits = "1234567890";
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                var bytes = new byte[8];
-                rng.GetBytes(bytes);
-                var result = new char[8];
-                for (int i = 0; i < 8; i++)
-                {
-                    if (i == 0)
-                    {
-                        result[i] = validDigits[bytes[i] % validDigits.Length];
-                    }
-                    else
-                    {
-                        result[i] = validChars[bytes[i] % validChars.Length];
-                    }
-                }
-                return new string(result);
-            }
-        }
+        //private string GenerateRandomPassword()
+        //{
+        //    const string validChars = "!$#@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        //    const string validDigits = "1234567890";
+        //    using (var rng = RandomNumberGenerator.Create())
+        //    {
+        //        var bytes = new byte[8];
+        //        rng.GetBytes(bytes);
+        //        var result = new char[8];
+        //        for (int i = 0; i < 8; i++)
+        //        {
+        //            if (i == 0)
+        //            {
+        //                result[i] = validDigits[bytes[i] % validDigits.Length];
+        //            }
+        //            else
+        //            {
+        //                result[i] = validChars[bytes[i] % validChars.Length];
+        //            }
+        //        }
+        //        return new string(result);
+        //    }
+        //}
 
         // UserExists check if user exists simply :)
         // using userManager which is method of IdentityUser 
