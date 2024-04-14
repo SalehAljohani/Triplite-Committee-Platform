@@ -29,7 +29,7 @@ builder.Services.AddIdentity<UserModel, IdentityRole>(
         options.Password.RequiredLength = 8;
     }
     )
-    .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders().AddDefaultUI();
+    .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
