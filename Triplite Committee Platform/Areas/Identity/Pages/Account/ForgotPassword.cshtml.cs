@@ -11,15 +11,16 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using Triplite_Committee_Platform.Models;
+using Triplite_Committee_Platform.Services;
 
 namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
 {
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserManager<UserModel> _userManager;
-        private readonly IEmailSender _emailSender;
+        private readonly EmailSender _emailSender;
 
-        public ForgotPasswordModel(UserManager<UserModel> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<UserModel> userManager, EmailSender emailSender)
         {
             _userManager = userManager;
             _emailSender = emailSender;
@@ -54,24 +55,32 @@ namespace Triplite_Committee_Platform.Areas.Identity.Pages.Account
                 var user = await _userManager.FindByEmailAsync(Input.Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToPage("./ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Page(
-                    "/Account/ResetPassword",
+                var callbackUrl = Url.Page("/Account/ResetPassword",
                     pageHandler: null,
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
+                var dynamicTemplateData = new { Subject = "Password Reset", ResetPassword = callbackUrl };
+                var templateId = "d-76703abddcd74314b76d4e7d0b819313";
+                await _emailSender.SendEmailAsync(user.Email, templateId, dynamicTemplateData);
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                //var callbackUrl = Url.Page(
+                //    "/Account/ResetPassword",
+                //    pageHandler: null,
+                //    values: new { area = "Identity", code },
+                //    protocol: Request.Scheme);
+
+                //await _emailSender.SendEmailAsync(
+                //    Input.Email,
+                //    "Reset Password",
+                //    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }
