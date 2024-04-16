@@ -121,7 +121,7 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 var user = new UserRolesViewModel();
 
-                
+
                 if (userRolesViewModel.Name != null)
                 {
                     var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Name == userRolesViewModel.Name);
@@ -244,7 +244,7 @@ namespace Triplite_Committee_Platform.Controllers
                     var encodedToken = Encoding.UTF8.GetBytes(token);
                     var validToken = WebEncoders.Base64UrlEncode(encodedToken);
                     var callbackUrl = Url.Action("Index", "SetPassword", new { userId = user.Id, token = validToken }, Request.Scheme);
-                    var dynamicTemplateData = new { Subject = "Account Confirmation", ConfirmLink = callbackUrl};
+                    var dynamicTemplateData = new { Subject = "Account Confirmation", ConfirmLink = callbackUrl };
                     var templateId = "d-ca5e1fdee08047d1afa4448fe1cee09a";
                     await _emailSender.SendEmailAsync(user.Email, templateId, dynamicTemplateData);
 
@@ -364,13 +364,23 @@ namespace Triplite_Committee_Platform.Controllers
                     {
                         if (editUser.ListRoles != null)
                         {
-                            await _userManager.RemoveFromRolesAsync(user, roles);
+                            if (_userManager.GetUsersInRoleAsync("Admin").Result.Count() > 1)
+                            {
+                                await _userManager.RemoveFromRolesAsync(user, roles);
+                            }
+                            else
+                            {
+                                var adminRole = "Admin";
+                                await _userManager.RemoveFromRolesAsync(user, roles.Except(new List<string> { adminRole }));
+                                TempData["Error"] = "Cannot Remove Admin role of the only Admin in the Platform.";
+                            }
                             foreach (var role in editUser.ListRoles)
                             {
                                 await _userManager.AddToRoleAsync(user, role);
                             }
                         }
                     }
+
                     if (editUser.Password != null)
                     {
                         if (editUser.ConfirmPassword == editUser.Password)
@@ -448,7 +458,21 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-                await _userManager.DeleteAsync(user);
+                if (_userManager.IsInRoleAsync(user, "Admin").Result)
+                {
+                    if (_userManager.GetUsersInRoleAsync("Admin").Result.Count() > 1)
+                    {
+                        await _userManager.DeleteAsync(user);
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Cannot delete the last Admin user.";
+                    }
+                }
+                else
+                {
+                    await _userManager.DeleteAsync(user);
+                }
             }
             return RedirectToAction(nameof(Index));
         }

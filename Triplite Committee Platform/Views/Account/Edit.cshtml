@@ -1,8 +1,11 @@
 ﻿@model Triplite_Committee_Platform.ViewModels.EditUserViewModel
+@using Microsoft.AspNetCore.Identity
 @{
     ViewData["Title"] = "Edit User ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@inject UserManager<UserModel> UserManager
 
 <h1>Edit User</h1>
 
@@ -33,12 +36,12 @@
                     Email Confirmed?
                 </label>
             </div>
-            <div >
-                    <label class="ms-3">
-                        <strong class="ms-5 me-5">[@Model.EmailConfirmed]</strong>
-                        <label class="ms-5">Change it?</label>
-                        <input type="checkbox" class="form-check-input ms-2" asp-for="EmailConfirmed" />
-                    </label>
+            <div>
+                <label class="ms-3">
+                    <strong class="ms-5 me-5">[@Model.EmailConfirmed]</strong>
+                    <label class="ms-5">Change it?</label>
+                    <input type="checkbox" class="form-check-input ms-2" asp-for="EmailConfirmed" />
+                </label>
             </div>
             <div class="form-group mt-3 w-75">
                 <label asp-for="PhoneNumber" class="control-label"></label>
@@ -64,15 +67,15 @@
             </div>
             <div class="form-floating mb-3 mt-3 w-75">
                 <label asp-for="ListRoles">Role</label>
-                <div class="pt-5">
-                    @foreach (var role in ViewBag.Roles)
-                    {
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="@role" name="ListRoles" value="@role" @(Model.ListRoles.Contains(role.ToString()) ? "checked" : "") onclick="return clearError()" />
-                            <label class="form-check-label" for="@role">@role</label>
-                        </div>
-                    }
-                </div>
+                    <div class="pt-5">
+                        @foreach (var role in ViewBag.Roles)
+                        {
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" id="@role" name="ListRoles" value="@role" @(Model.ListRoles.Contains(role.ToString()) ? "checked" : "") onclick="return clearError()" />
+                                <label class="form-check-label" for="@role">@role</label>
+                            </div>
+                        }
+                    </div>
                 <span asp-validation-for="ListRoles" id="MustPick" class="text-danger"></span>
             </div>
             <div class="form-group mt-3 w-75">
@@ -86,59 +89,59 @@
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group text-md-center w-75">
-                <input type="submit" value="Save" class="btn btn-primary w-50"/>
+                <input type="submit" value="Save" class="btn btn-primary w-50" />
             </div>
         </form>
     </div>
-@*     <div class="col-md-5">
-        <form asp-action="Edit">
-            <div class="form-group mt-3 w-75">
-                <label asp-for="Password">Password</label>
-                <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" type="password" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3 mb-3 w-75">
-                <label asp-for="ConfirmPassword">Confirm Password</label>
-                <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" type="password" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group text-center w-75">
-                <input type="submit" value="Reset Password" class="btn btn-primary w-50" />
-            </div>
-        </form>
+    @*     <div class="col-md-5">
+    <form asp-action="Edit">
+    <div class="form-group mt-3 w-75">
+    <label asp-for="Password">Password</label>
+    <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" type="password" />
+    <span asp-validation-for="Password" class="text-danger"></span>
     </div>
-</div> *@
+    <div class="form-group mt-3 mb-3 w-75">
+    <label asp-for="ConfirmPassword">Confirm Password</label>
+    <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" type="password" />
+    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+    <div class="form-group text-center w-75">
+    <input type="submit" value="Reset Password" class="btn btn-primary w-50" />
+    </div>
+    </form>
+    </div>
+    </div> *@
 
-<div class="text-center">
-    <a asp-action="Index" class="btn btn-primary w-25">Back to List</a>
-</div>
+    <div class="text-center">
+        <a asp-action="Index" class="btn btn-primary w-25">Back to List</a>
+    </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
     }
-}
-@* <script>
+    @* <script>
     // Function to validate admin picked at least one role for user
     function validateRoles() {
-        var checkboxes = document.getElementsByName("ListRoles");
-        var checked = false;
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                checked = true;
-                break;
-            }
-        }
-        if (!checked) {
-            document.getElementById("MustPick").innerHTML = "Please select at least one role";
-            return false;
-        }
-        return true;
+    var checkboxes = document.getElementsByName("ListRoles");
+    var checked = false;
+    for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked) {
+    checked = true;
+    break;
+    }
+    }
+    if (!checked) {
+    document.getElementById("MustPick").innerHTML = "Please select at least one role";
+    return false;
+    }
+    return true;
     }
 
     function clearError() {
-        document.getElementById("MustPick").innerHTML = "";
+    document.getElementById("MustPick").innerHTML = "";
     }
 
-</script> *@
+    </script> *@
 

@@ -20,6 +20,7 @@ namespace Triplite_Committee_Platform.Data
         public DbSet<FileModel> File { get; set; }
         public DbSet<CarouselItemModel> CarouselItem { get; set; }
         public DbSet<SupportPageModel> SupportPage { get; set; }
+        public DbSet<ContactModel> Contact { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Help";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="text-center pt-5 mb-5">
+    <h4>@ViewData["Title"]</h4>
+</div>
+<hr />
+<div class="row mt-5 mb-5">
+    <div class="col-sm-6 text-center">
+        <a asp-action="ForgotPassword" asp-controller="Login" class="btn btn-primary"><strong>Forgot Your Password?</strong></a>
+    </div>
+    <div class="col-sm-6 text-center">
+        <a asp-action="Index" asp-controller="ConfirmEmail" class="btn btn-primary"><strong>Resend Email Confirmation</strong></a>
+    </div>
+</div>
+<div class="text-center mt-5 mb-5">
+    <p class="fs-4">or</p>
+</div>
+<div class="mb-5 mt-5">
+</div>
+
+<div class="row mt-5 pb-3">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5 text-start">
+        <p class="fs-5">
+            <a id="Login" class="text-light text-decoration-none" asp-action="Index" asp-controller="Login"><strong>Go back to Login</strong></a>
+        </p>
+    </div>
+    <div class="col-sm-5 text-end">
+        <p class="fs-5">
+            <a class="text-light text-decoration-none" asp-area="" asp-controller="Login" asp-action="Support"><strong>Contact Support</strong></a>
+        </p>
+    </div>
+    <div class="col-sm-1"></div>
+</div>
