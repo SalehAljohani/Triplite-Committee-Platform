@@ -5,24 +5,60 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Delete</h1>
+@if (TempData["DeleteMessage1"] != null)
+{
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="alert alert-danger col-sm-4 text-center" role="alert">
+            @TempData["DeleteMessage1"]
+            <br />
+            <br />
+            @TempData["DeleteMessage2"]
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>CollegeModel</h4>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+}
+
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong class="text-uppercase">Are you sure you want to delete <span class="text-danger">[@Model?.CollegeName]</span> College?</strong></h3>
+    <p class="text-center text-dark fw-bold mt-5">This College has the following Departments</p>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CollegeName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CollegeName)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="CollegeNo" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    <table class="table text-center">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Department Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Departments != null)
+            {
+                var count = 1;
+                @foreach (var item in ViewBag.Departments)
+                {
+                    <tr>
+                        <th scope="row">@count</th>
+                        <td>@item.DeptName</td>
+                        <td>
+                            <div class="text-center">
+                                <a asp-action="Delete" asp-controller="Department" asp-route-id="@item.DeptNo" class="btn btn-danger btn-md">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    count++;
+                }
+            }
+        </tbody>
+    </table>
+    <div class="text-center mb-4">
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="CollegeNo" />
+            <input type="submit" value="Delete College" class="btn btn-danger w-25" />
+        </form>
+    </div>
+</div>
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>

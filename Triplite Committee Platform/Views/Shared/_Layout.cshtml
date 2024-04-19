@@ -29,12 +29,11 @@
                         <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-bar-chart-o"></i>Statistics </a>
                     </li>
                     <li class="menu-title">Manage</li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>College & Departments</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-puzzle-piece"></i><a asp-area="" asp-controller="College" asp-action="Index" class="nav-link">College</a></li>
-                            <li><i class="fa fa-id-badge"></i><a asp-area="" asp-controller="Department" asp-action="Index" class="nav-link">Departments</a></li>
-                        </ul>
+                    <li>
+                        <a asp-area="" asp-controller="College" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-building-columns"></i>College & Department</a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-file-text"></i>Boards </a>
                     </li>
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Users & Roles </a>
@@ -43,18 +42,18 @@
                             <li><i class="fa fa-table"></i><a asp-area="" asp-controller="Role" asp-action="Index" class="nav-link">Manage Roles </a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-file-text"></i>Boards </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Support" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-file-text"></i>Support Requests </a>
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Support </a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="menu-icon fa fa-headphones"></i><a asp-area="" asp-controller="Support" asp-action="Index" class="nav-link">Support Requests </a></li>
+                            <li><i class="menu-icon fa fa-headphones"></i><a asp-area="" asp-controller="SupportDetail" asp-action="Index" class="nav-link">Support Page</a></li>
+                        </ul>
                     </li>
                     <li class="menu-title">Manage Site</li>
 
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-gear"></i>Settings</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-headphones"></i><a asp-area="" asp-controller="SupportDetail" asp-action="Index" class="nav-link">Support Page</a></li>
                             <li><i class="menu-icon fa fa-home"></i><a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home Page</a></li>
                         </ul>
                     </li>

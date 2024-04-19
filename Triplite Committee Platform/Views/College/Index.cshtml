@@ -12,17 +12,23 @@
     </div>
 }
 <div class="card p-3 mt-5 w-75 mx-auto">
-    <div class=""></div>
-    <h2 class="ms-5">College List</h2>
-    <div class="col-sm-3 mt-3 text-center">
-        <a asp-action="Create" class="text-decoration-none text-light btn btn-primary">Create New College</a>
+    <div class="row">
+        <div class="col-sm-4">
+            <strong class="fs-3">College List</strong>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-end">
+            <a asp-action="Create" class="text-decoration-none text-light btn btn-primary me-1">
+                <strong class="fs-5">Create New College</strong>
+            </a>
+        </div>
     </div>
     <hr />
     <table class="table align-middle mb-0 bg-white" id="DTable">
         <thead class="bg-darck">
             <tr>
                 <th>Colleg Name</th>
-                <th>Action</th>
+                <th class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -37,10 +43,11 @@
                         </div>
                     </td>
                     <td>
-                        <div class="d-flex gap-2">
-                            <a asp-action="Edit" asp-route-id="@item.CollegeNo" class="btn btn-primary btn-md">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.CollegeNo" class="btn btn-secondary btn-md">Details</a>
-                            <a asp-action="Delete" asp-route-id="@item.CollegeNo" class="btn btn-danger btn-md">Delete</a>
+                        <div class="text-center">
+                            <a asp-action="Create" asp-controller="Department" asp-route-id="@item.CollegeNo" class="btn btn-success btn-md"><i class="fa-solid fa-plus fs-4"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.CollegeNo" class="btn btn-primary btn-md"><i class="fa-solid fa-pen fs-4"></i></a>
+                            <a asp-action="Details" asp-route-id="@item.CollegeNo" class="btn btn-secondary btn-md"><i class="fa-solid fa-circle-info fs-4"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.CollegeNo" class="btn btn-danger btn-md"><i class="fa-solid fa-trash fs-4"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -48,6 +55,8 @@
         </tbody>
     </table>
 </div>
+
+@* DataTable Library used to add filters to the tables *@
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.min.css" />
 <script src="https://cdn.datatables.net/2.0.5/js/dataTables.min.js"></script>
@@ -60,6 +69,10 @@
         });
     });
 </script>
+
+@* End of DataTable Library initialization *@
+
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

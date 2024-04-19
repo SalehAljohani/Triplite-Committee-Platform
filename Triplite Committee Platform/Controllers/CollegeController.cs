@@ -128,9 +128,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 return NotFound();
             }
-
-            var collegeModel = await _context.College
-                .FirstOrDefaultAsync(m => m.CollegeNo == id);
+            ViewData["Departments"] = _context.Department.Where(d => d.CollegeNo == id).ToList();
+            var collegeModel = await _context.College.FirstOrDefaultAsync(m => m.CollegeNo == id);
             if (collegeModel == null)
             {
                 return NotFound();
@@ -145,6 +144,13 @@ namespace Triplite_Committee_Platform.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var collegeModel = await _context.College.FindAsync(id);
+            var existingDepartments = _context.Department.Where(d => d.CollegeNo == id).ToList();
+            if(existingDepartments != null)
+            {
+                TempData["DeleteMessage1"] = "Cannot delete college with existing departments.";
+                TempData["DeleteMessage2"] = "Please Delete the departments First";
+                return RedirectToAction("Delete");
+            }
             if (collegeModel != null)
             {
                 _context.College.Remove(collegeModel);

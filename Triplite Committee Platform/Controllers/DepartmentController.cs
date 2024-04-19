@@ -23,13 +23,7 @@ namespace Triplite_Committee_Platform.Controllers
         // GET: Department
         public async Task<IActionResult> Index()
         {
-            var userEmail = await _userManager.GetUserAsync(User);
-            if (userEmail.EmailConfirmed == false)
-            {
-                return RedirectToAction("Index", "ConfirmEmail");
-            }
-            var appDbContext = _context.Department.Include(d => d.College);
-            return View(await appDbContext.ToListAsync());
+            return RedirectToAction("Index", "College");
         }
 
         // GET: Department/Details/5
@@ -52,9 +46,17 @@ namespace Triplite_Committee_Platform.Controllers
         }
 
         // GET: Department/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            ViewData["CollegeNo"] = new SelectList(_context.College, "CollegeNo", "CollegeName");
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            if(_context.College.Find(id) == null)
+            {
+                return NotFound();
+            }
+            ViewData["CollegeNo"] = new SelectList(_context.College, "CollegeNo", "CollegeName", id);
             return View();
         }
 
