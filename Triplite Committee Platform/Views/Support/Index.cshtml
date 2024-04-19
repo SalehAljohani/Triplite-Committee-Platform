@@ -7,6 +7,18 @@
 
 <h3>@ViewData["Title"]</h3>
 
+@if(TempData["Message"] != null)
+{
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="alert alert-success text-center col-4" role="alert">
+            @TempData["Message"]
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+}
+
 <table class="table text-center mt-4">
     <thead>
         <tr>
@@ -30,7 +42,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class="@(item.Status ? "table-success disabled" : "table-warning")">
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>

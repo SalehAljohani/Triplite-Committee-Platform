@@ -12,22 +12,22 @@ using Triplite_Committee_Platform.Models;
 namespace Triplite_Committee_Platform.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class SupportPageController : Controller
+    public class SupportDetailController : Controller
     {
         private readonly AppDbContext _context;
 
-        public SupportPageController(AppDbContext context)
+        public SupportDetailController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: SupportPage
+        // GET: SupportDetail
         public async Task<IActionResult> Index()
         {
-            return View(await _context.SupportPage.ToListAsync());
+            return View(await _context.SupportDetail.ToListAsync());
         }
 
-        // GET: SupportPage/Details/5
+        // GET: SupportDetail/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,42 +35,42 @@ namespace Triplite_Committee_Platform.Controllers
                 return NotFound();
             }
 
-            var supportPageModel = await _context.SupportPage
+            var SupportDetailModel = await _context.SupportDetail
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (supportPageModel == null)
+            if (SupportDetailModel == null)
             {
                 return NotFound();
             }
 
-            return View(supportPageModel);
+            return View(SupportDetailModel);
         }
 
-        // GET: SupportPage/Create
+        // GET: SupportDetail/Create
         public IActionResult Create()
         {
-            var existingSupportPage = _context.SupportPage.FirstOrDefault();
-            if (existingSupportPage != null)
+            var existingSupportDetail = _context.SupportDetail.FirstOrDefault();
+            if (existingSupportDetail != null)
             {
                 TempData["Message"] = "Support Page already exists, you can edit its Information below";
-                return RedirectToAction("Edit", new { id = existingSupportPage.Id });
+                return RedirectToAction("Edit", new { id = existingSupportDetail.Id });
             }
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContactEmail,PhoneNumber,TeleNumber,Location")] SupportPageModel supportPageModel)
+        public async Task<IActionResult> Create([Bind("ContactEmail,PhoneNumber,TeleNumber,Location")] SupportDetail SupportDetailModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(supportPageModel);
+                _context.Add(SupportDetailModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(supportPageModel);
+            return View(SupportDetailModel);
         }
 
-        // GET: SupportPage/Edit/5
+        // GET: SupportDetail/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,22 +78,22 @@ namespace Triplite_Committee_Platform.Controllers
                 return NotFound();
             }
 
-            var supportPageModel = await _context.SupportPage.FindAsync(id);
-            if (supportPageModel == null)
+            var SupportDetailModel = await _context.SupportDetail.FindAsync(id);
+            if (SupportDetailModel == null)
             {
                 return NotFound();
             }
-            return View(supportPageModel);
+            return View(SupportDetailModel);
         }
 
-        // POST: SupportPage/Edit/5
+        // POST: SupportDetail/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ContactEmail,PhoneNumber,TeleNumber,Location")] SupportPageModel supportPageModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ContactEmail,PhoneNumber,TeleNumber,Location")] SupportDetail SupportDetailModel)
         {
-            if (id != supportPageModel.Id)
+            if (id != SupportDetailModel.Id)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 try
                 {
-                    _context.Update(supportPageModel);
+                    _context.Update(SupportDetailModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SupportPageModelExists(supportPageModel.Id))
+                    if (!SupportDetailModelExists(SupportDetailModel.Id))
                     {
                         return NotFound();
                     }
@@ -118,10 +118,10 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(supportPageModel);
+            return View(SupportDetailModel);
         }
 
-        // GET: SupportPage/Delete/5
+        // GET: SupportDetail/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,33 +129,33 @@ namespace Triplite_Committee_Platform.Controllers
                 return NotFound();
             }
 
-            var supportPageModel = await _context.SupportPage
+            var SupportDetailModel = await _context.SupportDetail
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (supportPageModel == null)
+            if (SupportDetailModel == null)
             {
                 return NotFound();
             }
 
-            return View(supportPageModel);
+            return View(SupportDetailModel);
         }
 
-        // POST: SupportPage/Delete/5
+        // POST: SupportDetail/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var supportPageModel = await _context.SupportPage.FindAsync(id);
-            if (supportPageModel != null)
+            var SupportDetailModel = await _context.SupportDetail.FindAsync(id);
+            if (SupportDetailModel != null)
             {
-                _context.SupportPage.Remove(supportPageModel);
+                _context.SupportDetail.Remove(SupportDetailModel);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        private bool SupportPageModelExists(int id)
+        private bool SupportDetailModelExists(int id)
         {
-            return _context.SupportPage.Any(e => e.Id == id);
+            return _context.SupportDetail.Any(e => e.Id == id);
         }
     }
 }

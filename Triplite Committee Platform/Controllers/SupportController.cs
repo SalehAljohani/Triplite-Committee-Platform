@@ -34,11 +34,6 @@ namespace Triplite_Committee_Platform.Controllers
             return View(contactModel);
         }
 
-        public IActionResult Solved()
-        {
-            return View();
-        }
-
         public async Task<IActionResult> Solved(int? id)
         {
             if (id == null)
@@ -51,10 +46,42 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 return NotFound();
             }
+            ViewData["ButtonClass"] = "btn btn-success";
+            ViewData["Button"] = "Solve";
+            if(contactModel.Status == true)
+            {
+                ViewData["ButtonClass"] = "btn btn-danger";
+                ViewData["Button"] = "Unsolve";
+            }
+
+            return View(contactModel);
+        }
+
+        public async Task<IActionResult> SolveConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var contactModel = await _context.Contact.FirstOrDefaultAsync(m => m.Id == id);
+            if (contactModel == null)
+            {
+                return NotFound();
+            }
+            if (contactModel.Status == true)
+            {
+                contactModel.Status = false;
+                _context.Update(contactModel);
+                await _context.SaveChangesAsync();
+                TempData["Message"] = "Request has been marked as unsolved.";
+                return RedirectToAction("Index");
+            }
 
             contactModel.Status = true;
             _context.Update(contactModel);
             await _context.SaveChangesAsync();
+            TempData["Message"] = "Request has been marked as solved.";
 
             return RedirectToAction("Index");
         }
@@ -83,6 +110,7 @@ namespace Triplite_Committee_Platform.Controllers
             var contactModel = await _context.Contact.FindAsync(id);
             _context.Contact.Remove(contactModel);
             await _context.SaveChangesAsync();
+            TempData["Message"] = "Request has been deleted.";
             return RedirectToAction(nameof(Index));
         }
     }

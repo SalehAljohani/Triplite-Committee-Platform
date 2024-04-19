@@ -19,7 +19,7 @@ namespace Triplite_Committee_Platform.Data
         public DbSet<BoardModel> Board { get; set; }
         public DbSet<FileModel> File { get; set; }
         public DbSet<CarouselItemModel> CarouselItem { get; set; }
-        public DbSet<SupportPageModel> SupportPage { get; set; }
+        public DbSet<SupportDetail> SupportDetail { get; set; }
         public DbSet<ContactModel> Contact { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

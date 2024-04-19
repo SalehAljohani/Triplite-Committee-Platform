@@ -5,21 +5,37 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>CollegeModel</h4>
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong>@Model?.CollegeName</strong></h3>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CollegeName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CollegeName)
-        </dd>
-    </dl>
+    <div>
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Department Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.Departments != null)
+                {
+                    var count = 0;
+                    @foreach (var item in ViewBag.Departments)
+                    {
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td>@item.DeptName</td>
+                        </tr>
+                        count++;
+                    }
+                }
+            </tbody>
+        </table>
+        <dl class="row ps-5">
+        </dl>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.CollegeNo">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="text-center">
+    <a asp-action="Edit" class="btn btn-primary me-3" asp-route-id="@Model?.CollegeNo">Edit College</a>
+    <a asp-action="Index" class="btn btn-secondary ms-3">Back to List</a>
 </div>

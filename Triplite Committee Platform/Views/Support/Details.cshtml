@@ -1,0 +1,39 @@
+﻿@model Triplite_Committee_Platform.Models.ContactModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Request Details</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">@Model.Email</dd>
+
+        <dt class="col-sm-3">Subject</dt>
+        <dd class="col-sm-9">@Model.Subject</dd>
+
+
+        <dt class="col-sm-3">Message</dt>
+        <dd class="col-sm-7 text-break">@Model.Message</dd>
+        <dd class="col-sm-2"></dd>
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">
+            @if (Model.Status)
+            {
+                <span class="text-success">Solved</span>
+            }
+            else
+            {
+                <span class="text-danger">Not Solved</span>
+            }
+
+        </dd>
+    </dl>
+</div>
+
+<a asp-action="Index" class="text-primary">Back to List</a>

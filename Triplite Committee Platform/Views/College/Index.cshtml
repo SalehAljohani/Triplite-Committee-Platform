@@ -5,40 +5,61 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
 @if (TempData["DeleteMessage"] != null)
 {
     <div class="alert alert-success" role="alert">
         @TempData["DeleteMessage"]
     </div>
 }
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CollegeName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CollegeName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CollegeNo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CollegeNo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CollegeNo">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="card p-3 mt-5 w-75 mx-auto">
+    <div class=""></div>
+    <h2 class="ms-5">College List</h2>
+    <div class="col-sm-3 mt-3 text-center">
+        <a asp-action="Create" class="text-decoration-none text-light btn btn-primary">Create New College</a>
+    </div>
+    <hr />
+    <table class="table align-middle mb-0 bg-white" id="DTable">
+        <thead class="bg-darck">
+            <tr>
+                <th>Colleg Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">@Html.DisplayFor(modelItem => item.CollegeName)</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <a asp-action="Edit" asp-route-id="@item.CollegeNo" class="btn btn-primary btn-md">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.CollegeNo" class="btn btn-secondary btn-md">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.CollegeNo" class="btn btn-danger btn-md">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.min.css" />
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#DTable').DataTable({
+
+        });
+    });
+</script>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

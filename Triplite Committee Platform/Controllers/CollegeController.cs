@@ -37,6 +37,7 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 return NotFound();
             }
+            ViewData["Departments"] = _context.Department.Where(d => d.CollegeNo == id).ToList();
 
             var collegeModel = await _context.College
                 .FirstOrDefaultAsync(m => m.CollegeNo == id);

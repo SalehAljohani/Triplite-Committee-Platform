@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Triplite_Committee_Platform.Models
 {
-    public class SupportPageModel
+    public class SupportDetail
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

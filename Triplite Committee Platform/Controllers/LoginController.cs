@@ -151,8 +151,7 @@ namespace Triplite_Committee_Platform.Controllers
 
         public IActionResult Support()
         {
-            ViewData["SupportDetails"] = _context.SupportPage.FirstOrDefault();
-
+            ViewData["SupportDetails"] = _context.SupportDetail.FirstOrDefault();
             return View();
         }
 
@@ -171,7 +170,7 @@ namespace Triplite_Committee_Platform.Controllers
             TempData["SuccessMessage"] = "Thank you for contacting us. We will get back to you soon.";
 
             ModelState.Clear();
-            ViewData["SupportDetails"] = _context.SupportPage.FirstOrDefault();
+            ViewData["SupportDetails"] = _context.SupportDetail.FirstOrDefault();
             return View("Support");
         }
 
