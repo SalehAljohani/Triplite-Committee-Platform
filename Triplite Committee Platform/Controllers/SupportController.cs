@@ -1,20 +1,38 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Triplite_Committee_Platform.Data;
+using Triplite_Committee_Platform.Models;
 
 namespace Triplite_Committee_Platform.Controllers
 {
     public class SupportController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<UserModel> _userManager;
 
-        public SupportController(AppDbContext context)
+        public SupportController(AppDbContext context, UserManager<UserModel> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public async Task<IActionResult> Index()
         {
-            ViewData["Requests"] = await _context.Contact.ToListAsync();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (user.EmailConfirmed == false)
+            {
+                return RedirectToAction("Index", "ConfirmEmail");
+            }
+            var roleVerify = await _userManager.GetRolesAsync(user);
+            if (roleVerify != null && roleVerify.Count > 1)
+            {
+                return RedirectToAction("ChooseRole", "ChooseRole");
+            }
             return View(await _context.Contact.ToListAsync());
         }
 

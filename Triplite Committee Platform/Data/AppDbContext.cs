@@ -28,12 +28,6 @@ namespace Triplite_Committee_Platform.Data
             modelBuilder.Entity<UserModel>()
                 .HasIndex(u => u.EmployeeID)
                 .IsUnique();
-
-            modelBuilder.Entity<BoardModel>()
-                .HasOne(b => b.Scholarship)
-                .WithMany()
-                .HasForeignKey(b => b.National_ID)
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

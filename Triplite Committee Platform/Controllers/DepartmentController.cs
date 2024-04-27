@@ -23,6 +23,20 @@ namespace Triplite_Committee_Platform.Controllers
         // GET: Department
         public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (user.EmailConfirmed == false)
+            {
+                return RedirectToAction("Index", "ConfirmEmail");
+            }
+            var roleVerify = await _userManager.GetRolesAsync(user);
+            if (roleVerify != null && roleVerify.Count > 1)
+            {
+                return RedirectToAction("ChooseRole", "ChooseRole");
+            }
             return RedirectToAction("Index", "College");
         }
 

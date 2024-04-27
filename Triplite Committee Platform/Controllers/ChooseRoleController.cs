@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 using Triplite_Committee_Platform.Models;
+using Triplite_Committee_Platform.ViewModels;
 
 namespace Triplite_Committee_Platform.Controllers
 {
@@ -10,7 +12,7 @@ namespace Triplite_Committee_Platform.Controllers
     public class ChooseRoleController : Controller
     {
         private readonly UserManager<UserModel> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager; // might delete this since there is no use of it, it was there for testing a method of listing roles
+        private readonly RoleManager<IdentityRole> _roleManager;
         private IHttpContextAccessor _httpContextAccessor;
 
         public ChooseRoleController(UserManager<UserModel> userManager, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor)
@@ -20,13 +22,8 @@ namespace Triplite_Committee_Platform.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> ChooseRole(AccountViewModel model) // commented validation for testing
+        public async Task<IActionResult> Index()
         {
-            if (User?.Identity?.IsAuthenticated == false)
-            {
-                return RedirectToPage("/Account/Login"); // Redirect to login if not authenticated
-            }
-
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -36,17 +33,65 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 return RedirectToAction("Index", "ConfirmEmail");
             }
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles != null && roles.Count > 1)
+            {
+                return RedirectToAction("ChooseRole");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public async Task<IActionResult> ChooseRole()
+        {
+            var user = await _userManager.GetUserAsync(User);
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            var viewModel = new AccountViewModel(_httpContextAccessor);
+            var viewModel = new ChooseRoleViewModel
+            {
+                Roles = roles.ToList()
+            };
 
-            viewModel.Roles = roles;
+            ViewData["Roles"] = new SelectList(viewModel.Roles);
+            return View();
+        }
 
-            viewModel.SelectedRole = model.SelectedRole;
-            viewModel.SetRoleCookie(model.SelectedRole);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChooseRole(ChooseRoleViewModel model)
+        {
+            if (model == null || string.IsNullOrEmpty(model.SelectedRole))
+            {
+                TempData["Message"]= "Please select a role";
+                return RedirectToAction(nameof(Index));
+            }
 
-            return View(viewModel);
+            var user = await _userManager.GetUserAsync(User);
+            if(user == null)
+            {
+                TempData["Message"] = "Unable to load user";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles == null || roles.Count < 2)
+            {
+                TempData["Message"] = "User does not have multiple roles";
+                return RedirectToAction(nameof(Index));
+            }
+            if (!roles.Contains(model.SelectedRole))
+            {
+                TempData["Message"] = "You dont have permission for this role";
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                HttpContext.Session.SetString("ActiveRole", model.SelectedRole);
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }

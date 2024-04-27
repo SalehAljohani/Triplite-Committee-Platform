@@ -1,0 +1,41 @@
+﻿@model Triplite_Committee_Platform.ViewModels.ChooseRoleViewModel
+@{
+    ViewData["Title"] = "Choose Role";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["Message"]
+    </div>
+}
+
+<div class="card w-50 mx-auto mt-3">
+    <div class="card-header text-center">
+        <strong class="me-3">Choose Role</strong>
+    </div>
+    <form asp-action="ChooseRole" asp-controller="ChooseRole" method="post">
+        <div class="text-center mt-3 mb-4">
+            <strong>Please select a role to access the platform. Don't worry, you can change it at any time later.</strong>
+        </div>
+        <div class="row mb-4">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-6">
+                <select asp-for="SelectedRole" class="form-select text-center" asp-items="@ViewBag.Roles">
+                    <option value="" disabled selected>Select Role</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <input type="submit" class="btn btn-primary" value="Submit" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

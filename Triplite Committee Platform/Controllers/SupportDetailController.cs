@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +16,32 @@ namespace Triplite_Committee_Platform.Controllers
     public class SupportDetailController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<UserModel> _userManager;
 
-        public SupportDetailController(AppDbContext context)
+        public SupportDetailController(AppDbContext context, UserManager<UserModel> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: SupportDetail
         public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (user.EmailConfirmed == false)
+            {
+                return RedirectToAction("Index", "ConfirmEmail");
+            }
+
+            var roleVerify = await _userManager.GetRolesAsync(user);
+            if (roleVerify != null && roleVerify.Count > 1)
+            {
+                return RedirectToAction("ChooseRole", "ChooseRole");
+            }
             return View(await _context.SupportDetail.ToListAsync());
         }
 
