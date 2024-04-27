@@ -17,7 +17,7 @@ namespace Triplite_Committee_Platform.Models
         public List<FileModel>? File { get; set; }
 
         [Required(ErrorMessage = "Student National ID is Required.")]
-        public int National_ID { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Request Date is Required.")]
         public DateTime ReqDate { get; set; }
@@ -31,6 +31,6 @@ namespace Triplite_Committee_Platform.Models
 
         [ForeignKey("ReqTypeID")] public RequestTypeModel? RequestType { get; set; }
 
-        [ForeignKey("National_ID")] public ScholarshipModel? Scholarship { get; set; }
+        [ForeignKey("Id")] public ScholarshipModel? Scholarship { get; set; }
     }
 }

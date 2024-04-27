@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Diagnostics;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
@@ -26,11 +27,31 @@ namespace Triplite_Committee_Platform.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var userEmail = await _userManager.GetUserAsync(User);
-            if (userEmail.EmailConfirmed == false)
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
             {
+                return RedirectToAction("Login", "Account");
+            }
+            if (user.EmailConfirmed == false)
+            {
+                TempData["Message"] = "You need to confirm your email before proceeding.";
                 return RedirectToAction("Index", "ConfirmEmail");
             }
+            var roleVerify = await _userManager.GetRolesAsync(user);
+            if (roleVerify.Count > 1)
+            {
+                var activeRole = HttpContext.Session.GetString("ActiveRole");
+                if (string.IsNullOrEmpty(activeRole) || !roleVerify.Contains(activeRole))
+                {
+                    TempData["Message"] = "Please select your active role.";
+                    return RedirectToAction("ChooseRole", "ChooseRole");
+                }
+            }
+            else if (roleVerify.Count == 1 && HttpContext.Session.GetString("ActiveRole") == null)
+            {
+                HttpContext.Session.SetString("ActiveRole", roleVerify[0]);
+            }
+
             return View();
         }
 

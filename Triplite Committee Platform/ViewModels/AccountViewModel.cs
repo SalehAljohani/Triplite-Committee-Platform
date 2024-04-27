@@ -1,22 +1,15 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using Triplite_Committee_Platform.Models;
 
-public class AccountViewModel
+namespace Triplite_Committee_Platform.ViewModels
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public AccountViewModel(IHttpContextAccessor httpContextAccessor)
+    public class AccountViewModel : UserModel
     {
-        _httpContextAccessor = httpContextAccessor;
-    }
+        public IList<string?> ListRoles { get; set; }
 
-    public IList<string> Roles { get; set; }
-    public string SelectedRole { get; set; }
-
-    public IActionResult SetRoleCookie(string role) // This method is not secure should switch to Session ***IMPORTANT***
-    {
-        // Set the cookie
-        _httpContextAccessor.HttpContext.Response.Cookies.Append("SelectedRole", role, new CookieOptions { HttpOnly = true });
-
-        return new RedirectToActionResult("Index", "Home", null);
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string? Password { get; set; }
     }
 }

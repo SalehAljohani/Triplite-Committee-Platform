@@ -26,10 +26,19 @@ namespace Triplite_Committee_Platform.Controllers
         // GET: Role List
         public async Task<IActionResult> Index()
         {
-            var userEmail = await _userManager.GetUserAsync(User);
-            if (userEmail.EmailConfirmed == false)
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (user.EmailConfirmed == false)
             {
                 return RedirectToAction("Index", "ConfirmEmail");
+            }
+            var roleVerify = await _userManager.GetRolesAsync(user);
+            if (roleVerify != null && roleVerify.Count > 1)
+            {
+                return RedirectToAction("ChooseRole", "ChooseRole");
             }
             var role = await _roleManager.Roles.ToListAsync();
             return View(role);

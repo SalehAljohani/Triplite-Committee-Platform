@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Triplite_Committee_Platform.Data;
 
@@ -11,9 +12,11 @@ using Triplite_Committee_Platform.Data;
 namespace Triplite_Committee_Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240424092738_Update_Scholarship")]
+    partial class Update_Scholarship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,7 +169,7 @@ namespace Triplite_Committee_Platform.Migrations
                     b.Property<int>("DeptNo")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("National_ID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReqDate")
@@ -184,7 +187,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasIndex("DeptNo");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("National_ID");
 
                     b.HasIndex("ReqTypeID");
 
@@ -635,7 +638,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasOne("Triplite_Committee_Platform.Models.ScholarshipModel", "Scholarship")
                         .WithMany("Board")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("National_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

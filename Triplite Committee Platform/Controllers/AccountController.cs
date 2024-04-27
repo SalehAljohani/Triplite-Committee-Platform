@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
@@ -11,7 +12,7 @@ using Triplite_Committee_Platform.ViewModels;
 
 namespace Triplite_Committee_Platform.Controllers
 {
-    //[Authorize]
+    [Authorize(Roles = "Admin")]
     public class AccountController : Controller
     {
         private readonly EmailSender _emailSender;
@@ -45,19 +46,28 @@ namespace Triplite_Committee_Platform.Controllers
 
         public async Task<ActionResult> Index()
         {
-            //var userEmail = await _userManager.GetUserAsync(User);
-            //if (userEmail.EmailConfirmed == false) 
-            //{ 
-            //    return RedirectToAction("Index", "ConfirmEmail");
-            //}
+            var userVerify = await _userManager.GetUserAsync(User);
+            if (userVerify == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (userVerify.EmailConfirmed == false)
+            {
+                return RedirectToAction("Index", "ConfirmEmail");
+            }
+            var roleVerify = await _userManager.GetRolesAsync(userVerify);
+            if (roleVerify != null && roleVerify.Count > 1)
+            {
+                return RedirectToAction("ChooseRole", "ChooseRole");
+            }
 
             var users = await _userManager.Users.ToListAsync();
-            var userRolesViewModel = new List<UserRolesViewModel>();
+            var AccountViewModel = new List<AccountViewModel>();
 
 
             foreach (var user in users)
             {
-                var thisViewModel = new UserRolesViewModel();
+                var thisViewModel = new AccountViewModel();
                 var roles = await _userManager.GetRolesAsync(user);
                 thisViewModel.Id = user.Id;
                 thisViewModel.Name = user.Name;
@@ -68,10 +78,10 @@ namespace Triplite_Committee_Platform.Controllers
                 thisViewModel.Department = await _context.Department.FirstOrDefaultAsync(d => d.DeptNo == user.DeptNo);
                 thisViewModel.ListRoles = roles;
 
-                userRolesViewModel.Add(thisViewModel);
+                AccountViewModel.Add(thisViewModel);
             }
 
-            return View(userRolesViewModel);
+            return View(AccountViewModel);
         }
 
         // GET: Department/Details/5
@@ -88,7 +98,7 @@ namespace Triplite_Committee_Platform.Controllers
             }
             var roles = await _userManager.GetRolesAsync(user);
 
-            var thisViewModel = new UserRolesViewModel();
+            var thisViewModel = new AccountViewModel();
             thisViewModel.Id = user.Id;
             thisViewModel.Name = user.Name;
             thisViewModel.EmployeeID = user.EmployeeID;
@@ -114,95 +124,95 @@ namespace Triplite_Committee_Platform.Controllers
         //POST: Department/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(UserRolesViewModel userRolesViewModel, List<string> ListRoles)
+        public async Task<IActionResult> Create(AccountViewModel accountViewModel, List<string> ListRoles)
         {
-            var department = userRolesViewModel.Department;
+            var department = accountViewModel.Department;
             if (ModelState.IsValid)
             {
-                var user = new UserRolesViewModel();
+                var user = new AccountViewModel();
 
 
-                if (userRolesViewModel.Name != null)
+                if (accountViewModel.Name != null)
                 {
-                    var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Name == userRolesViewModel.Name);
+                    var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Name == accountViewModel.Name);
                     if (existingUser == null)
                     {
-                        user.Name = userRolesViewModel.Name;
+                        user.Name = accountViewModel.Name;
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, "User with this Name already exists.");
                         await PopulateDepartmentsAndRoles();
-                        return View(userRolesViewModel);
+                        return View(accountViewModel);
                     }
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Name is required.");
                     await PopulateDepartmentsAndRoles();
-                    return View(userRolesViewModel);
+                    return View(accountViewModel);
                 }
-                if (userRolesViewModel.EmployeeID != null)
+                if (accountViewModel.EmployeeID != null)
                 {
-                    var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.EmployeeID == userRolesViewModel.EmployeeID);
+                    var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.EmployeeID == accountViewModel.EmployeeID);
                     if (existingUser != null)
                     {
                         ModelState.AddModelError(string.Empty, "User with this Employee ID already exists.");
                         await PopulateDepartmentsAndRoles();
-                        return View(userRolesViewModel);
+                        return View(accountViewModel);
                     }
-                    user.EmployeeID = userRolesViewModel.EmployeeID;
+                    user.EmployeeID = accountViewModel.EmployeeID;
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Employee ID is required.");
                     await PopulateDepartmentsAndRoles();
-                    return View(userRolesViewModel);
+                    return View(accountViewModel);
                 }
-                if (userRolesViewModel.Email != null)
+                if (accountViewModel.Email != null)
                 {
-                    var existingEmail = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == userRolesViewModel.Email);
+                    var existingEmail = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == accountViewModel.Email);
                     if (existingEmail != null)
                     {
                         ModelState.AddModelError(string.Empty, "Email already exists.");
                         await PopulateDepartmentsAndRoles();
-                        return View(userRolesViewModel);
+                        return View(accountViewModel);
                     }
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Email is required.");
                     await PopulateDepartmentsAndRoles();
-                    return View(userRolesViewModel);
+                    return View(accountViewModel);
                 }
-                if (userRolesViewModel.PhoneNumber != null)
+                if (accountViewModel.PhoneNumber != null)
                 {
-                    user.PhoneNumber = userRolesViewModel.PhoneNumber;
+                    user.PhoneNumber = accountViewModel.PhoneNumber;
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Phone Number is required.");
                     await PopulateDepartmentsAndRoles();
-                    return View(userRolesViewModel);
+                    return View(accountViewModel);
                 }
-                if (userRolesViewModel.DeptNo != null)
+                if (accountViewModel.DeptNo != null)
                 {
-                    user.Department = await _context.Department.FirstOrDefaultAsync(d => d.DeptNo == userRolesViewModel.DeptNo);
+                    user.Department = await _context.Department.FirstOrDefaultAsync(d => d.DeptNo == accountViewModel.DeptNo);
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Department is required.");
                     await PopulateDepartmentsAndRoles();
-                    return View(userRolesViewModel);
+                    return View(accountViewModel);
                 }
                 if (ListRoles == null)
                 {
                     ModelState.AddModelError(string.Empty, "Please Select at Least ONE Role.");
                     await PopulateDepartmentsAndRoles();
-                    return View(userRolesViewModel);
+                    return View(accountViewModel);
                 }
-                await _userStore.SetUserNameAsync(user, userRolesViewModel.EmployeeID, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, userRolesViewModel.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, accountViewModel.EmployeeID, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, accountViewModel.Email, CancellationToken.None);
 
                 var result = await _userManager.CreateAsync(user);
 
@@ -214,7 +224,7 @@ namespace Triplite_Committee_Platform.Controllers
                         {
                             ModelState.AddModelError(string.Empty, "Please select at least one role.");
                             await PopulateDepartmentsAndRoles();
-                            return View(userRolesViewModel);
+                            return View(accountViewModel);
                         }
 
                         foreach (var role in ListRoles)
@@ -229,14 +239,14 @@ namespace Triplite_Committee_Platform.Controllers
                         {
                             ModelState.AddModelError(string.Empty, "Please select at least one role.");
                             await PopulateDepartmentsAndRoles();
-                            return View(userRolesViewModel);
+                            return View(accountViewModel);
                         }
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, "Please select at least one role.");
                         await PopulateDepartmentsAndRoles();
-                        return View(userRolesViewModel);
+                        return View(accountViewModel);
                     }
 
                     // Send email confirmation
@@ -260,7 +270,7 @@ namespace Triplite_Committee_Platform.Controllers
             // If we got this far, something failed, redisplay form
             await PopulateDepartmentsAndRoles();
             TempData["Error"] = "User creation failed.";
-            return View(userRolesViewModel);
+            return View(accountViewModel);
         }
 
         // GET: Department/Edit/5
@@ -437,7 +447,7 @@ namespace Triplite_Committee_Platform.Controllers
             }
             var roles = await _userManager.GetRolesAsync(user);
 
-            var thisViewModel = new UserRolesViewModel();
+            var thisViewModel = new AccountViewModel();
             thisViewModel.Id = user.Id;
             thisViewModel.Name = user.Name;
             thisViewModel.EmployeeID = user.EmployeeID;
@@ -506,35 +516,6 @@ namespace Triplite_Committee_Platform.Controllers
             }
             return (IUserEmailStore<UserModel>)_userStore;
         }
-
-        // GenerateRandomPassword generate random password for user when creating new user
-
-        //private string GenerateRandomPassword()
-        //{
-        //    const string validChars = "!$#@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        //    const string validDigits = "1234567890";
-        //    using (var rng = RandomNumberGenerator.Create())
-        //    {
-        //        var bytes = new byte[8];
-        //        rng.GetBytes(bytes);
-        //        var result = new char[8];
-        //        for (int i = 0; i < 8; i++)
-        //        {
-        //            if (i == 0)
-        //            {
-        //                result[i] = validDigits[bytes[i] % validDigits.Length];
-        //            }
-        //            else
-        //            {
-        //                result[i] = validChars[bytes[i] % validChars.Length];
-        //            }
-        //        }
-        //        return new string(result);
-        //    }
-        //}
-
-        // UserExists check if user exists simply :)
-        // using userManager which is method of IdentityUser 
         private bool UserExists(string id)
         {
             return _userManager.Users.Any(u => u.Id == id);
