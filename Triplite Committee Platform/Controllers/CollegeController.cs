@@ -7,7 +7,7 @@ using Triplite_Committee_Platform.Models;
 
 namespace Triplite_Committee_Platform.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class CollegeController : Controller
     {
         private readonly AppDbContext _context;
@@ -22,11 +22,11 @@ namespace Triplite_Committee_Platform.Controllers
         // GET: ManageCollege
         public async Task<IActionResult> Index()
         {
-            var userEmail = await _userManager.GetUserAsync(User);
-            if (userEmail.EmailConfirmed == false)
-            {
-                return RedirectToAction("Index", "ConfirmEmail");
-            }
+            //var userEmail = await _userManager.GetUserAsync(User);
+            //if (userEmail.EmailConfirmed == false)
+            //{
+            //    return RedirectToAction("Index", "ConfirmEmail");
+            //}
             return View(await _context.College.ToListAsync());
         }
 

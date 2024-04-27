@@ -5,7 +5,44 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong>Support Details</strong></h3>
+    <hr />
+    <div class="card-body">
+        <dl class="row g-3">
+
+            <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.ContactEmail)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.ContactEmail)</dd>
+            <hr />
+            
+            <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.PhoneNumber)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.PhoneNumber)</dd>
+            <hr />
+            
+            <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.TeleNumber)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.TeleNumber)</dd>
+            <hr />
+            
+            <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.Location)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Location)</dd>
+            
+
+
+        </dl>
+    </div>
+</div>
+
+
+<div class="text-center">
+
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary btn-md">  Edit Details  </a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+
+    
+</div>
+
+@* <h1>Details</h1>
 
 <div>
     <h4>Support Details</h4>
@@ -40,4 +77,4 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
-</div>
+</div> *@

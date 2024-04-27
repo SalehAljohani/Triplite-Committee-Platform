@@ -5,7 +5,152 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="card p-3 mt-5 mx-auto">
+
+    <div class="row">
+        <div class="col-sm-5">
+            <strong class="fs-3">Information of support page</strong>
+        </div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-4 text-end">
+            <a asp-action="Create" class="text-decoration-none text-light btn btn-primary me-1">
+                <strong class="fs-5">Add Information</strong>
+            </a>
+        </div>
+    </div>
+    <hr />
+
+
+
+
+    <p>
+
+    </p>
+    
+
+    <table class="table align-middle  bg-white w-100 " id="DTable">
+        <thead class="bg-darck  ">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ContactEmail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TeleNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Location)
+                </th>
+                <th>
+                    Action
+                </th>
+
+            </tr>
+        </thead>
+
+
+
+        <tbody>
+
+       
+
+            @foreach (var item in Model) 
+            {
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+
+                            <div>
+                            <p class="fw-bold mb-1">@Html.DisplayFor(modelItem => item.ContactEmail)</p>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+
+                            <div>
+                            <p class="fw-bold ms-0 mb-0">@Html.DisplayFor(modelItem => item.PhoneNumber)</p>
+
+                            </div>
+                        </div>
+
+
+
+                    </td>
+                    
+                    <td>
+                        <div class="d-flex align-items-center">
+
+                            <div>
+                            <p class="fw-bold ms-0 mb-0">@Html.DisplayFor(modelItem => item.TeleNumber)</p>
+
+                            </div>
+                        </div>
+
+
+
+                    </td>
+                    
+                    <td>
+                        <div class="d-flex align-items-center">
+
+                            <div>
+                            <p class="fw-bold ms-0 mb-0">@Html.DisplayFor(modelItem => item.Location)</p>
+
+                            </div>
+                        </div>
+
+
+
+                    </td>
+                  
+
+
+
+
+                    <td>
+                        <div class="d-flex gap-1">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-md"><i class="fa-solid fa-pen fs-4"></i></a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary btn-md"><i class="fa-solid fa-circle-info fs-4"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-md"><i class="fa-solid fa-trash fs-4"></i></a>
+
+                     
+
+                        </div>
+                    </td>
+
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@* DataTable Library used to add filters to the tables *@
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.min.css" />
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#DTable').DataTable({
+
+        });
+    });
+</script>
+
+@* End of DataTable Library initialization *@
+
+
+
+
+@* <h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -51,4 +196,4 @@
         </tr>
 }
     </tbody>
-</table>
+</table> *@
