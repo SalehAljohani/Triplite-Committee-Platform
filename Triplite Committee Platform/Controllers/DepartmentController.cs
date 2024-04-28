@@ -8,7 +8,7 @@ using Triplite_Committee_Platform.Models;
 
 namespace Triplite_Committee_Platform.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class DepartmentController : Controller
     {
         private readonly AppDbContext _context;

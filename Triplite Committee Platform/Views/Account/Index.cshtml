@@ -4,7 +4,199 @@
     ViewData["Title"] = "User List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>User List</h1>
+<div class="card p-3 mt-5 mx-auto">
+
+    <div class="row">
+        <div class="col-sm-4">
+            <strong class="fs-3">Users List</strong>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-end">
+            <a asp-action="Create" class="text-decoration-none text-light btn btn-primary me-1">
+                <strong class="fs-5">Create New User</strong>
+            </a>
+        </div>
+    </div>
+    <hr />
+
+
+
+
+<p>
+
+</p>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Success"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["Error"]
+    </div>
+}
+
+    <table class="table align-middle  bg-white w-100 " id="DTable">
+        <thead class="bg-darck  ">
+        <tr>
+            <th >Name</th>
+            <th class="text-start">Employee ID</th>
+            <th>Email</th>
+            
+            <th class="text-center" >Action</th>
+
+        </tr>
+    </thead>
+
+        
+
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center">
+                            
+                        <div >
+                            <p class="fw-bold mb-1">@user.Name</p>
+                                
+                        </div>
+                    </div>
+                </td>
+                <td>
+                        <div class="d-flex align-items-center">
+
+                            <div>
+                                <p class="fw-bold ms-0 mb-0">@user.EmployeeID</p>
+
+                            </div>
+                        </div>
+
+                        
+                    
+                </td>
+                <td>
+                        <div class="d-flex align-items-center">
+
+                            <div >
+                                <p class="text-muted mb-0">@user.Email</p>
+                                @if (@user.EmailConfirmed)
+                                {
+                                    <span class="text-success rounded-pill d-inline fw-normal mb-1">Confirmed</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger rounded-pill d-inline fw-normal mb-1">Unconfirmed</span>
+                                }
+
+                            </div>
+                        </div>
+
+                    
+                </td>
+
+                
+
+                
+                <td>
+                        <div class="d-flex gap-1">
+                            <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-primary btn-md"><i class="fa-solid fa-pen fs-4"></i></a>
+                            <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-secondary btn-md"><i class="fa-solid fa-circle-info fs-4"></i></a>
+                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger btn-md"><i class="fa-solid fa-trash fs-4"></i></a>
+                        </div>
+                </td>
+
+
+            </tr>
+
+        }
+    </tbody>
+</table>
+</div>
+
+
+@* DataTable Library used to add filters to the tables *@
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.min.css" />
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#DTable').DataTable({
+
+        });
+    });
+</script>
+
+@* End of DataTable Library initialization *@
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+
+   @*  ////////////////////////////////////////
+
+
+    <div class="card p-3 mt-5 w-75 mx-auto">
+    <div class="row">
+        <div class="col-sm-4">
+            <strong class="fs-3">College List</strong>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-end">
+            <a asp-action="Create" class="text-decoration-none text-light btn btn-primary me-1">
+                <strong class="fs-5">Create New College</strong>
+            </a>
+        </div>
+    </div>
+    <hr />
+    <table class="table align-middle mb-0 bg-white" id="DTable">
+        <thead class="bg-darck">
+            <tr>
+                <th>Colleg Name</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">@Html.DisplayFor(modelItem => item.CollegeName)</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center">
+                            <a asp-action="Create" asp-controller="Department" asp-route-id="@item.CollegeNo" class="btn btn-success btn-md"><i class="fa-solid fa-plus fs-4"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.CollegeNo" class="btn btn-primary btn-md"><i class="fa-solid fa-pen fs-4"></i></a>
+                            <a asp-action="Details" asp-route-id="@item.CollegeNo" class="btn btn-secondary btn-md"><i class="fa-solid fa-circle-info fs-4"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.CollegeNo" class="btn btn-danger btn-md"><i class="fa-solid fa-trash fs-4"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div> *@
+
+
+
+
+@*     ////////////////////////////////////////
+ *@
+
+@* <h1>User List</h1>
 <p>
     <a asp-action="Create">Create New User</a>
 </p>
@@ -55,9 +247,4 @@
             </tr>
         }
     </tbody>
-</table>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+</table> *@

@@ -5,7 +5,54 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong>Add Depatrment</strong></h3>
+    <hr />
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+
+            <form asp-action="Create">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="row g-3 align-items-center mt-2">
+                    <div class="col-2"></div>
+                    <div class="col-3">
+                        <label asp-for="CollegeNo" for="CName" class=" control-label col-form-label text-center">College Name</label>
+                        
+                    </div>
+                    <div class="col-7">
+                        
+                        <select asp-for="CollegeNo" class="form-control" asp-items="ViewBag.CollegeNo"></select>
+                    </div>
+                    
+                </div>
+                
+                <div class="row g-3 align-items-center mt-2">
+                    <div class="col-2"></div>
+                    <div class="col-3">
+                        <label asp-for="DeptName"  class="control-label col-form-label text-center">College Name</label>
+                        
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="DeptName"  class="form-control" />
+                        
+                    </div>
+                    <span asp-validation-for="DeptName" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-4 mb-5 text-center">
+                    <input type="submit" value="Create" class="btn btn-primary w-25" />
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+
+
+@* <h1>Create</h1>
 
 <h4>DepartmentModel</h4>
 <hr />
@@ -32,7 +79,7 @@
 <div>
     <a asp-action="Index" asp-controller="College">Back to List</a>
 </div>
-
+ *@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

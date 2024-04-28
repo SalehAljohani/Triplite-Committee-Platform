@@ -4,7 +4,34 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete Role</h2>
+<div class="card w-50 mx-auto mt-3 rounded-4">
+
+    <h3 class="mt-4 text-center"><strong class="text-uppercase">Are you sure you want to delete <span class="text-danger">[@Model.Name]</span> Role?</strong></h3>
+
+
+    <hr />
+    <div class="card-body">
+        <dl class="row g-3">
+
+            <dt class="col-sm-4 fw-bold">Role Name</dt>
+            <dd class="col-sm-8">@Model.Name</dd>
+            <hr />
+        </dl>
+    </div>
+</div>
+
+
+<div class="text-center">
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </form>
+
+</div>
+
+@* <h2>Delete Role</h2>
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Role</h4>
@@ -25,4 +52,4 @@
             <a asp-action="Index" class="btn btn-secondary">Back to List</a>
         </div>
     </form>
-</div>
+</div> *@
