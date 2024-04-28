@@ -28,11 +28,6 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 return RedirectToAction("Index", "ConfirmEmail");
             }
-            var roleVerify = await _userManager.GetRolesAsync(user);
-            if (roleVerify != null && roleVerify.Count > 1)
-            {
-                return RedirectToAction("ChooseRole", "ChooseRole");
-            }
             return View(await _context.Contact.ToListAsync());
         }
 

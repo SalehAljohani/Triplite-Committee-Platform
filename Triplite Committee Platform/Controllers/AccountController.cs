@@ -55,11 +55,11 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 return RedirectToAction("Index", "ConfirmEmail");
             }
-            var roleVerify = await _userManager.GetRolesAsync(userVerify);
-            if (roleVerify != null && roleVerify.Count > 1)
-            {
-                return RedirectToAction("ChooseRole", "ChooseRole");
-            }
+            //var roleVerify = await _userManager.GetRolesAsync(userVerify);
+            //if (roleVerify != null && roleVerify.Count > 1)
+            //{
+            //    return RedirectToAction("ChooseRole", "ChooseRole");
+            //}
 
             var users = await _userManager.Users.ToListAsync();
             var AccountViewModel = new List<AccountViewModel>();
@@ -472,6 +472,10 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (_userManager.GetUsersInRoleAsync("Admin").Result.Count() > 1)
                     {
+                        if (user.Id == _userManager.GetUserId(User))
+                        {
+                            await _signInManager.SignOutAsync();
+                        }
                         await _userManager.DeleteAsync(user);
                     }
                     else

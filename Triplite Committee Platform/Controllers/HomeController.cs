@@ -30,7 +30,7 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Login");
             }
             if (user.EmailConfirmed == false)
             {
