@@ -28,7 +28,7 @@
     </p>
     
 
-    <table class="table align-middle  bg-white w-100 " id="DTable">
+    <table class="table align-middle  bg-white w-100 table-striped " id="DTable">
         <thead class="bg-darck  ">
             <tr>
                 <th>
@@ -106,16 +106,16 @@
 
 
                     </td>
-                  
 
 
 
+         
 
                     <td>
                         <div class="d-flex gap-1">
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-md"><i class="fa-solid fa-pen fs-4"></i></a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary btn-md"><i class="fa-solid fa-circle-info fs-4"></i></a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-md"><i class="fa-solid fa-trash fs-4"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md "><i class="fa-solid fa-pen fs-4 text-primary "></i></a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md"><i class="fa-solid fa-circle-info  fs-4 text-secondary"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md"><i class="fa-solid fa-trash fs-4 text-danger "></i></a>
 
                      
 

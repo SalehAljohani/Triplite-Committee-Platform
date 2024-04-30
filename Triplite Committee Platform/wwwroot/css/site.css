@@ -62,6 +62,12 @@ aside.left-panel {
         overflow-x: scroll;
     }
 
+#iconhover:hover {
+    background-color: rgba(101, 101, 101, 0.2);
+}
+
+
+
 .open aside.left-panel:hover {
     overflow-x: inherit;
 }
@@ -79,6 +85,14 @@ aside.left-panel {
     padding: 0;
     vertical-align: top;
 }
+
+
+.custom-tooltip {
+    background-color: rgba(0, 29, 255, 0.8);
+    color: rgba(0, 29, 255, 0.8);
+    font-size: 17px;
+}
+
 
     .navbar .menu-title {
         color: #41434d;
