@@ -5,28 +5,44 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (TempData["DeleteMessage1"] != null)
+@if (TempData["Message"] != null)
 {
     <div class="row">
         <div class="col-sm-4"></div>
         <div class="alert alert-danger col-sm-4 text-center" role="alert">
-            @TempData["DeleteMessage1"]
-            <br />
-            <br />
-            @TempData["DeleteMessage2"]
-
+            @TempData["Message"]
         </div>
         <div class="col-sm-4"></div>
     </div>
 }
+@if (ViewData["UserMessage"] != null)
+{
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-center border-0 rounded-4 alert alert-danger" role="alert">
+            <br />
+            <strong class="fs-5 text-danger">@ViewData["UserMessage"]</strong>
+            <a asp-action="Index" asp-controller="Account" class="btn btn-danger w-auto mx-auto mt-5 mb-3">View Users List</a>
+        </div>
+        <div class="col-sm-4"></div>
+        <br />
+    </div>
+}
 
 <div class="card w-50 mx-auto mt-3 rounded-4">
-    <h3 class="mt-4 text-center"><strong class="text-uppercase">Are you sure you want to delete  <span class="text-danger"> @Html.DisplayFor(model => model.DeptName)</span> Department?</strong></h3>
-    <p class=" text-uppercase text-center text-dark fw-bold mt-5">This Department belongs to the <span class="text-danger">@Html.DisplayFor(model => model.College.CollegeName)</span> College!</p>
+    <h3 class="mt-4 text-center"><strong class="text-uppercase">Are you sure you want to delete  <span class="text-danger">@Model?.DeptName</span> Department?</strong></h3>
+    <p class=" text-uppercase text-center text-dark fw-bold mt-5">This Department belongs to the <span class="text-danger">@Model?.DeptName</span> College!</p>
     <div class="text-center pb-3"> 
     <form asp-action="Delete">
         <input type="hidden" asp-for="DeptNo" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> 
+            @if (ViewData["UserMessage"] != null)
+            {
+                <input disabled value="Delete" class="btn btn-secondary" />
+            }
+            else
+            {
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            }
         
     </form>
     </div>

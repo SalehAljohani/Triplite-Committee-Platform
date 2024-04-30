@@ -14,12 +14,9 @@
         </div>
         <div class="col-sm-4"></div>
         <div class="col-sm-4 text-end">
-            
         </div>
     </div>
     <hr />
-
-
     @if (TempData["Message"] != null)
     {
         <div class="row">
@@ -29,20 +26,16 @@
             </div>
             <div class="col-4"></div>
         </div>
-
     }
-
     <table class="table align-middle  bg-white w-100 " id="DTable">
         <thead class="bg-darck ">
             <tr>
-                
                 <th>Name</th>
                 <th>Email</th>
                 <th>Subject</th>
                 <th>Message</th>
                 <th>Status</th>
                 <th>Actions</th>
-               
             </tr>
         </thead>
 
@@ -56,18 +49,7 @@
                         <div class="d-flex align-items-center">
 
                             <div>
-                                <p class="fw-bold mb-1">@Html.DisplayFor(modelItem => item.Name)</p>
-
-                            </div>
-                        </div>
-                    </td>
-
-
-                    <td>
-                        <div class="d-flex align-items-center">
-
-                            <div>
-                                <p class="fw-bold ms-0 mb-0"> @Html.DisplayFor(modelItem => item.Email)</p>
+                                <p class="text-dark mb-1">@item.Name</p>
 
                             </div>
                         </div>
@@ -76,14 +58,23 @@
                         <div class="d-flex align-items-center">
 
                             <div>
-                                <p class="fw-bold ms-0 mb-0"> @Html.DisplayFor(modelItem => item.Subject)</p>
+                                <p class="text-dark ms-0 mb-0">@item.Email</p>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+
+                            <div>
+                                <p class="text-dark ms-0 mb-0">@item.Subject</p>
 
                             </div>
                         </div>
                     </td>
 
                     <td>
-                    <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center">
 
                             <div>
                                 <p class="fw-bold ms-0 mb-0 text-dark text-truncate " style="max-width: 140px;"> @item.Message</p>
@@ -115,10 +106,7 @@
                             <a asp-action="Delete" class="btn bg-opacity-10" asp-route-id="@item.Id"><i class="fa-solid fa-trash fs-4 text-danger"></i></a>
                         </div>
                     </td>
-
-
                 </tr>
-
             }
         </tbody>
     </table>

@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
+using Triplite_Committee_Platform.Services;
 
 namespace Triplite_Committee_Platform.Controllers
 {
-    //[Authorize(Roles = "Admin")]
-    public class DepartmentController : Controller
+    [Authorize(Roles = "Admin")]
+    [ValidateRole("Admin")]
+    public class DepartmentController : BaseController
     {
         private readonly AppDbContext _context;
         private readonly UserManager<UserModel> _userManager;
@@ -26,16 +28,11 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Login");
             }
             if (user.EmailConfirmed == false)
             {
                 return RedirectToAction("Index", "ConfirmEmail");
-            }
-            var roleVerify = await _userManager.GetRolesAsync(user);
-            if (roleVerify != null && roleVerify.Count > 1)
-            {
-                return RedirectToAction("ChooseRole", "ChooseRole");
             }
             return RedirectToAction("Index", "College");
         }
@@ -149,7 +146,14 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["Message"] = "Department not found.";
+                return View();
+            }
+
+            if(_context.Department.Find(id) == null)
+            {
+                TempData["Message"] = "Department not found.";
+                return View();
             }
 
             var departmentModel = await _context.Department
@@ -157,7 +161,17 @@ namespace Triplite_Committee_Platform.Controllers
                 .FirstOrDefaultAsync(m => m.DeptNo == id);
             if (departmentModel == null)
             {
-                return NotFound();
+                TempData["Message"] = "Department not found.";
+                return View();
+            }
+
+            var hasUsers = await _context.User.AnyAsync(u => u.DeptNo == id);
+
+            if (hasUsers)
+            {
+                ViewData["UserMessage"] = "Department has users. Please delete users first.";
+                
+                return View(departmentModel);
             }
 
             return View(departmentModel);
@@ -169,10 +183,18 @@ namespace Triplite_Committee_Platform.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var departmentModel = await _context.Department.FindAsync(id);
+            var hasUsers = await _context.User.AnyAsync(u => u.DeptNo == id);
+
+            if (hasUsers)
+            {
+                TempData["UserMessage"] = "Department has users. Please delete users first.";
+
+                return View(departmentModel);
+            }
             if (departmentModel != null)
             {
                 _context.Department.Remove(departmentModel);
-                TempData["DeleteMessage"] = "Department deleted successfully.";
+                ViewData["Message"] = "Department deleted successfully.";
             }
 
             await _context.SaveChangesAsync();

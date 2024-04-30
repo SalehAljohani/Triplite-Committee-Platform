@@ -16,18 +16,21 @@
         <strong>Search</strong>
     </div>
     <div class="card-body">
-        <form asp-action="Index" method="post">
-            <div class="form-group row justify-content-center">
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" name="search" placeholder="Enter search term" />
-                </div>
-                @if (ViewBag.Colleges != null)
-                {
-                    <div class="col-sm-3">
-                        <select class="form-control" asp-items="ViewBag.Colleges" name="SelectedCollege">
-                            <option value="">Select College</option>
-                        </select>
+        @if (ViewBag.ActiveRole == "Admin")
+        {
+            <form asp-action="AdminSearch" method="post">
+                <div class="form-group row justify-content-center">
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" name="search" placeholder="Enter search term" />
                     </div>
+                    @if (ViewBag.Colleges != null)
+                    {
+                        <div class="col-sm-3">
+                            <select class="form-control" asp-items="ViewBag.Colleges" name="SelectedCollege">
+                                <option value="">Select College</option>
+                            </select>
+                        </div>
+                    }
                     @if (ViewBag.Departments != null)
                     {
                         <div class="col-sm-3">
@@ -36,55 +39,42 @@
                             </select>
                         </div>
                     }
-                }
-                <div class="col-sm-1">
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+
+                    <div class="col-sm-1">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                    </div>
                 </div>
-            </div>
-        </form>
-        <br />
-        @if (Model?.Count > 0)
+            </form>
+        }
+        else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
         {
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped" id="DTable">
-                    <thead>
-                        <tr>
-                            <th>Board Number</th>
-                            <th>Name of Scholarship</th>
-                            <th>Board Date</th>
-                            <th>Board Status</th>
-                            <th>Board Type</th>
-                            <th>College</th>
-                            <th>Department</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            foreach (var board in item.Boards)
-                            {
-                                <tr>
-                                    <td>@board.BoardNo</td>
-                                    <td>@item.Name</td>
-                                    <td>@board.ReqDate</td>
-                                    <td>@board.ReqStatus</td>
-                                    <td>@board.RequestType?.RequestTypeName</td>
-                                    <td>@item.CollegeName</td>
-                                    <td>@item.DeptName</td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
+            <form asp-action="AdminSearch" method="post">
+                <div class="form-group row justify-content-center">
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" name="search" placeholder="Enter search term" />
+                    </div>
+                    @if (ViewBag.Colleges != null)
+                    {
+                        <div class="col-sm-3">
+                            <select class="form-control" asp-items="ViewBag.Colleges" name="SelectedCollege">
+                                <option value="">Select College</option>
+                            </select>
+                        </div>
+                    }
+                    @if (ViewBag.Departments != null)
+                    {
+                        <div class="col-sm-3">
+                            <select class="form-control" asp-items="ViewBag.Departments" name="SelectedDepartment">
+                                <option value="">Select Department</option>
+                            </select>
+                        </div>
+                    }
+
+                    <div class="col-sm-1">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                    </div>
+                </div>
+            </form>
         }
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('#DTable').DataTable({
-            "lengthMenu": [8, 10, 25, 50, 100]
-        });
-    });
-</script>

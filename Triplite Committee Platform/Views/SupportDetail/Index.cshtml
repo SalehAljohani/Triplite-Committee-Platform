@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="card p-3 mt-5 mx-auto">
+<div class="card p-3 mt-5 mx-auto w-75">
 
     <div class="row">
         <div class="col-sm-5">
@@ -20,28 +20,20 @@
     </div>
     <hr />
 
-
-
-
-    <p>
-
-    </p>
-    
-
-    <table class="table align-middle  bg-white w-100 table-striped " id="DTable">
-        <thead class="bg-darck  ">
+    <table class="table bg-white w-100" id="DTable">
+        <thead class="bg-dark">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.ContactEmail)
+                   Contact Email
+                </th>
+                <th class="text-start">
+                    Phone Number
+                </th>
+                <th class="text-start">
+                    Telephone Number
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TeleNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Location)
+                    Location
                 </th>
                 <th>
                     Action
@@ -63,7 +55,7 @@
                         <div class="d-flex align-items-center">
 
                             <div>
-                            <p class="fw-bold mb-1">@Html.DisplayFor(modelItem => item.ContactEmail)</p>
+                            <p class="fw-bold mb-1">@item.ContactEmail</p>
 
                             </div>
                         </div>
@@ -72,20 +64,7 @@
                         <div class="d-flex align-items-center">
 
                             <div>
-                            <p class="fw-bold ms-0 mb-0">@Html.DisplayFor(modelItem => item.PhoneNumber)</p>
-
-                            </div>
-                        </div>
-
-
-
-                    </td>
-                    
-                    <td>
-                        <div class="d-flex align-items-center">
-
-                            <div>
-                            <p class="fw-bold ms-0 mb-0">@Html.DisplayFor(modelItem => item.TeleNumber)</p>
+                            <p class="fw-bold ms-0 mb-0">@item.PhoneNumber</p>
 
                             </div>
                         </div>
@@ -98,7 +77,20 @@
                         <div class="d-flex align-items-center">
 
                             <div>
-                            <p class="fw-bold ms-0 mb-0">@Html.DisplayFor(modelItem => item.Location)</p>
+                            <p class="fw-bold ms-0 mb-0">@item.TeleNumber</p>
+
+                            </div>
+                        </div>
+
+
+
+                    </td>
+                    
+                    <td>
+                        <div class="d-flex align-items-center">
+
+                            <div>
+                            <p class="fw-bold ms-0 mb-0">@item.Location</p>
 
                             </div>
                         </div>
