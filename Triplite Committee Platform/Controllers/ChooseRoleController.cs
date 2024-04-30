@@ -27,7 +27,8 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{User.FindFirstValue(ClaimTypes.NameIdentifier)}'.");
+                TempData["Message"] = "Unable to load user";
+                return RedirectToAction("Index", "Home");
             }
             if (user.EmailConfirmed == false)
             {

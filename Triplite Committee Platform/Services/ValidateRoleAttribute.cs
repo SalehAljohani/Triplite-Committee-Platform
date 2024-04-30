@@ -5,15 +5,31 @@ namespace Triplite_Committee_Platform.Services
 {
     public class ValidateRoleAttribute : Attribute, IAuthorizationFilter
     {
+        private readonly string[] _requiredRoles;
+        public ValidateRoleAttribute(params string[] requiredRoles)
+        {
+            _requiredRoles = requiredRoles;
+        }
+
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var httpContext = context.HttpContext;
             var activeRole = httpContext.Session.GetString("ActiveRole");
 
-            if(!httpContext.User.Identity.IsAuthenticated || string.IsNullOrEmpty(activeRole) || httpContext.User.IsInRole(activeRole))
+            if (string.IsNullOrEmpty(activeRole))
             {
-                context.Result = new RedirectToActionResult("ChooseRole", "ChooseRole", null);
-            }    
+                if (httpContext.User.Claims.Count() <= 1) 
+                {
+                    return; 
+                }
+                context.Result = new RedirectToActionResult("Index", "ChooseRole", null);
+                return;
+            }
+
+            if (_requiredRoles != null && _requiredRoles.Length > 0 && !_requiredRoles.Contains(activeRole))
+            {
+                context.Result = new ForbidResult();
+            }
         }
     }
 }

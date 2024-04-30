@@ -13,7 +13,8 @@ using Triplite_Committee_Platform.ViewModels;
 namespace Triplite_Committee_Platform.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class AccountController : Controller
+    [ValidateRole("Admin")]
+    public class AccountController : BaseController
     {
         private readonly EmailSender _emailSender;
         private readonly IUserEmailStore<UserModel> _emailStore;
@@ -49,18 +50,12 @@ namespace Triplite_Committee_Platform.Controllers
             var userVerify = await _userManager.GetUserAsync(User);
             if (userVerify == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Login");
             }
             if (userVerify.EmailConfirmed == false)
             {
                 return RedirectToAction("Index", "ConfirmEmail");
             }
-            //var roleVerify = await _userManager.GetRolesAsync(userVerify);
-            //if (roleVerify != null && roleVerify.Count > 1)
-            //{
-            //    return RedirectToAction("ChooseRole", "ChooseRole");
-            //}
-
             var users = await _userManager.Users.ToListAsync();
             var AccountViewModel = new List<AccountViewModel>();
 

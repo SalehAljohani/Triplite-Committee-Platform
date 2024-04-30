@@ -7,7 +7,7 @@ using Triplite_Committee_Platform.ViewModels;
 
 namespace Triplite_Committee_Platform.Controllers
 {
-    public class SetPasswordController : Controller
+    public class SetPasswordController : BaseController
     {
         private readonly UserManager<UserModel> _userManager;
         private readonly SignInManager<UserModel> _signInManager;
