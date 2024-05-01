@@ -27,7 +27,7 @@
             <div class="col-4"></div>
         </div>
     }
-    <table class="table align-middle  bg-white w-100 " id="DTable">
+    <table class="table align-middle  table-striped bg-white w-100 " id="DTable">
         <thead class="bg-darck ">
             <tr>
                 <th>Name</th>
@@ -101,9 +101,9 @@
 
                     <td>
                         <div class="d-flex gap-1">
-                            <a asp-action="Details" class="btn bg-opacity-10" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info fs-4 text-primary"></i></a>
-                            <a asp-action="Solved" class="btn bg-opacity-10" asp-route-id="@item.Id"><i class="fa-solid fa-circle-check fs-4 text-success"></i></a>
-                            <a asp-action="Delete" class="btn bg-opacity-10" asp-route-id="@item.Id"><i class="fa-solid fa-trash fs-4 text-danger"></i></a>
+                            <a asp-action="Details" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Details" id="iconhover" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info fs-4 text-primary"></i></a>
+                            <a asp-action="Solved" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Solved" id="iconhover" asp-route-id="@item.Id"><i class="fa-solid fa-circle-check fs-4 text-success"></i></a>
+                            <a asp-action="Delete" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete" id="iconhover" asp-route-id="@item.Id"><i class="fa-solid fa-trash fs-4 text-danger"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -123,4 +123,10 @@
 
         });
     });
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
 </script>

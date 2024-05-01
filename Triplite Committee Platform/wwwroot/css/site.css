@@ -63,6 +63,12 @@ aside.left-panel {
 
 #iconhover:hover {
     background-color: rgba(101, 101, 101, 0.2);
+   
+}
+
+.custom-tooltip {
+    --bs-tooltip-bg: rgba(0, 102, 214, 0.8);
+    --bs-tooltip-color: var(--bs-white);
 }
 
 
