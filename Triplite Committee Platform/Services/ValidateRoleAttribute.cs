@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 
 namespace Triplite_Committee_Platform.Services
 {
@@ -18,12 +19,20 @@ namespace Triplite_Committee_Platform.Services
 
             if (string.IsNullOrEmpty(activeRole))
             {
-                if (httpContext.User.Claims.Count() <= 1) 
+                var roleClaims = httpContext.User.Claims.Where(c => c.Type == ClaimTypes.Role).ToList();
+
+                if (roleClaims.Count == 1)
                 {
-                    return; 
+                    // If there's exactly one role claim, set it as the active role and proceed
+                    httpContext.Session.SetString("ActiveRole", roleClaims.First().Value);
+                    activeRole = roleClaims.First().Value;
                 }
-                context.Result = new RedirectToActionResult("Index", "ChooseRole", null);
-                return;
+                else if (roleClaims.Count > 1)
+                {
+                    // More than one role, prompt user to choose
+                    context.Result = new RedirectToActionResult("Index", "ChooseRole", null);
+                    return;
+                }
             }
 
             if (_requiredRoles != null && _requiredRoles.Length > 0 && !_requiredRoles.Contains(activeRole))

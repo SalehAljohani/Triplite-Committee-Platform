@@ -83,10 +83,13 @@
                             <a asp-area="" asp-controller="SupportDetail" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-pen-to-square"></i>Support Details</a>
                         </li>
                     }
-                    <li class="menu-title">Change Role</li>
-                    <li>
-                        <a asp-area="" asp-controller="ChooseRole" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-arrow-right-arrow-left"></i>Change Role</a>
-                    </li>
+                    @if(ViewBag.DisplayRoleChange == true)
+                    {
+                        <li class="menu-title">Change Role</li>
+                        <li>
+                            <a asp-area="" asp-controller="ChooseRole" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-arrow-right-arrow-left"></i>Change Role</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </nav>

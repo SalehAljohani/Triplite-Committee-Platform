@@ -43,7 +43,7 @@ namespace Triplite_Committee_Platform.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(username, model.Password!, model.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(username, model.Password!, false, false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("SetPassword", "SetPassword");
@@ -181,6 +181,8 @@ namespace Triplite_Committee_Platform.Controllers
 
         public async Task<IActionResult> Logout()
         {
+            HttpContext.Session.Clear();
+
             await _signInManager.SignOutAsync();
             TempData["Logout"] = "You have been logged out.";
             return RedirectToAction("Index", "Login");
