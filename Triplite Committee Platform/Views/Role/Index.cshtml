@@ -18,7 +18,7 @@
         </div>
     </div>
     <hr />
-    <table class="table align-middle mb-0 bg-white table-striped table-hover" id="DTable">
+    <table class="table align-middle mb-0 w-100 bg-white table-striped" id="DTable">
         <thead class="bg-darck">
             <tr>
                 <th>Role</th>
@@ -39,15 +39,15 @@
                     </td>
 
 
-
+                     
 
                     <td>
                         <div class="text-center">
 
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md"><i class="fa-solid fa-pen fs-4 text-primary"></i></a>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md"><i class="fa-solid fa-circle-info fs-4 text-secondary"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md"><i class="fa-solid fa-trash fs-4 text-danger"></i></a>
-                        </div>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Details" id="iconhover"><i class="fa-solid fa-pen fs-4 text-primary"></i></a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-secondary"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Details" id="iconhover"><i class="fa-solid fa-trash fs-4 text-danger"></i></a>
+                        </div> 
                     </td>
                 </tr>
             }
@@ -69,6 +69,14 @@
 
         });
     });
+
+
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
 </script>
 
 @* <h1>Roles</h1>
