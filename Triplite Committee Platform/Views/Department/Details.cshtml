@@ -5,7 +5,39 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong>Department Details</strong></h3>
+    <hr />
+    <div class="card-body">
+        <dl class="row g-3">
+
+            <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.College)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.College.CollegeName)</dd>
+            <hr />
+        </dl>
+        
+        <dl class="row g-3">
+
+            <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.DeptName)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.DeptName)</dd>
+            <hr />
+        </dl>
+    </div>
+</div>
+
+
+<div class="text-center">
+
+    <a asp-action="Edit" asp-route-id="@Model?.DeptNo" class="btn btn-primary btn-md">  Edit Depatrment </a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+@* <h1>Details</h1>
 
 <div>
     <h4>DepartmentModel</h4>
@@ -29,8 +61,4 @@
     <a asp-action="Edit" asp-route-id="@Model?.DeptNo">Edit</a> |
     <a asp-action="Index" asp-controller="College">Back to List</a>
 </div>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+ *@
