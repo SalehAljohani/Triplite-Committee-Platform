@@ -29,27 +29,6 @@
             @TempData["Error"]
         </div>
     }
-    <table class="table align-middle  bg-white w-100 " id="DTable">
-
-
-
-
-<p>
-
-</p>
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        @TempData["Success"]
-    </div>
-}
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @TempData["Error"]
-    </div>
-}
-
     <table class="table align-middle  bg-white w-100 table-striped  " id="DTable">
         <thead class="bg-darck  ">
         <tr>
@@ -121,7 +100,6 @@
                     </td>
 
                  
-                                     @* Data-bs must be added to all the remain tables(tooltip)*@
                 <td>
                         <div class="d-flex gap-1">
                             <a asp-action="Edit" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit User" id="iconhover"><i class="fa-solid fa-pen fs-4 text-primary"></i></a>
