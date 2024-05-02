@@ -9,8 +9,9 @@ using Triplite_Committee_Platform.Services;
 
 namespace Triplite_Committee_Platform.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class HomeController : Controller
+    [Authorize]
+    [ValidateRole]
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _context;
@@ -30,28 +31,13 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Login");
             }
             if (user.EmailConfirmed == false)
             {
                 TempData["Message"] = "You need to confirm your email before proceeding.";
                 return RedirectToAction("Index", "ConfirmEmail");
             }
-            var roleVerify = await _userManager.GetRolesAsync(user);
-            if (roleVerify.Count > 1)
-            {
-                var activeRole = HttpContext.Session.GetString("ActiveRole");
-                if (string.IsNullOrEmpty(activeRole) || !roleVerify.Contains(activeRole))
-                {
-                    TempData["Message"] = "Please select your active role.";
-                    return RedirectToAction("ChooseRole", "ChooseRole");
-                }
-            }
-            else if (roleVerify.Count == 1 && HttpContext.Session.GetString("ActiveRole") == null)
-            {
-                HttpContext.Session.SetString("ActiveRole", roleVerify[0]);
-            }
-
             return View();
         }
 

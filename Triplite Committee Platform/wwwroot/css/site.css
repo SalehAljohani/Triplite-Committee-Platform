@@ -19,7 +19,6 @@ p {
     font-family: "Open Sans", sans-serif;
     font-weight: 400;
     line-height: 24px;
-    color: #878787;
 }
 
     p:focus {
@@ -62,6 +61,18 @@ aside.left-panel {
         overflow-x: scroll;
     }
 
+#iconhover:hover {
+    background-color: rgba(101, 101, 101, 0.2);
+   
+}
+
+.custom-tooltip {
+    --bs-tooltip-bg: rgba(0, 102, 214, 0.8);
+    --bs-tooltip-color: var(--bs-white);
+}
+
+
+
 .open aside.left-panel:hover {
     overflow-x: inherit;
 }
@@ -79,6 +90,14 @@ aside.left-panel {
     padding: 0;
     vertical-align: top;
 }
+
+
+.custom-tooltip {
+    background-color: rgba(0, 29, 255, 0.8);
+    color: rgba(0, 29, 255, 0.8);
+    font-size: 17px;
+}
+
 
     .navbar .menu-title {
         color: #41434d;
@@ -122,7 +141,7 @@ aside.left-panel {
 
             .navbar .navbar-nav li > a {
                 background: none !important;
-                color: #607d8b;
+                color: #000;
                 display: inline-block;
                 font-size: 14px;
                 line-height: 26px;

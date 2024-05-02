@@ -8,7 +8,7 @@ using Triplite_Committee_Platform.Services;
 
 namespace Triplite_Committee_Platform.Controllers
 {
-    public class ConfirmEmailController : Controller
+    public class ConfirmEmailController : BaseController
     {
         private readonly UserManager<UserModel> _userManager;
         private readonly EmailSender _emailSender;

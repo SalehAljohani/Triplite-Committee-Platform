@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="card p-3 mt-5 mx-auto">
-
     <div class="row">
         <div class="col-sm-4">
             <strong class="fs-3">Users List</strong>
@@ -18,6 +17,19 @@
         </div>
     </div>
     <hr />
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["Success"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["Error"]
+        </div>
+    }
+    <table class="table align-middle  bg-white w-100 " id="DTable">
 
 
 
@@ -38,12 +50,13 @@
     </div>
 }
 
-    <table class="table align-middle  bg-white w-100 " id="DTable">
+    <table class="table align-middle  bg-white w-100 table-striped  " id="DTable">
         <thead class="bg-darck  ">
         <tr>
             <th >Name</th>
             <th class="text-start">Employee ID</th>
             <th>Email</th>
+                <th>Email Confirmation</th>
             
             <th class="text-center" >Action</th>
 
@@ -73,47 +86,53 @@
 
                             </div>
                         </div>
-
-                        
-                    
-                </td>
-                <td>
+                    </td>
+                    <td>
                         <div class="d-flex align-items-center">
 
-                            <div >
+                            <div>
                                 <p class="text-muted mb-0">@user.Email</p>
-                                @if (@user.EmailConfirmed)
-                                {
-                                    <span class="text-success rounded-pill d-inline fw-normal mb-1">Confirmed</span>
-                                }
-                                else
-                                {
-                                    <span class="text-danger rounded-pill d-inline fw-normal mb-1">Unconfirmed</span>
-                                }
-
+                              
                             </div>
                         </div>
 
                     
                 </td>
 
-                
+                 
+                    <td>
+                        <div class="d-flex align-items-center">
 
-                
+                            <div>
+                                
+                                @if (@user.EmailConfirmed)
+                                {
+                                    <span class=" badge text-bg-success fs-6">Confirmed</span>
+                                }
+                                else
+                                {
+                                    <span class="badge text-bg-danger text fs-6">Unconfirmed</span>
+                                }
+
+                            </div>
+                        </div>
+
+
+                    </td>
+
+                 
+                                     @* Data-bs must be added to all the remain tables(tooltip)*@
                 <td>
                         <div class="d-flex gap-1">
-                            <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-primary btn-md"><i class="fa-solid fa-pen fs-4"></i></a>
-                            <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-secondary btn-md"><i class="fa-solid fa-circle-info fs-4"></i></a>
-                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger btn-md"><i class="fa-solid fa-trash fs-4"></i></a>
+                            <a asp-action="Edit" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit User" id="iconhover"><i class="fa-solid fa-pen fs-4 text-primary"></i></a>
+                            <a asp-action="Details" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-secondary "></i></a>
+                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete User" id="iconhover"><i class="fa-solid fa-trash fs-4 text-danger"></i></a>
                         </div>
-                </td>
-
-
-            </tr>
-
-        }
-    </tbody>
-</table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
 
@@ -129,6 +148,14 @@
 
         });
     });
+
+
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
 </script>
 
 @* End of DataTable Library initialization *@
@@ -139,112 +166,3 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-
-
-
-   @*  ////////////////////////////////////////
-
-
-    <div class="card p-3 mt-5 w-75 mx-auto">
-    <div class="row">
-        <div class="col-sm-4">
-            <strong class="fs-3">College List</strong>
-        </div>
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4 text-end">
-            <a asp-action="Create" class="text-decoration-none text-light btn btn-primary me-1">
-                <strong class="fs-5">Create New College</strong>
-            </a>
-        </div>
-    </div>
-    <hr />
-    <table class="table align-middle mb-0 bg-white" id="DTable">
-        <thead class="bg-darck">
-            <tr>
-                <th>Colleg Name</th>
-                <th class="text-center">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1">@Html.DisplayFor(modelItem => item.CollegeName)</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="text-center">
-                            <a asp-action="Create" asp-controller="Department" asp-route-id="@item.CollegeNo" class="btn btn-success btn-md"><i class="fa-solid fa-plus fs-4"></i></a>
-                            <a asp-action="Edit" asp-route-id="@item.CollegeNo" class="btn btn-primary btn-md"><i class="fa-solid fa-pen fs-4"></i></a>
-                            <a asp-action="Details" asp-route-id="@item.CollegeNo" class="btn btn-secondary btn-md"><i class="fa-solid fa-circle-info fs-4"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.CollegeNo" class="btn btn-danger btn-md"><i class="fa-solid fa-trash fs-4"></i></a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div> *@
-
-
-
-
-@*     ////////////////////////////////////////
- *@
-
-@* <h1>User List</h1>
-<p>
-    <a asp-action="Create">Create New User</a>
-</p>
-@if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success" role="alert">
-            @TempData["Success"]
-        </div>
-    }
-@if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger" role="alert">
-            @TempData["Error"]
-        </div>
-    }
-
-<table class="table text-center">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>EmployeeID</th>
-            <th>Email</th>
-            <th>Email Confirmed</th>
-            <th>Phone Number</th>
-            <th>Department</th>
-            <th>Roles</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.Name</td>
-                <td>@user.EmployeeID</td>
-                <td>@user.Email</td>
-                <td>@user.EmailConfirmed</td>
-                <td>@user.PhoneNumber</td>
-                <td>@user.Department?.DeptName</td>
-                <td>
-                    @String.Join(", ", user.ListRoles)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@user.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table> *@

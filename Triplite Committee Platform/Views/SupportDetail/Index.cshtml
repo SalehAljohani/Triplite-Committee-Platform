@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="card p-3 mt-5 mx-auto">
+<div class="card p-3 mt-5 mx-auto w-75">
 
     <div class="row">
         <div class="col-sm-5">
@@ -20,28 +20,20 @@
     </div>
     <hr />
 
-
-
-
-    <p>
-
-    </p>
-    
-
-    <table class="table align-middle  bg-white w-100 " id="DTable">
-        <thead class="bg-darck  ">
+    <table class="table bg-white w-100" id="DTable">
+        <thead class="bg-dark">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.ContactEmail)
+                   Contact Email
+                </th>
+                <th class="text-start">
+                    Phone Number
+                </th>
+                <th class="text-start">
+                    Telephone Number
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TeleNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Location)
+                    Location
                 </th>
                 <th>
                     Action
@@ -63,7 +55,7 @@
                         <div class="d-flex align-items-center">
 
                             <div>
-                            <p class="fw-bold mb-1">@Html.DisplayFor(modelItem => item.ContactEmail)</p>
+                            <p class="fw-bold mb-1">@item.ContactEmail</p>
 
                             </div>
                         </div>
@@ -72,7 +64,7 @@
                         <div class="d-flex align-items-center">
 
                             <div>
-                            <p class="fw-bold ms-0 mb-0">@Html.DisplayFor(modelItem => item.PhoneNumber)</p>
+                            <p class="fw-bold ms-0 mb-0">@item.PhoneNumber</p>
 
                             </div>
                         </div>
@@ -85,7 +77,7 @@
                         <div class="d-flex align-items-center">
 
                             <div>
-                            <p class="fw-bold ms-0 mb-0">@Html.DisplayFor(modelItem => item.TeleNumber)</p>
+                            <p class="fw-bold ms-0 mb-0">@item.TeleNumber</p>
 
                             </div>
                         </div>
@@ -98,7 +90,7 @@
                         <div class="d-flex align-items-center">
 
                             <div>
-                            <p class="fw-bold ms-0 mb-0">@Html.DisplayFor(modelItem => item.Location)</p>
+                            <p class="fw-bold ms-0 mb-0">@item.Location</p>
 
                             </div>
                         </div>
@@ -106,16 +98,16 @@
 
 
                     </td>
-                  
 
 
 
+         
 
                     <td>
                         <div class="d-flex gap-1">
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-md"><i class="fa-solid fa-pen fs-4"></i></a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary btn-md"><i class="fa-solid fa-circle-info fs-4"></i></a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-md"><i class="fa-solid fa-trash fs-4"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md " data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="edit" id="iconhover"><i class="fa-solid fa-pen fs-4 text-primary "></i></a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="info" id="iconhover"><i class="fa-solid fa-circle-info  fs-4 text-secondary"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="delete" id="iconhover"><i class="fa-solid fa-trash fs-4 text-danger "></i></a>
 
                      
 
@@ -143,6 +135,14 @@
 
         });
     });
+
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+
 </script>
 
 @* End of DataTable Library initialization *@

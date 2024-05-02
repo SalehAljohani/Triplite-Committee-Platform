@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
+using Triplite_Committee_Platform.Services;
 
 namespace Triplite_Committee_Platform.Controllers
 {
-    public class SupportController : Controller
+    [Authorize(Roles = "Admin")]
+    [ValidateRole("Admin")]
+    public class SupportController : BaseController
     {
         private readonly AppDbContext _context;
         private readonly UserManager<UserModel> _userManager;
@@ -22,16 +25,11 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Login");
             }
             if (user.EmailConfirmed == false)
             {
                 return RedirectToAction("Index", "ConfirmEmail");
-            }
-            var roleVerify = await _userManager.GetRolesAsync(user);
-            if (roleVerify != null && roleVerify.Count > 1)
-            {
-                return RedirectToAction("ChooseRole", "ChooseRole");
             }
             return View(await _context.Contact.ToListAsync());
         }

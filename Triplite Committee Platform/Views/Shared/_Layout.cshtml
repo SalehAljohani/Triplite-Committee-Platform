@@ -24,42 +24,72 @@
                     <li>
                         <a asp-area="" asp-controller="Search" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-search"></i>Advanced Search </a>
                     </li>
-                    <li class="menu-title">Statistics</li>
-                    <li>
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-bar-chart-o"></i>Statistics </a>
-                    </li>
-                    <li class="menu-title">Manage</li>
-                    <li>
-                        <a asp-area="" asp-controller="College" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-building-columns"></i>College & Department</a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-file-text"></i>Boards </a>
-                    </li>
+                    <li class="menu-title">Boards</li>
                     <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Users & Roles </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa-solid fa-folder"></i>Boards </a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa-solid fa-users-gear"></i><a asp-area="" asp-controller="Account" asp-action="Index" class="nav-link ">Accounts </a></li>
-                            <li><i class="fa-solid fa-wrench"></i><a asp-area="" asp-controller="Role" asp-action="Index" class="nav-link">Manage Roles </a></li>
-                        </ul>
-                        
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-headset"></i>Support </a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa-solid fa-ticket-simple"></i><a asp-area="" asp-controller="Support" asp-action="Index" class="nav-link">Support Requests </a></li>
-                            <li><i class="menu-icon fa-solid fa-pen-to-square"></i><a asp-area="" asp-controller="SupportDetail" asp-action="Index" class="nav-link">Support Page</a></li>
-                        </ul>
-
-                        
-                    </li>
-                    <li class="menu-title">Manage Site</li>
-
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-gear"></i>Settings</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-home"></i><a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home Page</a></li>
+                            <li>
+                                <i class="fa-solid fa-file"></i>
+                                <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Previous Boards </a>
+                            </li>
+                            @if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
+                            {
+                                <li>
+                                    <i class="fa-solid fa-file-import"></i>
+                                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Current Boards</a>
+                                </li>
+                            }
+                            @if (ViewBag.ActiveRole == "Department Head" || ViewBag.ActiveRole == "Department Member")
+                            {
+                                <li>
+                                    <i class="fa-solid fa-file-import"></i>
+                                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Current Boards</a>
+                                </li>
+                            }
                         </ul>
                     </li>
+                    @if (ViewBag.ActiveRole == "Admin")
+                    {
+                        <li class="menu-title">Statistics</li>
+                        <li>
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-bar-chart-o"></i>Statistics </a>
+                        </li>
+                        <li class="menu-title">Manage</li>
+                        <li class="menu-item-has-children dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="menu-icon fa-solid fa-id-card"></i>Users & Roles </a>
+                            <ul class="sub-menu children dropdown-menu">
+                                <li>
+                                    <i class="fa-solid fa-users"></i><a asp-area="" asp-controller="Account" asp-action="Index" class="nav-link ">Accounts </a>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-user-gear"></i><a asp-area="" asp-controller="Role" asp-action="Index" class="nav-link">Manage Roles </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="College" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-building-columns"></i>College & Department</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-file-text"></i>Boards & Reasons</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Support" asp-action="Index" class="nav-link"><i class="menu-icon fas fa-headset"></i>Support Requests</a>
+                        </li>
+                        <li class="menu-title">Manage Site</li>
+                        <li>
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-bullhorn"></i>Announcement</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="SupportDetail" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-pen-to-square"></i>Support Details</a>
+                        </li>
+                    }
+                    @if(ViewBag.DisplayRoleChange == true)
+                    {
+                        <li class="menu-title">Change Role</li>
+                        <li>
+                            <a asp-area="" asp-controller="ChooseRole" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-arrow-right-arrow-left"></i>Change Role</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </nav>
@@ -113,6 +143,7 @@
                     parentLi.classList.add('active');
                 } else {
                     navLink.parentElement.classList.add('active');
+                    navLink.classList.add('active');
                 }
             }
         });

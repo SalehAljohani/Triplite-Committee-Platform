@@ -24,7 +24,7 @@
         </div>
     </div>
     <hr />
-    <table class="table align-middle mb-0 bg-white w-100" id="DTable">
+    <table class="table align-middle mb-0 bg-white w-100 table-striped " id="DTable">
         <thead class="bg-darck">
             <tr>
                 <th>Colleg Name</th>
@@ -43,11 +43,11 @@
                         </div>
                     </td>
                     <td>
-                        <div class="text-center">
-                            <a asp-action="Create" asp-controller="Department" asp-route-id="@item.CollegeNo" class="btn btn-success btn-md"><i class="fa-solid fa-plus fs-4"></i></a>
-                            <a asp-action="Edit" asp-route-id="@item.CollegeNo" class="btn btn-primary btn-md"><i class="fa-solid fa-pen fs-4"></i></a>
-                            <a asp-action="Details" asp-route-id="@item.CollegeNo" class="btn btn-secondary btn-md"><i class="fa-solid fa-circle-info fs-4"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.CollegeNo" class="btn btn-danger btn-md"><i class="fa-solid fa-trash fs-4"></i></a>
+                        <div class="text-sm-center ">
+                            <a asp-action="Create" asp-controller="Department" asp-route-id="@item.CollegeNo" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Create" id="iconhover"><i class="fa-solid text-success fa-plus fs-4"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.CollegeNo" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" id="iconhover"><i class="fa-solid text-primary fa-pen fs-4"></i></a>
+                            <a asp-action="Details" asp-route-id="@item.CollegeNo" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Details" id="iconhover"><i class="fa-solid text-secondary fa-circle-info fs-4"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.CollegeNo" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="delete" id="iconhover"><i class="fa-solid text-danger fa-trash fs-4"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -67,6 +67,13 @@
         lengthMenu: [8, 10, 25, 50, 100],
         order: [[0, null]],
     });
+
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
 </script>
 
 @* End of DataTable Library initialization *@
