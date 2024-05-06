@@ -55,7 +55,27 @@
     <div class="text-center mb-4">
         <form asp-action="Delete">
             <input type="hidden" asp-for="CollegeNo" />
-            <input type="submit" value="Delete College" class="btn btn-danger w-25" />
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirm">
+                Delete
+            </button>
+            <div class="modal fade" id="deleteConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteConfirmLabel">Delete Confirmation</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete <strong class="text-danger text-uppercase">[@Model?.CollegeName]</strong> College?
+                        </div>
+                        <hr />
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-secondary me-3 w-25" data-bs-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-danger ms-3 w-25">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </div>

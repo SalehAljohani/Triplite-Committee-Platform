@@ -56,26 +56,3 @@ namespace Triplite_Committee_Platform.Services
         }
     }
 }
-
-//    var client = new SendGridClient(sendGridApiKey);
-//            var msg = new SendGridMessage()
-//            {
-//                From = new EmailAddress("),
-//                Subject = subject,
-//                PlainTextContent = message,
-//                HtmlContent = message
-//            };
-//            msg.AddTo(new EmailAddress(toEmail));
-
-//            var response = await client.SendEmailAsync(msg);
-//            if (response.IsSuccessStatusCode)
-//            {
-//                logger.LogInformation("Email queued successfully");
-//            }
-//            else
-//            {
-//                logger.LogError("Failed to send email");
-//            }
-//        }
-//    }
-//}

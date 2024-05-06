@@ -46,49 +46,28 @@
     <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="Id" />
         <div class="form-group">
-            <input type="submit" value="Delete" class="btn btn-danger" />
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirm">
+                Delete
+            </button>
+            <div class="modal fade" id="deleteConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteConfirmLabel">Delete Confirmation</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete <strong class="text-danger text-uppercase">[@Model?.Name]</strong> Request?
+                        </div>
+                        <hr />
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-secondary me-3 w-25" data-bs-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-danger ms-3 w-25">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <a asp-action="Index" class="btn btn-secondary">Back to List</a>
         </div>
     </form>
 </div>
-
-@* <h2 class="mt-3 mb-5">Delete Request</h2>
-<div>
-    <h4 class="text-danger">Please Delete the spam requests only!</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Subject)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Subject)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Message)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Message)
-        </dd>
-    </dl>
-
-    <form asp-action="Delete" method="post">
-        <input type="hidden" asp-for="Id" />
-        <div class="form-group">
-            <input type="submit" value="Delete" class="btn btn-danger" />
-            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-        </div>
-    </form>
-</div>
- *@

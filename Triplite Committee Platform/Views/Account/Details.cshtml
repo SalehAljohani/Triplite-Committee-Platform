@@ -9,10 +9,10 @@
     <hr />
     <div class="card-body">
         <dl class="row g-3">
-            
+
             <dt class="col-sm-4 fw-bold">Name:</dt>
             <dd class="col-sm-8">@Model.Name</dd>
-            <hr/>
+            <hr />
 
             <dt class="col-sm-4 fw-bold">Employee ID / Username:</dt>
             <dd class="col-sm-8">@Model.EmployeeID</dd>
@@ -36,7 +36,7 @@
             <dd class="col-sm-8">
                 @foreach (var role in Model.ListRoles)
                 {
-                    <p class=" text-black">@role</p>
+                    <span class="text-black">@role | </span>
                 }
             </dd>
         </dl>
@@ -49,42 +49,3 @@
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-md">  Edit User </a>
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
-       
-@* <h1>User Details</h1>
-
-<div>
-    <h4>User ID: @Model.Id</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-3">Name</dt>
-        <dd class="col-sm-9">@Model.Name</dd>
-
-        <dt class="col-sm-3">Employee ID / Username</dt>
-        <dd class="col-sm-9">@Model.EmployeeID</dd>
-
-        <dt class="col-sm-3">Email</dt>
-        <dd class="col-sm-9">@Model.Email</dd>
-
-        <dt class="col-sm-3">Email Confirmed</dt>
-        <dd class="col-sm-9">@Model.EmailConfirmed</dd>
-
-        <dt class="col-sm-3">Phone Number</dt>
-        <dd class="col-sm-9">@Model.PhoneNumber</dd>
-
-        <dt class="col-sm-3">Phone Number Confirmed</dt>
-        <dd class="col-sm-9">@Model.PhoneNumberConfirmed</dd>
-
-        <dt class="col-sm-3">Department</dt>
-        <dd class="col-sm-9">@Model.Department?.DeptName</dd>
-
-        <dt class="col-sm-3">Roles</dt>
-        <dd class="col-sm-9">
-            @foreach (var role in Model.ListRoles)
-            {
-                <p>@role</p>
-            }
-        </dd>
-    </dl>
-</div>
-
-<a asp-action="Index">Back to List</a> *@

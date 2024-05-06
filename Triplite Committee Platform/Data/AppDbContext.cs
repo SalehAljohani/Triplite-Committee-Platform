@@ -18,7 +18,7 @@ namespace Triplite_Committee_Platform.Data
         public DbSet<ReasonsModel> Reasons { get; set; }
         public DbSet<BoardModel> Board { get; set; }
         public DbSet<FileModel> File { get; set; }
-        public DbSet<CarouselItemModel> CarouselItem { get; set; }
+        public DbSet<AnnouncementModel> Announcements { get; set; }
         public DbSet<SupportDetail> SupportDetail { get; set; }
         public DbSet<ContactModel> Contact { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

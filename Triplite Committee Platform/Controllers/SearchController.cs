@@ -25,7 +25,7 @@ namespace Triplite_Committee_Platform.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
-            if(user == null)
+            if (user == null)
             {
                 return RedirectToAction("Index", "Login");
             }
@@ -41,13 +41,21 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 var college = await _context.College.ToListAsync();
                 var department = await _context.Department.ToListAsync();
-                ViewData["Colleges"] = new SelectList(college, "CollegeNo", "CollegeName");
-                ViewData["Departments"] = new SelectList(department, "DeptNo", "DeptName");
 
-            }else if(activeRole == "College Dean" || activeRole == "Vice Dean")
+                ViewData["Colleges"] = new SelectList(college, "CollegeNo", "CollegeName");
+                var departmentsData = department.Select(d => new
+                {
+                    DeptNo = d.DeptNo,
+                    DeptName = d.DeptName,
+                    CollegeNo = d.CollegeNo
+                }).ToList();
+
+                ViewData["Departments"] = Newtonsoft.Json.JsonConvert.SerializeObject(departmentsData);
+            }
+            else if (activeRole == "College Dean" || activeRole == "Vice Dean")
             {
                 var userDept = await _context.Department.Where(c => c.DeptNo == user.DeptNo).FirstOrDefaultAsync();
-                if(userDept == null)
+                if (userDept == null)
                 {
                     TempData["Message"] = "Unable to load user department.";
                     return RedirectToAction(nameof(Index));
@@ -55,106 +63,134 @@ namespace Triplite_Committee_Platform.Controllers
                 var department = await _context.Department.Where(d => d.CollegeNo == userDept.CollegeNo).ToListAsync();
                 ViewData["Departments"] = new SelectList(department, "DeptNo", "DeptName");
 
-            }else if(activeRole == "Department Head" || activeRole == "Department Member")
+            }
+            else if (activeRole == "Department Head" || activeRole == "Department Member")
             {
-                var college = await _context.College.ToListAsync();
-                var department = await _context.Department.ToListAsync();
-                ViewData["Colleges"] = new SelectList(college, "CollegeNo", "CollegeName");
-                ViewData["Departments"] = new SelectList(department, "DeptNo", "DeptName");
+                ViewData["Colleges"] = null;
+                ViewData["Departments"] = null;
             }
             return View();
         }
 
-        [ValidateRole("Admin")]
+
+        [ValidateRole]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AdminSearch(string? search, int? SelectedCollege, int? SelectedDepartment)
+        public async Task<IActionResult> Index(string? search, int? SelectedCollege, int? SelectedDepartment)
         {
-            if (string.IsNullOrWhiteSpace(search)) // Check if search is null or empty (search = "") or whitespace ( )
+            if (string.IsNullOrWhiteSpace(search))
             {
                 TempData["Message"] = "No search term was entered. Please enter a valid identifier such as National ID, Board number, Phone number, Employee ID, or Scholarship name.";
                 return RedirectToAction(nameof(Index));
             }
 
-            var viewModelList = new List<SearchViewModel>();
-            var results = await _context.Scholarship
-                .Include(s => s.Board)
-                .Include(s => s.Department)
-                    .ThenInclude(d => d.College)
-                .Where(s => (s.National_ID == search || s.Name.ToLower() == search.ToLower() || s.Phone == search || s.EmployeeID == search) &&
-                            (SelectedCollege == null || s.Department.College.CollegeNo == SelectedCollege) &&
-                            (SelectedDepartment == null || s.Department.DeptNo == SelectedDepartment))
-                .ToListAsync();
-
-            if (results.Any())
+            var activeRole = HttpContext.Session.GetString("ActiveRole");
+            if (activeRole == "Admin")
             {
-                foreach (var item in results)
+                var viewModelList = new List<SearchViewModel>();
+                var results = await _context.Scholarship
+                    .Include(s => s.Board)
+                    .Include(s => s.Department)
+                        .ThenInclude(d => d.College)
+                    .Where(s => (s.National_ID == search || s.Name.ToLower() == search.ToLower() || s.Phone == search || s.EmployeeID == search) &&
+                                (SelectedCollege == null || s.Department.College.CollegeNo == SelectedCollege) &&
+                                (SelectedDepartment == null || s.Department.DeptNo == SelectedDepartment))
+                    .ToListAsync();
+
+                if (results.Any())
                 {
-                    var viewModel = new SearchViewModel
+                    foreach (var item in results)
                     {
-                        CollegeName = item.Department?.College?.CollegeName,
-                        DeptName = item.Department?.DeptName,
-                        Boards = item.Board,
-                        Name = item.Name,
-                    };
-                    viewModelList.Add(viewModel);
+                        var viewModel = new SearchViewModel
+                        {
+                            CollegeName = item.Department?.College?.CollegeName,
+                            DeptName = item.Department?.DeptName,
+                            Boards = item.Board,
+                            Name = item.Name,
+                        };
+                        viewModelList.Add(viewModel);
+                    }
+                    return View(viewModelList);
                 }
-                return View(viewModelList);
+                else
+                {
+                    TempData["Message"] = "No results found.";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            else if (activeRole == "College Dean" || activeRole == "Vice Dean")
+            {
+                var viewModelList = new List<SearchViewModel>();
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+                var userDept = await _context.Department.Where(c => c.DeptNo == user.DeptNo).FirstOrDefaultAsync();
+                var department = await _context.Department.Where(d => d.CollegeNo == userDept.CollegeNo).ToListAsync();
+                var results = await _context.Scholarship
+                    .Include(s => s.Board)
+                    .Include(s => s.Department)
+                        .ThenInclude(d => d.College)
+                    .Where(s => (s.National_ID == search || s.Name.ToLower() == search.ToLower() || s.Phone == search || s.EmployeeID == search) &&
+                                (SelectedDepartment == null || s.Department.DeptNo == SelectedDepartment) &&
+                                 department.Contains(s.Department))
+                    .ToListAsync();
+
+                if (results.Any())
+                {
+                    foreach (var item in results)
+                    {
+                        var viewModel = new SearchViewModel
+                        {
+                            DeptName = item.Department?.DeptName,
+                            Boards = item.Board,
+                            Name = item.Name,
+                        };
+                        viewModelList.Add(viewModel);
+                    }
+                    return View(viewModelList);
+                }
+                else
+                {
+                    TempData["Message"] = "No results found.";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            else if (activeRole == "Department Head" || activeRole == "Department Member")
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var viewModelList = new List<SearchViewModel>();
+                var results = await _context.Scholarship
+                    .Include(s => s.Board)
+                    .Include(s => s.Department)
+                        .ThenInclude(d => d.College)
+                    .Where(s => (s.National_ID == search || s.Name.ToLower() == search.ToLower() || s.Phone == search || s.EmployeeID == search) &&
+                          (s.DeptNo == user.DeptNo))
+                    .ToListAsync();
+
+                if (results.Any())
+                {
+                    foreach (var item in results)
+                    {
+                        var viewModel = new SearchViewModel
+                        {
+                            Boards = item.Board,
+                            Name = item.Name,
+                        };
+                        viewModelList.Add(viewModel);
+                    }
+                    return View(viewModelList);
+                }
+                else
+                {
+                    TempData["Message"] = "No results found.";
+                    return RedirectToAction(nameof(Index));
+                }
             }
             else
             {
-                TempData["Message"] = "No results found.";
-                return RedirectToAction(nameof(Index));
-            }
-        }
-
-
-        [ValidateRole("College Dean", "Vice Dean")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CollegeSearch(string? search, int? SelectedDepartment)
-        {
-            if (string.IsNullOrWhiteSpace(search)) // Check if search is null or empty (search = "") or whitespace ( )
-            {
-                TempData["Message"] = "No search term was entered. Please enter a valid identifier such as National ID, Board number, Phone number, Employee ID, or Scholarship name.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            var viewModelList = new List<SearchViewModel>();
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) 
-            {
-                return RedirectToAction("Index", "Login");
-            }
-            var userDept = await _context.Department.Where(c => c.DeptNo == user.DeptNo).FirstOrDefaultAsync();
-            var department = await _context.Department.Where(d => d.CollegeNo == userDept.CollegeNo).ToListAsync();
-            var results = await _context.Scholarship
-                .Include(s => s.Board)
-                .Include(s => s.Department)
-                    .ThenInclude(d => d.College)
-                .Where(s => (s.National_ID == search || s.Name.ToLower() == search.ToLower() || s.Phone == search || s.EmployeeID == search) &&
-                            (SelectedDepartment == null || s.Department.DeptNo == SelectedDepartment) &&
-                             department.Contains(s.Department))
-                .ToListAsync();
-
-            if (results.Any())
-            {
-                foreach (var item in results)
-                {
-                    var viewModel = new SearchViewModel
-                    {
-                        CollegeName = item.Department?.College?.CollegeName,
-                        DeptName = item.Department?.DeptName,
-                        Boards = item.Board,
-                        Name = item.Name,
-                    };
-                    viewModelList.Add(viewModel);
-                }
-                return View(viewModelList);
-            }
-            else
-            {
-                TempData["Message"] = "No results found.";
+                TempData["Message"] = "You are not authorized to perform this action.";
                 return RedirectToAction(nameof(Index));
             }
         }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Triplite_Committee_Platform.Models
 {
-    public class CarouselItemModel
+    public class AnnouncementModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,5 +19,11 @@ namespace Triplite_Committee_Platform.Models
 
         [Display(Name = "File Link")]
         public string? Link { get; set; }
+
+        [ForeignKey("DeptNo")]
+        public DepartmentModel? Department { get; set; }
+
+        [Required(ErrorMessage = "Must Pick a Department.")]
+        public int DeptNo { get; set; }
     }
 }

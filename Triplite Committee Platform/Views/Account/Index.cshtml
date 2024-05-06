@@ -30,60 +30,44 @@
         </div>
     }
     <table class="table align-middle  bg-white w-100 table-striped  " id="DTable">
-        <thead class="bg-darck  ">
-        <tr>
-            <th >Name</th>
-            <th class="text-start">Employee ID</th>
-            <th>Email</th>
-                <th>Email Confirmation</th>
-            
-            <th class="text-center" >Action</th>
-
-        </tr>
-    </thead>
-
-        
-
-    <tbody>
-        @foreach (var user in Model)
-        {
+        <thead>
             <tr>
-                <td>
-                    <div class="d-flex align-items-center">
-                            
-                        <div >
-                            <p class="fw-bold mb-1">@user.Name</p>
-                                
-                        </div>
-                    </div>
-                </td>
-                <td>
+                <th>Name</th>
+                <th class="text-start">Employee ID</th>
+                <th>Email</th>
+                <th>Email Confirmation</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>
                         <div class="d-flex align-items-center">
-
+                            <div>
+                                <p class="fw-bold mb-1">@user.Name</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
                             <div>
                                 <p class="fw-bold ms-0 mb-0">@user.EmployeeID</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <p class="text-muted mb-0">@user.Email</p>
 
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="d-flex align-items-center">
-
                             <div>
-                                <p class="text-muted mb-0">@user.Email</p>
-                              
-                            </div>
-                        </div>
-
-                    
-                </td>
-
-                 
-                    <td>
-                        <div class="d-flex align-items-center">
-
-                            <div>
-                                
                                 @if (@user.EmailConfirmed)
                                 {
                                     <span class=" badge text-bg-success fs-6">Confirmed</span>
@@ -92,15 +76,10 @@
                                 {
                                     <span class="badge text-bg-danger text fs-6">Unconfirmed</span>
                                 }
-
                             </div>
                         </div>
-
-
                     </td>
-
-                 
-                <td>
+                    <td>
                         <div class="d-flex gap-1">
                             <a asp-action="Edit" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit User" id="iconhover"><i class="fa-solid fa-pen fs-4 text-primary"></i></a>
                             <a asp-action="Details" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-secondary "></i></a>

@@ -9,7 +9,19 @@ namespace Triplite_Committee_Platform.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BoardNo { get; set; }
 
-        [ForeignKey("DeptNo")] public DepartmentModel? Department { get; set; }
+        [Required(ErrorMessage = "Board Title is Required.")]
+        [StringLength(200, ErrorMessage = "Board Title Cannot Exceed 50 characters.")]
+        public string Title { get; set; }
+
+        [Required(ErrorMessage = "Board Reasons is Required.")]
+        public string Reasons { get; set; }
+
+        public string? AddedReasons { get; set; }
+
+        public bool? Recommendation { get; set; }
+
+        [ForeignKey("DeptNo")]
+        public DepartmentModel? Department { get; set; }
 
         [Required(ErrorMessage = "Must Pick a Department.")]
         public int DeptNo { get; set; }

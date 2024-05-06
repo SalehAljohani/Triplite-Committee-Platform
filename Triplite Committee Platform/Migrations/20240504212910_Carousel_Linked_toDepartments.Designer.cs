@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Triplite_Committee_Platform.Data;
 
@@ -11,9 +12,11 @@ using Triplite_Committee_Platform.Data;
 namespace Triplite_Committee_Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240504212910_Carousel_Linked_toDepartments")]
+    partial class Carousel_Linked_toDepartments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,37 +158,6 @@ namespace Triplite_Committee_Platform.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.AnnouncementModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DeptNo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(600)
-                        .HasColumnType("nvarchar(600)");
-
-                    b.Property<string>("Link")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeptNo");
-
-                    b.ToTable("Announcements");
-                });
-
             modelBuilder.Entity("Triplite_Committee_Platform.Models.BoardModel", b =>
                 {
                     b.Property<int>("BoardNo")
@@ -235,6 +207,37 @@ namespace Triplite_Committee_Platform.Migrations
                     b.HasIndex("ReqTypeID");
 
                     b.ToTable("Board");
+                });
+
+            modelBuilder.Entity("Triplite_Committee_Platform.Models.CarouselItemModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DeptNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(600)
+                        .HasColumnType("nvarchar(600)");
+
+                    b.Property<string>("Link")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeptNo");
+
+                    b.ToTable("CarouselItem");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.CollegeModel", b =>
@@ -645,17 +648,6 @@ namespace Triplite_Committee_Platform.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Triplite_Committee_Platform.Models.AnnouncementModel", b =>
-                {
-                    b.HasOne("Triplite_Committee_Platform.Models.DepartmentModel", "Department")
-                        .WithMany()
-                        .HasForeignKey("DeptNo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-                });
-
             modelBuilder.Entity("Triplite_Committee_Platform.Models.BoardModel", b =>
                 {
                     b.HasOne("Triplite_Committee_Platform.Models.DepartmentModel", "Department")
@@ -681,6 +673,17 @@ namespace Triplite_Committee_Platform.Migrations
                     b.Navigation("RequestType");
 
                     b.Navigation("Scholarship");
+                });
+
+            modelBuilder.Entity("Triplite_Committee_Platform.Models.CarouselItemModel", b =>
+                {
+                    b.HasOne("Triplite_Committee_Platform.Models.DepartmentModel", "Department")
+                        .WithMany()
+                        .HasForeignKey("DeptNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.DepartmentModel", b =>

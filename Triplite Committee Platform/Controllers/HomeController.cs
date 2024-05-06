@@ -13,18 +13,13 @@ namespace Triplite_Committee_Platform.Controllers
     [ValidateRole]
     public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _context;
         private readonly UserManager<UserModel> _userManager;
-        private readonly SignInManager<UserModel> _userSign;
-        private readonly EmailSender _emailSender;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<UserModel> userManager, EmailSender emailSender, SignInManager<UserModel> signInManager)
+        public HomeController(UserManager<UserModel> userManager, AppDbContext context)
         {
-            _logger = logger;
             _userManager = userManager;
-            _emailSender = emailSender;
-            _userSign = signInManager;
+            _context = context;
         }
         public async Task<IActionResult> Index()
         {
@@ -38,6 +33,9 @@ namespace Triplite_Committee_Platform.Controllers
                 TempData["Message"] = "You need to confirm your email before proceeding.";
                 return RedirectToAction("Index", "ConfirmEmail");
             }
+
+
+
             return View();
         }
 
