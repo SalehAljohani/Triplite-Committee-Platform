@@ -47,7 +47,7 @@
     </div>
     <div class="col-sm-2"></div>
 </div>
-<div class="card p-3 mt-5 mx-auto w-75">
+<div class="card p-3 mt-5 mx-auto rounded-4card p-3 mt-5 mx-auto rounded-4">
     <div class="row">
         <div class="col-sm-4">
             <strong class="fs-3">Announcements</strong>
@@ -63,10 +63,10 @@
     <table class="table align-middle  bg-white w-100 table-striped" id="DTable">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Link</th>
-                <th>Department</th>
+                <th class="text-center">Title</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Link</th>
+                <th class="text-center">Department</th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>
@@ -75,38 +75,38 @@
             {
                 <tr>
                     <td>
-                        <div class="d-flex align-items-center">
+                        <div class=" align-items-center">
                             <div>
-                                <p class="fw-bold mb-1 text-truncate" style="max-width: 180px">@item.Title</p>
+                                <p class=" text-center mb-1 text-truncate" style="max-width: 180px">@item.Title</p>
+                            </div> 
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center align-items-center">
+                            <div>
+                                <p class=" ms-0 mb-0 text-truncate" style="max-width: 180px">@item.Description</p>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <div class="d-flex align-items-center">
-                            <div>
-                                <p class="fw-bold ms-0 mb-0 text-truncate" style="max-width: 180px">@item.Description</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="d-flex align-items-center">
+                        <div class="text-center align-items-center">
                             <div>
                                 <a href="@item.Link" class="link-primary">Announcement Link</a>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <div class="d-flex align-items-center">
+                        <div class="text-center align-items-center">
                             <div>
-                                <p class="text-muted mb-0">@item?.Department?.DeptName</p>
+                                <p class=" mb-0">@item?.Department?.DeptName</p>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <div class="d-flex gap-1">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit User" id="iconhover"><i class="fa-solid fa-pen fs-4 text-primary"></i></a>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-secondary"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete User" id="iconhover"><i class="fa-solid fa-trash fs-4 text-danger"></i></a>
+                        <div class="text-center gap-1">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Announcement" id=""><i class="fa-solid fa-pen fs-5 text-primary"></i></a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id=""><i class="fa-solid fa-circle-info fs-5 text-secondary"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Announcement" id=""><i class="fa-solid fa-trash fs-5 text-danger"></i></a>
                         </div>
                     </td>
                 </tr>

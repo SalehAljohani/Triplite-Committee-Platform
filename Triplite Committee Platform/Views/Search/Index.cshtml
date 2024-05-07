@@ -11,9 +11,9 @@
     </div>
 }
 
-<div class="card mx-auto">
-    <div class="card-header text-center">
-        <strong>Search</strong>
+<div class="card p-3 mt-5 mx-auto rounded-4card p-3 mt-5 mx-auto rounded-4">
+    <div class="row">
+        <strong class="fs-3">Search</strong>
     </div>
     <div class="card-body">
         <form asp-action="Index" method="post">
@@ -38,103 +38,111 @@
                     </div>
                 }
                 <div class="col-sm-1">
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                    <a type="submit" class="btn bg-opacity-10 btn-md " data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Search" id=""><i class="fa fa-search fs-4 text-primary  " title=" Search"></i> </a>
                 </div>
             </div>
         </form>
-        <br />
+     </div>
+</div>
+
+
+<div class="card p-3 mt-2 mx-auto rounded-4">
+    
+    <div class="card-body">
+        
+        
         @*Data For Table Design*@
-        <hr />
-        <table class="table table-striped" id="DTable">
+        
+        <table class="table align-middle  bg-white w-100 table-striped" id="DTable">
             <thead>
                 <tr>
-                    <th>Board Number</th>
-                    <th>Scholarship Name</th>
-                    <th>Board Type</th>
-                    <th>Board Date</th>
-                    <th>Board Status</th>
+                    <th class ="text-center">Board Number</th>
+                    <th class="text-center">Scholarship Name</th>
+                    <th class="text-center">Board Type</th>
+                    <th class="text-center">Board Date</th>
+                    <th class="text-center">Board Status</th>
                     @if (ViewBag.ActiveRole == "Admin")
                     {
-                        <th>Scholarship College</th>
-                        <th>Scholarship Department</th>
+                        <th class="text-center">Scholarship College</th>
+                        <th class="text-center">Scholarship Department</th>
                     }
                     else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
                     {
-                        <th>Scholarship Department</th>
+                        <th class="text-center">Scholarship Department</th>
                     }
-                    <th>Actions</th>
+                    <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td class="text-center">1</td>
-                    <td>Saleh Aljohani</td>
-                    <td>Extend</td>
+                    <td class="text-center">Saleh Aljohani</td>
+                    <td class="text-center">Extend</td>
                     <td class="text-center">2024/1/1</td>
-                    <td class="mb-0"><p class="badge text-bg-success fs-6">Completed</p></td>
+                    <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">Completed</p></td>
                     @if (ViewBag.ActiveRole == "Admin")
                     {
-                        <td>CSE</td>
-                        <td>information system</td>
+                        <td class="text-center">CSE</td>
+                        <td class="text-center">information system</td>
 
                     }
                     else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
                     {
-                        <td>information system</td>
+                        <td class="text-center">information system</td>
 
                     }
                     <td>
-                        <div class="d-flex gap-1">
-                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-primary "></i></a>
-                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-4 text-success"></i></a>
+                        <div class="text-center gap-1">
+                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
+                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-center">1</td>
-                    <td>Saleh Aljohani</td>
-                    <td>Extend</td>
+                    <td class="text-center">Saleh Aljohani</td>
+                    <td class="text-center">Extend</td>
                     <td class="text-center">2024/1/1</td>
-                    <td class="mb-0"><p class="badge text-bg-success fs-6">Completed</p></td>
+                    <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">Completed</p></td>
                     @if (ViewBag.ActiveRole == "Admin")
                     {
-                        <td>CSE</td>
-                        <td>information system</td>
+                        <td class="text-center">CSE</td>
+                        <td class="text-center">information system</td>
 
                     }
                     else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
                     {
-                        <td>information system</td>
+                        <td class="text-center">information system</td>
 
                     }
                     <td>
-                        <div class="d-flex gap-1">
-                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-primary "></i></a>
-                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-4 text-success"></i></a>
+                        <div class="text-center gap-1">
+                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
+                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-center">1</td>
-                    <td>Saleh Aljohani</td>
-                    <td>Extend</td>
+                    <td class="text-center">Saleh Aljohani</td>
+                    <td class="text-center">Extend</td>
                     <td class="text-center">2024/1/1</td>
-                    <td class="mb-0"><p class="badge text-bg-success fs-6">Completed</p></td>
+                    <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">Completed</p></td>
                     @if (ViewBag.ActiveRole == "Admin")
                     {
-                        <td>CSE</td>
-                        <td>information system</td>
+                        <td class="text-center">CSE</td>
+                        <td class="text-center">information system</td>
 
                     }
                     else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
                     {
-                        <td>information system</td>
+                        <td class="text-center">information system</td>
 
                     }
                     <td>
-                        <div class="d-flex gap-1">
-                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-primary "></i></a>
-                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-4 text-success"></i></a>
+                        <div class="text-center gap-1">
+                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
+                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -188,8 +196,8 @@
                             }
                             <td>
                                 <div class="d-flex gap-1">
-                                    <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-primary "></i></a>
-                                    <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-4 text-success"></i></a>
+                                    <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
+                                    <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
                                 </div>
                             </td>
                         </tr>
