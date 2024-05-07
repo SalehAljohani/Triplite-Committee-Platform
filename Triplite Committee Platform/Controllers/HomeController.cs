@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Diagnostics;
 using Triplite_Committee_Platform.Data;
@@ -34,11 +35,12 @@ namespace Triplite_Committee_Platform.Controllers
                 return RedirectToAction("Index", "ConfirmEmail");
             }
 
+            var annoncements = await _context.Announcements.Where(a => a.DeptNo == user.DeptNo).OrderByDescending(x => x.Id).ToListAsync();
 
+            ViewData["Announce"] = annoncements;
 
             return View();
         }
-
         public IActionResult Privacy()
         {
             return View();
