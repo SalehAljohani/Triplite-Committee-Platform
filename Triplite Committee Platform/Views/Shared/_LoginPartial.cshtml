@@ -29,7 +29,7 @@
         </a>
 
         <div class="user-menu dropdown-menu text-center border-1 rounded-3">
-            <a class="dropdown-item btn" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a>
+            <a class="dropdown-item btn" asp-controller="Profile" asp-action="Index">Profile</a>
             <li><hr class="dropdown-divider"></li>
             <form id="logoutForm" class="text-center form-inline" asp-controller="Login" asp-action="Logout">
                 <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0 w-100">Logout</button>
