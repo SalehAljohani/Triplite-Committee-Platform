@@ -11,11 +11,11 @@
     </div>
 }
 
-<div class="card p-3 mt-5 mx-auto rounded-4card p-3 mt-5 mx-auto rounded-4">
+<div class="card p-3 mt-5 w-75 mx-auto rounded-4">
     <div class="row">
         <strong class="fs-3">Search</strong>
     </div>
-    <div class="card-body">
+    <div class="card-body"> 
         <form asp-action="Index" method="post">
             <div class="form-group row justify-content-center">
                 <div class="col-sm-5">
@@ -46,20 +46,20 @@
 </div>
 
 
-<div class="card p-3 mt-2 mx-auto rounded-4">
+<div class="card p-3 w-75 mt-5 mx-auto rounded-4">
+
+
     
-    <div class="card-body">
-        
-        
+
         @*Data For Table Design*@
         
-        <table class="table align-middle  bg-white w-100 table-striped" id="DTable">
+        <table class="table align-middle  bg-white w-100   table-striped" id="DTable">
             <thead>
                 <tr>
                     <th class ="text-center">Board Number</th>
                     <th class="text-center">Scholarship Name</th>
                     <th class="text-center">Board Type</th>
-                    <th class="text-center">Board Date</th>
+                    
                     <th class="text-center">Board Status</th>
                     @if (ViewBag.ActiveRole == "Admin")
                     {
@@ -78,11 +78,11 @@
                     <td class="text-center">1</td>
                     <td class="text-center">Saleh Aljohani</td>
                     <td class="text-center">Extend</td>
-                    <td class="text-center">2024/1/1</td>
+                    
                     <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">Completed</p></td>
                     @if (ViewBag.ActiveRole == "Admin")
                     {
-                        <td class="text-center">CSE</td>
+                        <td class="text-center">coumpuer computer computer computer</td>
                         <td class="text-center">information system</td>
 
                     }
@@ -92,7 +92,7 @@
 
                     }
                     <td>
-                        <div class="text-center gap-1">
+                        <div class="text-center ">
                             <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
                             <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
                         </div>
@@ -102,11 +102,11 @@
                     <td class="text-center">1</td>
                     <td class="text-center">Saleh Aljohani</td>
                     <td class="text-center">Extend</td>
-                    <td class="text-center">2024/1/1</td>
+                    
                     <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">Completed</p></td>
                     @if (ViewBag.ActiveRole == "Admin")
                     {
-                        <td class="text-center">CSE</td>
+                    <td class="text-center">coumpuer computer computer computer</td>
                         <td class="text-center">information system</td>
 
                     }
@@ -116,7 +116,7 @@
 
                     }
                     <td>
-                        <div class="text-center gap-1">
+                        <div class="text-center ">
                             <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
                             <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
                         </div>
@@ -126,11 +126,11 @@
                     <td class="text-center">1</td>
                     <td class="text-center">Saleh Aljohani</td>
                     <td class="text-center">Extend</td>
-                    <td class="text-center">2024/1/1</td>
+                    
                     <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">Completed</p></td>
                     @if (ViewBag.ActiveRole == "Admin")
                     {
-                        <td class="text-center">CSE</td>
+                    <td class="text-center">coumpuer computer computer computer</td>
                         <td class="text-center">information system</td>
 
                     }
@@ -140,7 +140,7 @@
 
                     }
                     <td>
-                        <div class="text-center gap-1">
+                        <div class="text-center ">
                             <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
                             <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
                         </div>
@@ -205,7 +205,8 @@
                 </tbody>
             </table>
         }
-    </div>
+    
+    
 </div>
 
 @* DataTable Library used to add filters to the tables *@
