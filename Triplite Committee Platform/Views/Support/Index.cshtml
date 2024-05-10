@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="card w-75 p-3 mt-5 mx-auto">
+<div class="card p-3 mt-5 mx-auto rounded-4card p-3 mt-5 mx-auto rounded-4">
 
     <div class="row">
         <div class="col-sm-4">
@@ -27,15 +27,15 @@
             <div class="col-4"></div>
         </div>
     }
-    <table class="table align-middle  table-striped bg-white w-100 " id="DTable">
+    <table class="table align-middle  bg-white w-100 table-striped " id="DTable">
         <thead class="bg-darck ">
             <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Subject</th>
-                <th>Message</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Subject</th>
+                <th class="text-center">Message</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -43,38 +43,38 @@
             {
                 <tr>
                     <td>
-                        <div class="d-flex align-items-center">
+                        <div class="text-center align-items-center">
 
                             <div>
-                                <p class="text-dark mb-1">@item.Name</p>
+                                <p class=" mb-1">@item.Name</p>
 
                             </div>
                         </div>
                     </td>
                     <td>
-                        <div class="d-flex align-items-center">
+                        <div class="text-center align-items-center">
 
                             <div>
-                                <p class="text-dark ms-0 mb-0">@item.Email</p>
+                                <p class="ms-0 mb-0">@item.Email</p>
 
                             </div>
                         </div>
                     </td>
                     <td>
-                        <div class="d-flex align-items-center">
+                        <div class="text-center align-items-center">
 
                             <div>
-                                <p class="text-dark ms-0 mb-0">@item.Subject</p>
+                                <p class=" ms-0 mb-0">@item.Subject</p>
 
                             </div>
                         </div>
                     </td>
 
                     <td>
-                        <div class="d-flex align-items-center">
+                        <div class="text-center align-items-center">
 
                             <div>
-                                <p class="fw-bold ms-0 mb-0 text-dark text-truncate " style="max-width: 140px;"> @item.Message</p>
+                                <p class=" ms-0 mb-0 text-truncate " style="max-width: 140px;"> @item.Message</p>
                                 
 
                             </div>
@@ -83,9 +83,9 @@
 
 
                     <td>
-                        <div class="d-flex  align-items-center">
+                        <div class="text-center  align-items-center">
                             <div>
-                                  <p class="mb-0 badge fs-6 @(item.Status ? "text-bg-success" : "text-bg-danger")">@(item.Status ? "Yes" : "No") </p>
+                                  <p class="mb-0 badge fs-6 @(item.Status ? "text-bg-success" : "text-bg-danger")">@(item.Status ? "Solved" : "Unsolved") </p>
                             </div>
                         </div>
                     </td>
@@ -93,12 +93,12 @@
 
 
                     <td>
-                        <div class="d-flex gap-1">
-                            <a asp-action="Details" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Details" id="iconhover" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info fs-4 text-primary"></i></a>
-                            <a asp-action="Solved" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@(item.Status ? "Unsolved" : "Solved")" id="iconhover" asp-route-id="@item.Id">
-                                <i class="@(item.Status ? "fa-solid fa-circle-xmark fs-4 text-danger" : "fa-solid fa-circle-check fs-4 text-success")"></i>
-                                </a>
-                            <a asp-action="Delete" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete" id="iconhover" asp-route-id="@item.Id"><i class="fa-solid fa-trash fs-4 text-danger"></i></a>
+                        <div class="text-center gap-1">
+                            <a asp-action="Solved" class="btn  bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@(item.Status ? "Unsolved" : "Solved")" id="" asp-route-id="@item.Id">
+                                <i class="@(item.Status ? "fa-solid fa-circle-xmark fs-5 text-danger" : "fa-solid fa-circle-check fs-5 text-success")"></i>
+                            </a>
+                            <a asp-action="Details" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info fs-5 text-secondary"></i></a>
+                            <a asp-action="Delete" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Request" id="" asp-route-id="@item.Id"><i class="fa-solid fa-trash fs-5 text-danger"></i></a>
                         </div>
                     </td>
                 </tr>
