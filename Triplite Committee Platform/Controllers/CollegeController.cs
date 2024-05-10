@@ -33,7 +33,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 return RedirectToAction("Index", "ConfirmEmail");
             }
-            return View(await _context.College.ToListAsync());
+            var college = await _context.College.Include(c => c.Department).ToListAsync();
+            return View(college);
         }
 
         // GET: ManageCollege/Details/5
