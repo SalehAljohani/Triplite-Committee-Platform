@@ -28,6 +28,7 @@
         <thead class="bg-darck">
             <tr>
                 <th class="text-center">Colleg Name</th>
+                <th class="text-center">Number of Departments</th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>
@@ -39,6 +40,13 @@
                         <div class="text-center align-items-center">
                             <div class="ms-3">
                                 <p class=" mb-1">@Html.DisplayFor(modelItem => item.CollegeName)</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center align-items-center">
+                            <div class="ms-3">
+                                <p class=" mb-1">@item.Department?.Count()</p>
                             </div>
                         </div>
                     </td>
