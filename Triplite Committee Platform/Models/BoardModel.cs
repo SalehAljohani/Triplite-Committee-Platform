@@ -10,7 +10,7 @@ namespace Triplite_Committee_Platform.Models
         public int BoardNo { get; set; }
 
         [Required(ErrorMessage = "Board Title is Required.")]
-        [StringLength(200, ErrorMessage = "Board Title Cannot Exceed 50 characters.")]
+        [StringLength(200, ErrorMessage = "Board Title Cannot Exceed 200 characters.")]
         public string Title { get; set; }
 
         [Required(ErrorMessage = "Board Reasons is Required.")]
@@ -19,6 +19,8 @@ namespace Triplite_Committee_Platform.Models
         public string? AddedReasons { get; set; }
 
         public bool? Recommendation { get; set; }
+
+        public string? signatures { get; set; }
 
         [ForeignKey("DeptNo")]
         public DepartmentModel? Department { get; set; }

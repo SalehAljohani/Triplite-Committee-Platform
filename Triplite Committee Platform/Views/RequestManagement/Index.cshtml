@@ -1,1 +1,133 @@
-﻿
+﻿@model IEnumerable<Triplite_Committee_Platform.Models.RequestTypeModel>
+
+@{
+    ViewData["Title"] = "Request Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card p-3 w-75 mt-5 mx-auto rounded-4">
+    <div class="row">
+        <div class="col-sm-4">
+            <strong class="fs-3">Request Type</strong>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-end">
+            <a asp-action="Create" class="text-decoration-none text-light btn btn-primary me-1">
+                <strong class="fs-5">Create New Request Type</strong>
+            </a>
+        </div>
+    </div>
+    <hr />
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["Success"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["Error"]
+        </div>
+    }
+
+    <table class="table align-middle  bg-white w-100 table-striped" id="DTable">
+        <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Request type</th>
+                <th class="text-center">Number of Reasons</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+
+
+
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+                var count = 0;
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="text-center align-items-center">
+
+                                <div>
+                                    <p class=" mb-1">@count</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-center align-items-center">
+
+                                <div>
+                                    <p class=" ms-0 mb-0">@item.RequestTypeName</p>
+
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-center align-items-center">
+
+                                <div>
+                                    <p class="ms-0 mb-0">@item.Reasons?.Count()</p>
+
+                                </div>
+                            </div>
+
+
+                        </td>
+
+                        <td>
+                            <div class="text-center">
+
+                                @*                              <a asp-action="Create" asp-controller="Reasons" asp-route-id="@RequestTypeID" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Department" id=""><i class="fa-solid text-success fa-plus fs-4"></i></a>
+                        *@      <a asp-action="Edit" asp-route-id="@item.RequestTypeID" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit College" id=""><i class="fa-solid text-primary fa-pen fs-4"></i></a>
+                                <a asp-action="Details" asp-route-id="@item.RequestTypeID" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title=" View Details" id=""><i class="fa-solid text-secondary fa-circle-info fs-4"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.RequestTypeID" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="delete College" id=""><i class="fa-solid text-danger fa-trash fs-4"></i></a>
+
+                            </div>
+                        </td>
+                    </tr>
+                    count++;
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+@* DataTable Library used to add filters to the tables *@
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.min.css" />
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#DTable').DataTable({
+
+        });
+    });
+
+
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+</script>
+
+@* End of DataTable Library initialization *@
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

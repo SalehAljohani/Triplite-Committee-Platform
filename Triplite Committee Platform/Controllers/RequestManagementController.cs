@@ -70,6 +70,7 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 _context.Add(requestTypeModel);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "Request Type Created Successfully.";
                 return RedirectToAction(nameof(Index));
             }
             return View(requestTypeModel);

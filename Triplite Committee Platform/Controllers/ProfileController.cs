@@ -103,7 +103,7 @@ namespace Triplite_Committee_Platform.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddSign(string? signatureData)
+        public async Task<IActionResult> AddSign(string? signatureData, IFormFile? file)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -111,16 +111,49 @@ namespace Triplite_Committee_Platform.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var base64Signature = signatureData?.Split(',')[1];
-            var signatureBytes = Convert.FromBase64String(base64Signature);
+            if(string.IsNullOrEmpty(signatureData) && file == null)
+            {
+                TempData["Error"] = "You havent Draw or Upload Signature";
+                return RedirectToAction("Index");
+            }
 
-            var fileName = $"{user.UserName}_Sign.png";
+            if (!string.IsNullOrEmpty(signatureData))
+            {
+                var base64Signature = signatureData?.Split(',')[1];
+                var signatureBytes = Convert.FromBase64String(base64Signature);
 
-            var filePath = Path.Combine(_env.WebRootPath, "signatures", fileName);
-            await System.IO.File.WriteAllBytesAsync(filePath, signatureBytes);
+                var fileName = $"{user.UserName}_Sign.png";
 
-            user.Signature = fileName; 
+                var filePath = Path.Combine(_env.WebRootPath, "signatures", fileName);
+                await System.IO.File.WriteAllBytesAsync(filePath, signatureBytes);
 
+                user.Signature = fileName;
+            }
+
+            if(file != null)
+            {
+                if (!file.ContentType.StartsWith("image/"))
+                {
+                    TempData["Error"] = "Invalid file type. Only image files are allowed.";
+                    return RedirectToAction("Index");
+                }
+
+                if (Path.GetExtension(file.FileName).ToLower() != ".png")
+                {
+                    TempData["Error"] = "Invalid file type. Only PNG files are allowed.";
+                    return RedirectToAction("Index");
+                }
+
+                var fileName = $"{user.UserName}_Sign.png";
+                var filePath = Path.Combine(_env.WebRootPath, "signatures", fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                user.Signature = fileName;
+            }
+            
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
