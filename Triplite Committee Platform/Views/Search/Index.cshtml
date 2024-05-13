@@ -13,19 +13,19 @@
 
 <div class="card p-3 mt-5 mx-auto rounded-4card p-3 mt-5 mx-auto rounded-4">
     <div class="row">
-        <strong class="fs-3">Search</strong>
+        <strong class="fs-3">@Localizer["search"]</strong>
     </div>
     <div class="card-body">
         <form asp-action="Index" method="post">
             <div class="form-group row justify-content-center">
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" name="search" placeholder="Enter search term" />
+                    <input type="text" class="form-control" name="search" placeholder="@Localizer["enterSearchTerm"]" />
                 </div>
                 @if (ViewBag.Colleges != null)
                 {
                     <div class="col-sm-3">
                         <select class="form-control" asp-items="ViewBag.Colleges" name="SelectedCollege" onchange="enableDepartmentSelection(this)">
-                            <option value="">Select College</option>
+                            <option value="">@Localizer["selectCollege"]</option>
                         </select>
                     </div>
                 }
@@ -33,12 +33,12 @@
                 {
                     <div class="col-sm-3">
                         <select class="form-control" name="SelectedDepartment" disabled>
-                            <option value="">Select Department</option>
+                            <option value="">@Localizer["selectDept"]</option>
                         </select>
                     </div>
                 }
                 <div class="col-sm-1">
-                    <a type="submit" class="btn bg-opacity-10 btn-md " data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Search" id=""><i class="fa fa-search fs-4 text-primary  " title=" Search"></i> </a>
+                    <a type="submit" class="btn bg-opacity-10 btn-md " data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["search"]" id=""><i class="fa fa-search fs-4 text-primary  " title="@Localizer["search"]"></i> </a>
                 </div>
             </div>
         </form>
@@ -56,21 +56,21 @@
         <table class="table align-middle  bg-white w-100 table-striped" id="DTable">
             <thead>
                 <tr>
-                    <th class ="text-center">Board Number</th>
-                    <th class="text-center">Scholarship Name</th>
-                    <th class="text-center">Board Type</th>
-                    <th class="text-center">Board Date</th>
-                    <th class="text-center">Board Status</th>
+                    <th class="text-center">@Localizer["boardNum"]</th>
+                    <th class="text-center">@Localizer["scholarName"]</th>
+                    <th class="text-center">@Localizer["boardType"]</th>
+                    <th class="text-center">@Localizer["boardDate"]</th>
+                    <th class="text-center">@Localizer["boardStatus"]</th>
                     @if (ViewBag.ActiveRole == "Admin")
                     {
-                        <th class="text-center">Scholarship College</th>
-                        <th class="text-center">Scholarship Department</th>
+                        <th class="text-center">@Localizer["scholarCollege"]</th>
+                        <th class="text-center">@Localizer["scholarDept"]</th>
                     }
                     else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
                     {
-                        <th class="text-center">Scholarship Department</th>
+                        <th class="text-center">@Localizer["scholarDept"]</th>
                     }
-                    <th class="text-center">Actions</th>
+                    <th class="text-center">@Localizer["action"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,7 +79,7 @@
                     <td class="text-center">Saleh Aljohani</td>
                     <td class="text-center">Extend</td>
                     <td class="text-center">2024/1/1</td>
-                    <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">Completed</p></td>
+                    <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">@Localizer["completed"]</p></td>
                     @if (ViewBag.ActiveRole == "Admin")
                     {
                         <td class="text-center">CSE</td>
@@ -93,8 +93,8 @@
                     }
                     <td>
                         <div class="text-center gap-1">
-                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
-                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
+                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["viewDetails"]" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
+                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["downloadPDF"]" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -103,7 +103,7 @@
                     <td class="text-center">Saleh Aljohani</td>
                     <td class="text-center">Extend</td>
                     <td class="text-center">2024/1/1</td>
-                    <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">Completed</p></td>
+                    <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">@Localizer["completed"]</p></td>
                     @if (ViewBag.ActiveRole == "Admin")
                     {
                         <td class="text-center">CSE</td>
@@ -117,8 +117,8 @@
                     }
                     <td>
                         <div class="text-center gap-1">
-                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
-                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
+                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["viewDetails"]" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
+                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["downloadPDF"]" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -127,7 +127,7 @@
                     <td class="text-center">Saleh Aljohani</td>
                     <td class="text-center">Extend</td>
                     <td class="text-center">2024/1/1</td>
-                    <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">Completed</p></td>
+                    <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">@Localizer["completed"]</p></td>
                     @if (ViewBag.ActiveRole == "Admin")
                     {
                         <td class="text-center">CSE</td>
@@ -141,8 +141,8 @@
                     }
                     <td>
                         <div class="text-center gap-1">
-                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
-                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
+                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["viewDetails"]" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
+                            <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["downloadPDF"]" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -156,21 +156,21 @@
             <table class="table table-striped" id="DTable">
                 <thead>
                     <tr>
-                        <th>Board Number</th>
-                        <th>Scholarship Name</th>
-                        <th>Board Type</th>
-                        <th>Board Date</th>
-                        <th>Board Status</th>
+                        <th>@Localizer["boardNum"]</th>
+                        <th>@Localizer["scholarName"]</th>
+                        <th>@Localizer["boardType"]</th>
+                        <th>@Localizer["boardDate"]</th>
+                        <th>@Localizer["boardStatus"]</th>
                         @if (ViewBag.ActiveRole == "Admin")
                         {
-                            <th>Scholarship College</th>
-                            <th>Scholarship Department</th>
+                            <th>@Localizer["scholarCollege"]</th>
+                            <th>@Localizer["scholarDept"]</th>
                         }
                         else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
                         {
-                            <th>Scholarship Department</th>
+                            <th>@Localizer["scholarDept"]</th>
                         }
-                        <th>Actions</th>
+                        <th>@Localizer["action"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -196,8 +196,8 @@
                             }
                             <td>
                                 <div class="d-flex gap-1">
-                                    <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
-                                    <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Download as PDF" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
+                                    <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["viewDetails"]" id="iconhover"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
+                                    <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["downloadPDF"]" id="iconhover"><i class="fa-solid fa-circle-down fs-5 text-success"></i></a>
                                 </div>
                             </td>
                         </tr>
