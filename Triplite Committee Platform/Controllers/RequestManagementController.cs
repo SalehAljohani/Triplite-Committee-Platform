@@ -147,13 +147,6 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 TempData["Error"] = "Request Type Not Found.";
             }
-
-            var existingReasons = _context.Reasons.Where(d => d.ReqTypeID == id).ToList();
-            if (existingReasons.Any())
-            {
-                TempData["DeleteReasons"] = true;
-            }
-
             return View(requestTypeModel);
         }
 
@@ -167,10 +160,8 @@ namespace Triplite_Committee_Platform.Controllers
                 var existingReasons = _context.Reasons.Where(d => d.ReqTypeID == id).ToList();
                 if (existingReasons.Any())
                 {
-                    foreach (var reason in existingReasons)
-                    {
-                        _context.Reasons.Remove(reason);
-                    }
+                    TempData["Error"] = "There are Reasons Connected to This Request Type. Please Delete Them First";
+                    return RedirectToAction(nameof(Index));
                 }
             }
             _context.RequestType.Remove(requestTypeModel);

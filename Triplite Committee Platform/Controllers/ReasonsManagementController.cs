@@ -21,7 +21,7 @@ namespace Triplite_Committee_Platform.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
