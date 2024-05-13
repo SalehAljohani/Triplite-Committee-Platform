@@ -7,7 +7,7 @@
 
 
 <div class="card w-50 mx-auto mt-3 rounded-4">
-    <h3 class="mt-4 text-center"><strong>Support Details</strong></h3>
+    <h3 class="mt-4 text-center"><strong>@Localizer["suppDetails"]</strong></h3>
     <hr />
     <div class="card-body">
         <dl class="row g-3">
@@ -36,8 +36,8 @@
 
 <div class="text-center">
 
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary btn-md">  Edit Details  </a>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary btn-md">  @Localizer["editDetails"]  </a>
+    <a asp-action="Index" class="btn btn-secondary">@Localizer["backToList"]</a>
 
     
 </div>
