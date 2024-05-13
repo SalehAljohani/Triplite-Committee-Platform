@@ -42,7 +42,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["Error"] = "Department not found.";
+                return RedirectToAction("Index", "College");
             }
 
             var departmentModel = await _context.Department
@@ -50,7 +51,8 @@ namespace Triplite_Committee_Platform.Controllers
                 .FirstOrDefaultAsync(m => m.DeptNo == id);
             if (departmentModel == null)
             {
-                return NotFound();
+                TempData["Error"] = "Department not found.";
+                return RedirectToAction("Index", "College");
             }
 
             return View(departmentModel);
@@ -61,11 +63,13 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return BadRequest();
+                TempData["Error"] = "College not found.";
+                return RedirectToAction("Index", "College");
             }
             if(_context.College.Find(id) == null)
             {
-                return NotFound();
+                TempData["Error"] = "College not found.";
+                return RedirectToAction("Index", "College");
             }
             ViewData["CollegeNo"] = new SelectList(_context.College, "CollegeNo", "CollegeName", id);
             return View();
@@ -93,28 +97,29 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["Error"] = "Department not found.";
+                return RedirectToAction("Index", "College");
             }
 
             var departmentModel = await _context.Department.FindAsync(id);
             if (departmentModel == null)
             {
-                return NotFound();
+                TempData["Error"] = "Department not found.";
+                return RedirectToAction("Index", "College");
             }
             ViewData["CollegeNo"] = new SelectList(_context.College, "CollegeNo", "CollegeName", departmentModel.CollegeNo);
             return View(departmentModel);
         }
 
-        // POST: Department/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CollegeNo,DeptName,DeptNo")] DepartmentModel departmentModel)
         {
             if (id != departmentModel.DeptNo)
             {
-                return NotFound();
+                TempData["Error"] = "Department not found.";
+                return RedirectToAction("Index", "College");
             }
 
             if (ModelState.IsValid)
@@ -128,7 +133,8 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (!DepartmentModelExists(departmentModel.DeptNo))
                     {
-                        return NotFound();
+                        TempData["Error"] = "Department not found.";
+                        return RedirectToAction("Index", "College");
                     }
                     else
                     {
@@ -146,14 +152,14 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Message"] = "Department not found.";
-                return View();
+                TempData["Error"] = "Department not found.";
+                return RedirectToAction("Index", "College");
             }
 
-            if(_context.Department.Find(id) == null)
+            if (_context.Department.Find(id) == null)
             {
-                TempData["Message"] = "Department not found.";
-                return View();
+                TempData["Error"] = "Department not found.";
+                return RedirectToAction("Index", "College");
             }
 
             var departmentModel = await _context.Department
@@ -161,8 +167,8 @@ namespace Triplite_Committee_Platform.Controllers
                 .FirstOrDefaultAsync(m => m.DeptNo == id);
             if (departmentModel == null)
             {
-                TempData["Message"] = "Department not found.";
-                return View();
+                TempData["Error"] = "Department not found.";
+                return RedirectToAction("Index", "College");
             }
 
             var hasUsers = await _context.User.AnyAsync(u => u.DeptNo == id);
