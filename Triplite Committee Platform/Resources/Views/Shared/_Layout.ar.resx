@@ -129,9 +129,6 @@
   <data name="boards" xml:space="preserve">
     <value>المجالس</value>
   </data>
-  <data name="boardsNreasons" xml:space="preserve">
-    <value>المجالس و الحيثيات</value>
-  </data>
   <data name="changeRole" xml:space="preserve">
     <value>تغيير المنصب</value>
   </data>
@@ -149,6 +146,9 @@
   </data>
   <data name="prevBoards" xml:space="preserve">
     <value>المجالس السابقة</value>
+  </data>
+  <data name="reqManage" xml:space="preserve">
+    <value>إدارة الطلبات</value>
   </data>
   <data name="stats" xml:space="preserve">
     <value>الإحصائيات</value>

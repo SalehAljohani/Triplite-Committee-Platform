@@ -23,12 +23,12 @@
 
         <div class="row p-3">
             <div class="col-sm-7">
-                <strong class="fs-3">Information of support page</strong>
+                <strong class="fs-3">@Localizer["infoSupp"]</strong>
             </div>
             <div class="col-sm-1"></div>
             <div class="col-sm-4 text-end">
                 <a asp-action="Create" class="text-decoration-none text-light btn btn-primary me-1">
-                    <strong class="fs-5">Add Informaton</strong>
+                    <strong class="fs-5">@Localizer["addInfo"]</strong>
                 </a>
             </div>
         </div>
@@ -36,7 +36,7 @@
     }
     else
     {
-        <h3 class="mt-4 text-center g-3"><strong>Information of support page</strong></h3>
+        <h3 class="mt-4 text-center g-3"><strong>@Localizer["insoSupp"]</strong></h3>
     }
     <hr />
      <div class="card-body">
@@ -63,7 +63,7 @@
             @if (Model == null || !Model.Any())
              {
                 <div class="text-center">
-                 <p> No Information in support page please add information </p>
+                <p> @Localizer["noInfo"] </p>
 
                 </div>
 
@@ -77,8 +77,8 @@
         
         @if (Model != null || !Model.Any())
         {
-            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary me-3 ms-3">Edit Information</a>
-            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger ms-3 me-3">Delete Information</a>
+            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary me-3 ms-3">@Localizer["editInfo"]</a>
+            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger ms-3 me-3">@Localizer["deleteInfo"]</a>
         }
 
     </div>  

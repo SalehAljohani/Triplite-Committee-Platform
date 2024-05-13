@@ -117,14 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="action" xml:space="preserve">
-    <value>الإجراءات</value>
-  </data>
   <data name="addInfo" xml:space="preserve">
     <value>أضف معلومات</value>
-  </data>
-  <data name="contactEmail" xml:space="preserve">
-    <value>بريد التواصل</value>
   </data>
   <data name="deleteInfo" xml:space="preserve">
     <value>حذف المعلومات</value>
@@ -135,16 +129,7 @@
   <data name="infoSupp" xml:space="preserve">
     <value>صفحة معلومات الدعم</value>
   </data>
-  <data name="location" xml:space="preserve">
-    <value>الموقع</value>
-  </data>
-  <data name="phoneNum" xml:space="preserve">
-    <value>رقم الجوال</value>
-  </data>
-  <data name="telephoneNum" xml:space="preserve">
-    <value>رقم الهاتف</value>
-  </data>
-  <data name="viewDetails" xml:space="preserve">
-    <value>عرض التفاصيل</value>
+  <data name="noInfo" xml:space="preserve">
+    <value>لا توجد معلومات في صفحة الدعم, فضلًا أضف معلومات الدعم</value>
   </data>
 </root>

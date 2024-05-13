@@ -129,9 +129,6 @@
   <data name="boards" xml:space="preserve">
     <value>Boards</value>
   </data>
-  <data name="boardsNreasons" xml:space="preserve">
-    <value>Boards &amp; Reasons</value>
-  </data>
   <data name="changeRole" xml:space="preserve">
     <value>Change role</value>
   </data>
@@ -149,6 +146,9 @@
   </data>
   <data name="prevBoards" xml:space="preserve">
     <value>Previous boards</value>
+  </data>
+  <data name="reqManage" xml:space="preserve">
+    <value>Requests management</value>
   </data>
   <data name="stats" xml:space="preserve">
     <value>Statistics</value>
