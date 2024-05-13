@@ -1,6 +1,6 @@
 ﻿@model Triplite_Committee_Platform.ViewModels.LoginViewModel
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = @Localizer["title"];
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
@@ -26,7 +26,7 @@
     </div>
 }
 
-<h5 class="pt-5 text-center">Welcome to <strong>Triplite Committee Platform 👋</strong></h5>
+<h5 class="pt-5 text-center">@Localizer["welcomePT1"] <strong>@Localizer["welcomePT2"]</strong></h5>
 <div class="justify-content-center">
     <section class="text-black">
         <form id="account" method="post">
@@ -36,12 +36,12 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                     <div class="form-floating mb-4 mt-5">
                         <input asp-for="Email" class="form-control w-100" autocomplete="username" aria-required="true" placeholder="" />
-                        <label asp-for="Email" class="form-label">Email</label>
+                        <label asp-for="Email" class="form-label">@Localizer["email"]</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-floating mb-4">
                         <input asp-for="Password" class="form-control w-100" autocomplete="password" aria-required="true" placeholder="" />
-                        <label asp-for="Password" class="form-label">Password</label>
+                        <label asp-for="Password" class="form-label">@Localizer["password"]</label>
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 @*                     <div class="checkbox mb-4">
@@ -54,13 +54,13 @@
                 <div class="col-sm-2"></div>
             </div>
             <div class="mb-5 text-center">
-                <button id="login-submit" type="submit" class="w-50 btn btn-lg btn-primary">Log in</button>
+                <button id="login-submit" type="submit" class="w-50 btn btn-lg btn-primary">@Localizer["login"]</button>
             </div>
             <div class="row pb-3">
                 <div class="col-sm-1"></div>
                 <div class="col-sm-5">
                     <p class="fs-6">
-                        <a id="forgot-password" class="text-light text-decoration-none text-start" asp-controller="Login" asp-action="Help"><strong>Need Help?</strong></a>
+                        <a id="forgot-password" class="text-light text-decoration-none text-start" asp-controller="Login" asp-action="Help"><strong>@Localizer["needHelp"]</strong></a>
                     </p>
                     @*                     <p>
                     <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="col-sm-5 text-end">
                     <p class="fs-6">
-                        <a class="text-light text-decoration-none" asp-area="" asp-controller="RequestScholarship" asp-action="Index"><strong>Request Scholarship</strong></a> @* Create Request Scholarship Page *@
+                        <a class="text-light text-decoration-none" asp-area="" asp-controller="RequestScholarship" asp-action="Index"><strong>@Localizer["reqScholar"]</strong></a> @* Create Request Scholarship Page *@
                     </p>
                 </div>
                 <div class="col-sm-1"></div>

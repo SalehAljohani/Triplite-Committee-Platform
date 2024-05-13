@@ -119,7 +119,7 @@ namespace Triplite_Committee_Platform.Controllers
         //POST: Department/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AccountViewModel accountViewModel, List<string> ListRoles)
+        public async Task<IActionResult> Create(AccountViewModel accountViewModel)
         {
             var department = accountViewModel.Department;
             if (ModelState.IsValid)
@@ -200,7 +200,7 @@ namespace Triplite_Committee_Platform.Controllers
                     await PopulateDepartmentsAndRoles();
                     return View(accountViewModel);
                 }
-                if (ListRoles == null)
+                if (accountViewModel.ListRoles == null)
                 {
                     ModelState.AddModelError(string.Empty, "Please Select at Least ONE Role.");
                     await PopulateDepartmentsAndRoles();
@@ -213,16 +213,16 @@ namespace Triplite_Committee_Platform.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (ListRoles.Count > 0)
+                    if (accountViewModel.ListRoles.Count > 0)
                     {
-                        if (ListRoles == null)
+                        if (accountViewModel.ListRoles == null)
                         {
                             ModelState.AddModelError(string.Empty, "Please select at least one role.");
                             await PopulateDepartmentsAndRoles();
                             return View(accountViewModel);
                         }
 
-                        foreach (var role in ListRoles)
+                        foreach (var role in accountViewModel.ListRoles)
                         {
                             var roleExists = await _roleManager.FindByIdAsync(role);
                             if (roleExists != null)

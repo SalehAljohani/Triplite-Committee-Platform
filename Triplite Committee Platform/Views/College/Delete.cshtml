@@ -21,15 +21,15 @@
 }
 
 <div class="card w-50 mx-auto mt-3 rounded-4">
-    <h3 class="mt-4 text-center"><strong class="text-uppercase">Are you sure you want to delete <span class="text-danger">[@Model?.CollegeName]</span> College?</strong></h3>
-    <p class="text-center text-dark fw-bold mt-5">This College has the following Departments</p>
+    <h3 class="mt-4 text-center"><strong class="text-uppercase">@Localizer["deleteCollegePhrase"] <span class="text-danger">[@Model?.CollegeName]</span> @Localizer["college"]</strong></h3>
+    <p class="text-center text-dark fw-bold mt-5">@Localizer["collegeHasDept"]</p>
     <hr />
     <table class="table text-center">
         <thead>
             <tr>
                 <th>#</th>
-                <th>Department Name</th>
-                <th>Action</th>
+                <th>@Localizer["deptName"]</th>
+                <th>@Localizer["action"]</th>
             </tr>
         </thead>
         <tbody>
@@ -43,7 +43,7 @@
                         <td>@item.DeptName</td>
                         <td>
                             <div class="text-center">
-                                <a asp-action="Delete" asp-controller="Department" asp-route-id="@item.DeptNo" class="btn btn-danger btn-md">Delete</a>
+                                <a asp-action="Delete" asp-controller="Department" asp-route-id="@item.DeptNo" class="btn btn-danger btn-md">@Localizer["delete"]</a>
                             </div>
                         </td>
                     </tr>
@@ -56,22 +56,22 @@
         <form asp-action="Delete">
             <input type="hidden" asp-for="CollegeNo" />
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirm">
-                Delete
+                @Localizer["delete"]
             </button>
             <div class="modal fade" id="deleteConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="deleteConfirmLabel">Delete Confirmation</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h1 class="modal-title fs-5" id="deleteConfirmLabel">@Localizer["deleteConfirm"]</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["close"]"></button>
                         </div>
                         <div class="modal-body">
-                            Are you sure you want to delete <strong class="text-danger text-uppercase">[@Model?.CollegeName]</strong> College?
+                            @Localizer["deleteCollegePhrase"] <strong class="text-danger text-uppercase">[@Model?.CollegeName]</strong> @Localizer["college"]
                         </div>
                         <hr />
                         <div class="mb-3">
-                            <button type="button" class="btn btn-secondary me-3 w-25" data-bs-dismiss="modal">No</button>
-                            <button type="submit" class="btn btn-danger ms-3 w-25">Yes</button>
+                            <button type="button" class="btn btn-secondary me-3 w-25" data-bs-dismiss="modal">@Localizer["no"]</button>
+                            <button type="submit" class="btn btn-danger ms-3 w-25">@Localizer["yes"]</button>
                         </div>
                     </div>
                 </div>
@@ -80,5 +80,5 @@
     </div>
 </div>
 <div class="text-center">
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">@Localizer["backToList"]</a>
 </div>

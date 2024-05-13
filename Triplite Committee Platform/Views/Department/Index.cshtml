@@ -13,7 +13,7 @@
     </div>
 }
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">@Localizer["createNew"]</a>
 </p>
 <table class="table">
     <thead>
@@ -37,9 +37,9 @@
                 @Html.DisplayFor(modelItem => item.DeptName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.DeptNo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DeptNo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DeptNo">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.DeptNo">@Localizer["edit"]</a> |
+                    <a asp-action="Details" asp-route-id="@item.DeptNo">@Localizer["details"]</a> |
+                    <a asp-action="Delete" asp-route-id="@item.DeptNo">@Localizer["delete"]</a>
             </td>
         </tr>
 }

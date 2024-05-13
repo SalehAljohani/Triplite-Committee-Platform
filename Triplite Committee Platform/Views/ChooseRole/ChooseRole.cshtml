@@ -13,21 +13,21 @@
 
 <div class="card w-50 mx-auto mt-3">
     <div class="card-header text-center">
-        <strong class="me-3">Choose Role</strong>
+        <strong class="me-3">@Localizer["chooseRole"]</strong>
     </div>
     <form asp-action="ChooseRole" asp-controller="ChooseRole" method="post">
         <div class="text-center mt-3 mb-4">
-            <strong>Please select a role to access the platform. Don't worry, you can change it at any time later.</strong>
+            <strong>@Localizer["selectRolePhrase"]</strong>
         </div>
         <div class="row mb-4">
             <div class="col-sm-2"></div>
             <div class="col-sm-6">
                 <select asp-for="SelectedRole" class="form-select text-center" asp-items="@ViewBag.Roles">
-                    <option value="" disabled selected>Select Role</option>
+                    <option value="" disabled selected>@Localizer["selectRole"]</option>
                 </select>
             </div>
             <div class="col-sm-2">
-                <input type="submit" class="btn btn-primary" value="Submit" />
+                <input type="submit" class="btn btn-primary" value="@Localizer["submit"]" />
             </div>
             <div class="col-sm-2"></div>
         </div>

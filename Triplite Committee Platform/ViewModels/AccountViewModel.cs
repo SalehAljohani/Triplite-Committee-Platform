@@ -5,6 +5,7 @@ namespace Triplite_Committee_Platform.ViewModels
 {
     public class AccountViewModel : UserModel
     {
+        [Required(ErrorMessage ="not working")]
         public IList<string?> ListRoles { get; set; }
 
         [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]

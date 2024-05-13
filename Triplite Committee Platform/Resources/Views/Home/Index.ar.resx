@@ -117,7 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Title" xml:space="preserve">
-    <value>مرحبا</value>
+  <data name="boardStatusAtCollege" xml:space="preserve">
+    <value>حالة المجالس في الكلية</value>
+  </data>
+  <data name="compBoards" xml:space="preserve">
+    <value>المجالس المكتملة</value>
+  </data>
+  <data name="currBoards" xml:space="preserve">
+    <value>المجالس الحالية</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>التالي</value>
+  </data>
+  <data name="prev" xml:space="preserve">
+    <value>السابق</value>
+  </data>
+  <data name="totBoards" xml:space="preserve">
+    <value>عدد المجالس</value>
   </data>
 </root>

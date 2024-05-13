@@ -6,36 +6,36 @@
 
 <div class="card w-50 mx-auto mt-3 rounded-4">
 
-    <h3 class="mt-4 text-center"><strong class="text-uppercase">Are you sure you want to delete <span class="text-danger">[@Model.Name]</span> User?</strong></h3>
+    <h3 class="mt-4 text-center"><strong class="text-uppercase">@Localizer["sureYouWantToDelete"]<span class="text-danger">[@Model.Name]</span> @Localizer["user"]</strong></h3>
 
 
     <hr />
     <div class="card-body">
         <dl class="row g-3">
 
-            <dt class="col-sm-4 fw-bold">Name:</dt>
+            <dt class="col-sm-4 fw-bold">@Localizer["name"]</dt>
             <dd class="col-sm-8">@Model.Name</dd>
             <hr />
 
-            <dt class="col-sm-4 fw-bold">Employee ID / Username:</dt>
+            <dt class="col-sm-4 fw-bold">@Localizer["empID"]</dt>
             <dd class="col-sm-8">@Model.EmployeeID</dd>
             <hr />
-            <dt class="col-sm-4 fw-bold">Email:</dt>
+            <dt class="col-sm-4 fw-bold">@Localizer["email"]</dt>
             <dd class="col-sm-8">@Model.Email</dd>
             <hr />
-            <dt class="col-sm-4 fw-bold">Email Confirmed:</dt>
+            <dt class="col-sm-4 fw-bold">@Localizer["emailConfirmed"]</dt>
             <dd class="col-sm-8">@Model.EmailConfirmed</dd>
             <hr />
-            <dt class="col-sm-4 fw-bold">Phone Number:</dt>
+            <dt class="col-sm-4 fw-bold">@Localizer["phone"]</dt>
             <dd class="col-sm-8">@Model.PhoneNumber</dd>
             <hr />
-            <dt class="col-sm-4 fw-bold">Phone Number Confirmed:</dt>
+            <dt class="col-sm-4 fw-bold">@Localizer["phoneConfirmed"]</dt>
             <dd class="col-sm-8">@Model.PhoneNumberConfirmed</dd>
             <hr />
-            <dt class="col-sm-4 fw-bold">Department:</dt>
+            <dt class="col-sm-4 fw-bold">@Localizer["dept"]</dt>
             <dd class="col-sm-8">@Model.Department?.DeptName</dd>
             <hr />
-            <dt class="col-sm-4 fw-bold">Roles:</dt>
+            <dt class="col-sm-4 fw-bold">@Localizer["roles"]</dt>
             <dd class="col-sm-8">
                 @foreach (var role in Model.ListRoles)
                 {
@@ -52,27 +52,27 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="DeptNo" />
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirm">
-            Delete
+            @Localizer["delete"]
         </button>
         <div class="modal fade" id="deleteConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="deleteConfirmLabel">Delete Confirmation</h1>
+                        <h1 class="modal-title fs-5" id="deleteConfirmLabel">@Localizer["deleteConfirmationTitle"]</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Are you sure you want to delete <strong class="text-danger text-uppercase">[@Model?.Name]</strong> User?
+                        @Localizer["deleteConfirmation"] <strong class="text-danger text-uppercase">[@Model?.Name]</strong> @Localizer["user"]
                     </div>
                     <hr />
                     <div class="mb-3">
-                        <button type="button" class="btn btn-secondary me-3 w-25" data-bs-dismiss="modal">No</button>
-                        <button type="submit" class="btn btn-danger ms-3 w-25">Yes</button>
+                        <button type="button" class="btn btn-secondary me-3 w-25" data-bs-dismiss="modal">@Localizer["no"]</button>
+                        <button type="submit" class="btn btn-danger ms-3 w-25">@Localizer["yes"]</button>
                     </div>
                 </div>
             </div>
         </div>
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        <a asp-action="Index" class="btn btn-secondary">@Localizer["backToList"]</a>
     </form>
 
 </div>
