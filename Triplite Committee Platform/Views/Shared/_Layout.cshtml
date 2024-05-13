@@ -19,32 +19,32 @@
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-home"></i>Home </a>
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-home"></i>@Localizer["home"] </a>
                     </li>
                     <li class="menu-title">Search</li>
                     <li>
-                        <a asp-area="" asp-controller="Search" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-search"></i>Advanced Search </a>
+                        <a asp-area="" asp-controller="Search" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-search"></i>@Localizer["advancedSearch"] </a>
                     </li>
                     <li class="menu-title">Boards</li>
                     <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa-solid fa-folder"></i>Boards </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa-solid fa-folder"></i>@Localizer["boards"] </a>
                         <ul class="sub-menu children dropdown-menu">
                             <li>
                                 <i class="fa-solid fa-file"></i>
-                                <a asp-area="" asp-controller="Board" asp-action="Index" class="nav-link">Previous Boards </a>
+                                <a asp-area="" asp-controller="Board" asp-action="Index" class="nav-link">@Localizer["prevBoards"] </a>
                             </li>
                             @if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
                             {
                                     <li>
                                         <i class="fa-solid fa-file-import"></i>
-                                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Current Boards</a>
+                                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">@Localizer["currBoards"]</a>
                                     </li>
                             }
                             @if (ViewBag.ActiveRole == "Department Head" || ViewBag.ActiveRole == "Department Member")
                             {
                                     <li>
                                         <i class="fa-solid fa-file-import"></i>
-                                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Current Boards</a>
+                                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">@Localizer["currBoards"]</a>
                                     </li>
                             }
                         </ul>
@@ -53,42 +53,42 @@
                     {
                             <li class="menu-title">Statistics</li>
                             <li>
-                                <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-bar-chart-o"></i>Statistics </a>
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-bar-chart-o"></i>@Localizer["stats"] </a>
                             </li>
                             <li class="menu-title">Manage</li>
                             <li class="menu-item-has-children dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="menu-icon fa-solid fa-id-card"></i>Users & Roles </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="menu-icon fa-solid fa-id-card"></i>@Localizer["usersNroles"] </a>
                                 <ul class="sub-menu children dropdown-menu">
                                     <li>
-                                        <i class="fa-solid fa-users"></i><a asp-area="" asp-controller="Account" asp-action="Index" class="nav-link ">Accounts </a>
+                                    <i class="fa-solid fa-users"></i><a asp-area="" asp-controller="Account" asp-action="Index" class="nav-link ">@Localizer["accounts"] </a>
                                     </li>
                                     <li>
-                                        <i class="fa-solid fa-user-gear"></i><a asp-area="" asp-controller="Role" asp-action="Index" class="nav-link">Manage Roles </a>
+                                        <i class="fa-solid fa-user-gear"></i><a asp-area="" asp-controller="Role" asp-action="Index" class="nav-link">@Localizer["manageRoles"] </a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a asp-area="" asp-controller="College" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-building-columns"></i>College & Department</a>
+                            <a asp-area="" asp-controller="College" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-building-columns"></i>@Localizer["collegeNdept"]</a>
                             </li>
                             <li>
-                                <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-file-text"></i>Boards & Reasons</a>
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-file-text"></i>@Localizer["boardsNreasons"]</a>
                             </li>
                             <li>
-                                <a asp-area="" asp-controller="Support" asp-action="Index" class="nav-link"><i class="menu-icon fas fa-headset"></i>Users Requests</a>
+                            <a asp-area="" asp-controller="Support" asp-action="Index" class="nav-link"><i class="menu-icon fas fa-headset"></i>@Localizer["usersReq"]</a>
                             </li>
                             <li class="menu-title">Manage Site</li>
                             <li>
-                                <a asp-area="" asp-controller="Announcement" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-bullhorn"></i>Announcement</a>
+                            <a asp-area="" asp-controller="Announcement" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-bullhorn"></i>@Localizer["announc"]</a>
                             </li>
                             <li>
-                                <a asp-area="" asp-controller="SupportDetail" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-pen-to-square"></i>Support Details</a>
+                            <a asp-area="" asp-controller="SupportDetail" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-pen-to-square"></i>@Localizer["suppDetails"]</a>
                             </li>
                     }
                     @if (ViewBag.DisplayRoleChange == true)
                     {
                             <li class="menu-title">Change Role</li>
                             <li>
-                                <a asp-area="" asp-controller="ChooseRole" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-arrow-right-arrow-left"></i>Change Role</a>
+                            <a asp-area="" asp-controller="ChooseRole" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-arrow-right-arrow-left"></i>@Localizer["changeRole"]</a>
                             </li>
                     }
                 </ul>
@@ -120,7 +120,7 @@
         <div class="clearfix"></div>
         <footer class="site-footer">
             <div class="footer-inner text-center">
-                <span class="">Triplite Committee Platform Development Team &copy; <script>document.write(new Date().getFullYear())</script></span> <span class="fs-5">-</span> <span class="ps-3">Taibah University</span>
+                <span class="">@Localizer["tcpDevTeam"] <script>document.write(new Date().getFullYear())</script></span> <span class="fs-5">-</span> <span class="ps-3">@Localizer["taibahU"]</span>
             </div>
         </footer>
     </div>

@@ -5,7 +5,7 @@
 }
 
 <div class="card w-50 mx-auto mt-3 rounded-4">
-    <h3 class="mt-4 text-center"><strong><h4 class="text-danger">Please Delete the spam requests only!</h4></strong></h3>
+    <h3 class="mt-4 text-center"><strong><h4 class="text-danger">@Localizer["spamPhrase"]</h4></strong></h3>
     <hr />
     <div class="card-body">
         <dl class="row g-3">
@@ -23,15 +23,15 @@
             <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Message)</dt>
             <dd class="col-sm-8 text-break">@Html.DisplayFor(model => model.Message)</dd>
             <hr />
-            <dd class="col-sm-4">Status</dd>
+            <dd class="col-sm-4">@Localizer["status"]</dd>
             <dt class="col-sm-8">
                 @if (Model.Status)
                 {
-                    <span class="text-success">Solved</span>
+                    <span class="text-success">@Localizer["solved"]</span>
                 }
                 else
                 {
-                    <span class="text-danger">Not Solved</span>
+                    <span class="text-danger">@Localizer["notSolved"]</span>
                 }
             </dt>
 
@@ -53,21 +53,21 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="deleteConfirmLabel">Delete Confirmation</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h1 class="modal-title fs-5" id="deleteConfirmLabel">@Localizer["deleteConfirm"]</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["close"]"></button>
                         </div>
                         <div class="modal-body">
-                            Are you sure you want to delete <strong class="text-danger text-uppercase">[@Model?.Name]</strong> Request?
+                            @Localizer["confirmPhrasePT1"] <strong class="text-danger text-uppercase">[@Model?.Name]</strong> @Localizer["confirmPhrasePT2"]
                         </div>
                         <hr />
                         <div class="mb-3">
-                            <button type="button" class="btn btn-secondary me-3 w-25" data-bs-dismiss="modal">No</button>
-                            <button type="submit" class="btn btn-danger ms-3 w-25">Yes</button>
+                            <button type="button" class="btn btn-secondary me-3 w-25" data-bs-dismiss="modal">@Localizer["no"]</button>
+                            <button type="submit" class="btn btn-danger ms-3 w-25">@Localizer["yes"]</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <a asp-action="Index" class="btn btn-secondary">@Localizer["backToList"]</a>
         </div>
     </form>
 </div>

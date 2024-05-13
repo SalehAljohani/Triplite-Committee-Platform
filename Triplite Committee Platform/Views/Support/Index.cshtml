@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-sm-4">
-            <strong class="fs-3">Support Request</strong>
+            <strong class="fs-3">@Localizer["suppReq"]</strong>
         </div>
         <div class="col-sm-4"></div>
         <div class="col-sm-4 text-end">
@@ -30,12 +30,12 @@
     <table class="table align-middle  bg-white w-100 table-striped " id="DTable">
         <thead class="bg-darck ">
             <tr>
-                <th class="text-center">Name</th>
-                <th class="text-center">Email</th>
-                <th class="text-center">Subject</th>
-                <th class="text-center">Message</th>
-                <th class="text-center">Status</th>
-                <th class="text-center">Actions</th>
+                <th class="text-center">@Localizer["name"]</th>
+                <th class="text-center">@Localizer["email"]</th>
+                <th class="text-center">@Localizer["subj"]</th>
+                <th class="text-center">@Localizer["message"]</th>
+                <th class="text-center">@Localizer["status"]</th>
+                <th class="text-center">@Localizer["actions"]</th>
             </tr>
         </thead>
         <tbody>
@@ -85,7 +85,7 @@
                     <td>
                         <div class="text-center  align-items-center">
                             <div>
-                                  <p class="mb-0 badge fs-6 @(item.Status ? "text-bg-success" : "text-bg-danger")">@(item.Status ? "Solved" : "Unsolved") </p>
+                                <p class="mb-0 badge fs-6 @(item.Status ? "text-bg-success" : "text-bg-danger")">@(item.Status ? @Localizer["solved"] : @Localizer["unSolved"]) </p>
                             </div>
                         </div>
                     </td>
@@ -94,11 +94,11 @@
 
                     <td>
                         <div class="text-center gap-1">
-                            <a asp-action="Solved" class="btn  bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@(item.Status ? "Unsolved" : "Solved")" id="" asp-route-id="@item.Id">
+                            <a asp-action="Solved" class="btn  bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@(item.Status ? "@Localizer["unSolved"]" : "@Localizer["solved"]")" id="" asp-route-id="@item.Id">
                                 <i class="@(item.Status ? "fa-solid fa-circle-xmark fs-5 text-danger" : "fa-solid fa-circle-check fs-5 text-success")"></i>
                             </a>
-                            <a asp-action="Details" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info fs-5 text-secondary"></i></a>
-                            <a asp-action="Delete" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Request" id="" asp-route-id="@item.Id"><i class="fa-solid fa-trash fs-5 text-danger"></i></a>
+                            <a asp-action="Details" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["viewDetails"]" id="" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info fs-5 text-secondary"></i></a>
+                            <a asp-action="Delete" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["deleteReq"]" id="" asp-route-id="@item.Id"><i class="fa-solid fa-trash fs-5 text-danger"></i></a>
                         </div>
                     </td>
                 </tr>
