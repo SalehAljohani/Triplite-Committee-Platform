@@ -68,6 +68,11 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(_context.RequestType.Any(r => r.RequestTypeName == requestTypeModel.RequestTypeName))
+                {
+                    TempData["Error"] = "Request Type Already Exists.";
+                    return View(requestTypeModel);
+                }
                 _context.Add(requestTypeModel);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Request Type Created Successfully.";
