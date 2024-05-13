@@ -43,7 +43,8 @@
                         <td>@item.DeptName</td>
                         <td>
                             <div class="text-center">
-                                <a asp-action="Delete" asp-controller="Department" asp-route-id="@item.DeptNo" class="btn btn-danger btn-md">Delete</a>
+
+                                <a asp-action="Delete" asp-controller="Department" asp-route-id="@item.DeptNo" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="delete Department" id=""><i class="fa-solid text-danger fa-trash fs-4"></i></a>
                             </div>
                         </td>
                     </tr>
@@ -52,7 +53,14 @@
             }
         </tbody>
     </table>
-    <div class="text-center mb-4">
+
+    
+</div>
+<div class="text-center">
+
+    
+
+    <div class="text-center row mb-4">
         <form asp-action="Delete">
             <input type="hidden" asp-for="CollegeNo" />
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirm">
@@ -76,9 +84,7 @@
                     </div>
                 </div>
             </div>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
         </form>
     </div>
-</div>
-<div class="text-center">
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>

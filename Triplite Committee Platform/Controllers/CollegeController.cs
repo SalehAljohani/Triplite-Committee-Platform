@@ -152,10 +152,10 @@ namespace Triplite_Committee_Platform.Controllers
         {
             var collegeModel = await _context.College.FindAsync(id);
             var existingDepartments = _context.Department.Where(d => d.CollegeNo == id).ToList();
-            if(existingDepartments != null)
+            if (existingDepartments.Count > 0)
             {
                 TempData["DeleteMessage1"] = "Cannot delete college with existing departments.";
-                TempData["DeleteMessage2"] = "Please Delete the departments First";
+                TempData["DeleteMessage2"] = "Please delete the departments first.";
                 return RedirectToAction("Delete");
             }
             if (collegeModel != null)
