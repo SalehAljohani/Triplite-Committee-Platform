@@ -84,12 +84,14 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["Error"] = "User not found.";  
+                return RedirectToAction(nameof(Index));
             }
             var user = await _userManager.Users.Include(u => u.Department).FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
-                return NotFound();
+                TempData["Error"] = "User not found.";
+                return RedirectToAction(nameof(Index));
             }
             var roles = await _userManager.GetRolesAsync(user);
 

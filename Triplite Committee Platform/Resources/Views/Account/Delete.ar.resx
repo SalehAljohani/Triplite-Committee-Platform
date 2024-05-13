@@ -154,7 +154,7 @@
     <value>رقم الجوال موثق:</value>
   </data>
   <data name="roles" xml:space="preserve">
-    <value>الوظيفة:</value>
+    <value>المنصب:</value>
   </data>
   <data name="sureYouWantToDelete" xml:space="preserve">
     <value>هل أنت متأكد أنك تريد حذف المستخدم</value>

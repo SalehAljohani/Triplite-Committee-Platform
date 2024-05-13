@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="chooseRole" xml:space="preserve">
-    <value>تحديد الوظيفة</value>
+    <value>تحديد المنصب</value>
   </data>
   <data name="selectRole" xml:space="preserve">
-    <value>اختر وظيفة</value>
+    <value>اختر منصب</value>
   </data>
   <data name="selectRolePhrase" xml:space="preserve">
-    <value>فضلًا اختر وظيفة للوصول إلى المنصة. لا تقلق, يمكنك تغيير الوظيفة لاحقًا. </value>
+    <value>فضلًا اختر منصب للوصول إلى المنصة. لا تقلق, يمكنك تغيير المنصب لاحقًا. </value>
   </data>
   <data name="submit" xml:space="preserve">
     <value>تأكيد</value>

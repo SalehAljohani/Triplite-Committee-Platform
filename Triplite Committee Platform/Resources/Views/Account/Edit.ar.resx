@@ -151,7 +151,10 @@
     <value>الرقم موثق</value>
   </data>
   <data name="role" xml:space="preserve">
-    <value>الوظيفة</value>
+    <value>المنصب</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>حفظ</value>
   </data>
   <data name="selectDept" xml:space="preserve">
     <value>إختر القسم</value>

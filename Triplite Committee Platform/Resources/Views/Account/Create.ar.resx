@@ -145,7 +145,7 @@
     <value>فضلًا إختر وظيفة واحدة على الأقل</value>
   </data>
   <data name="role" xml:space="preserve">
-    <value>الوظيفة</value>
+    <value>المنصب</value>
   </data>
   <data name="selectDept" xml:space="preserve">
     <value>إختر القسم</value>

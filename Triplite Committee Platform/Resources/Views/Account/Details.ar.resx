@@ -145,7 +145,7 @@
     <value>الرقم موثق:</value>
   </data>
   <data name="roles" xml:space="preserve">
-    <value>الوظيفة:</value>
+    <value>المنصب:</value>
   </data>
   <data name="userDetails" xml:space="preserve">
     <value>بيانات المستخدم</value>

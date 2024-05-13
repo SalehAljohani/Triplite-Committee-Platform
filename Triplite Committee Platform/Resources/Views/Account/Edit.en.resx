@@ -153,6 +153,9 @@
   <data name="role" xml:space="preserve">
     <value>Role</value>
   </data>
+  <data name="save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="selectDept" xml:space="preserve">
     <value>Select Department</value>
   </data>

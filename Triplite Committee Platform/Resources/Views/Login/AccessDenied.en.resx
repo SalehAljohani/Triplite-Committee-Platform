@@ -135,4 +135,7 @@
   <data name="logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="or" xml:space="preserve">
+    <value>or</value>
+  </data>
 </root>

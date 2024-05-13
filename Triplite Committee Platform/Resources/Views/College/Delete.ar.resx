@@ -130,7 +130,7 @@
     <value>؟</value>
   </data>
   <data name="collegeHasDept" xml:space="preserve">
-    <value>هذه الكلية يوجد فيها الأقسام التالية</value>
+    <value>توجد في هذه الكلية الأقسام التالية</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>حذف</value>
