@@ -93,9 +93,9 @@
 
 
                     <td>
-                        <div class="text-center gap-1">
+                        <div class="text-center ">
                             <a asp-action="Solved" class="btn  bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@(item.Status ? "Unsolved" : "Solved")" id="" asp-route-id="@item.Id">
-                                <i class="@(item.Status ? "fa-solid fa-circle-xmark fs-5 text-danger" : "fa-solid fa-circle-check fs-5 text-success")"></i>
+                                <i class="@(item.Status ? "fa-solid fa-circle-xmark fs-4 text-danger" : "fa-solid fa-circle-check fs-4 text-success")"></i>
                             </a>
                             <a asp-action="Details" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["viewDetails"]" id="" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info fs-5 text-secondary"></i></a>
                             <a asp-action="Delete" class="btn bg-opacity-10" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["deleteReq"]" id="" asp-route-id="@item.Id"><i class="fa-solid fa-trash fs-5 text-danger"></i></a>

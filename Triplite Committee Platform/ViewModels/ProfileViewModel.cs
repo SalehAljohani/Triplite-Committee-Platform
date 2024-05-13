@@ -21,5 +21,11 @@ namespace Triplite_Committee_Platform.ViewModels
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         public string confirmPassword { get; set; }
+
+        public CollegeModel? College { get; set; }
+
+        public DepartmentModel? Department { get; set; }
+
+        public string? activeRole { get; set; }
     }
 }

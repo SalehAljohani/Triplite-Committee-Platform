@@ -22,7 +22,6 @@ namespace Triplite_Committee_Platform.Controllers
             _userManager = userManager;
         }
 
-        // GET: Department
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -37,7 +36,6 @@ namespace Triplite_Committee_Platform.Controllers
             return RedirectToAction("Index", "College");
         }
 
-        // GET: Department/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,7 +56,6 @@ namespace Triplite_Committee_Platform.Controllers
             return View(departmentModel);
         }
 
-        // GET: Department/Create
         public IActionResult Create(int? id)
         {
             if (id == null)
@@ -75,9 +72,7 @@ namespace Triplite_Committee_Platform.Controllers
             return View();
         }
 
-        // POST: Department/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CollegeNo,DeptName")] DepartmentModel departmentModel)
@@ -147,7 +142,6 @@ namespace Triplite_Committee_Platform.Controllers
             return View(departmentModel);
         }
 
-        // GET: Department/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -183,7 +177,6 @@ namespace Triplite_Committee_Platform.Controllers
             return View(departmentModel);
         }
 
-        // POST: Department/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

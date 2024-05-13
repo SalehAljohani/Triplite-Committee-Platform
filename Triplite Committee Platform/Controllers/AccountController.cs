@@ -104,6 +104,7 @@ namespace Triplite_Committee_Platform.Controllers
             thisViewModel.PhoneNumber = user.PhoneNumber;
             thisViewModel.Department = await _context.Department.FirstOrDefaultAsync(d => d.DeptNo == user.DeptNo);
             thisViewModel.ListRoles = await _userManager.GetRolesAsync(user);
+            thisViewModel.Signature = user.Signature;
 
             return View(thisViewModel);
         }
