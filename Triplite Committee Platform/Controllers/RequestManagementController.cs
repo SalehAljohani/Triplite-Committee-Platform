@@ -10,7 +10,7 @@ namespace Triplite_Committee_Platform.Controllers
 {
     [Authorize(Roles = "Admin")]
     [ValidateRole("Admin")]
-    public class RequestManagementController : Controller
+    public class RequestManagementController : BaseController
     {
         private readonly AppDbContext _context;
         private readonly UserManager<UserModel> _userManager;

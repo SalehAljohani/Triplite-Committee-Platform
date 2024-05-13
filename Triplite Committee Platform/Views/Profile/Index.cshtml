@@ -137,7 +137,7 @@
                                 <div>
                                     <label for="signature" class="form-label"><strong>Signature</strong></label>
                                     <div class="mt-2 card border">
-                                        <img src="~/signatures/@Model.Signature" alt="signature" class="img-fluid" />
+                                        <img src="~/signatures/@Model.Signature?version=@DateTime.Now.Ticks" alt="signature" class="img-fluid" />
                                     </div>
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-danger" id="delete-signature">Delete Signature</button>
