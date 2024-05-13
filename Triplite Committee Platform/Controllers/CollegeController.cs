@@ -21,7 +21,6 @@ namespace Triplite_Committee_Platform.Controllers
             _userManager = userManager;
         }
 
-        // GET: ManageCollege
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -37,12 +36,12 @@ namespace Triplite_Committee_Platform.Controllers
             return View(college);
         }
 
-        // GET: ManageCollege/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["Error"] = "College not found.";
+                return RedirectToAction(nameof(Index));
             }
             ViewData["Departments"] = _context.Department.Where(d => d.CollegeNo == id).ToList();
 
@@ -50,19 +49,18 @@ namespace Triplite_Committee_Platform.Controllers
                 .FirstOrDefaultAsync(m => m.CollegeNo == id);
             if (collegeModel == null)
             {
-                return NotFound();
+                TempData["Error"] = "College not found.";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(collegeModel);
         }
 
-        // GET: ManageCollege/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ManageCollege/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CollegeName")] CollegeModel collegeModel)
@@ -77,32 +75,32 @@ namespace Triplite_Committee_Platform.Controllers
             return View(collegeModel);
         }
 
-        // GET: ManageCollege/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["Error"] = "College not found.";
+                return RedirectToAction(nameof(Index));
             }
 
             var collegeModel = await _context.College.FindAsync(id);
             if (collegeModel == null)
             {
-                return NotFound();
+                TempData["Error"] = "College not found.";
+                return RedirectToAction(nameof(Index));
             }
             return View(collegeModel);
         }
 
-        // POST: ManageCollege/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CollegeNo,CollegeName")] CollegeModel collegeModel)
         {
             if (id != collegeModel.CollegeNo)
             {
-                return NotFound();
+                TempData["Error"] = "College not found.";
+                return RedirectToAction(nameof(Index));
             }
 
             if (ModelState.IsValid)
@@ -116,7 +114,8 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (!CollegeModelExists(collegeModel.CollegeNo))
                     {
-                        return NotFound();
+                        TempData["Error"] = "College not found.";
+                        return RedirectToAction(nameof(Index));
                     }
                     else
                     {
@@ -128,40 +127,40 @@ namespace Triplite_Committee_Platform.Controllers
             return View(collegeModel);
         }
 
-        // GET: ManageCollege/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["Error"] = "College not found.";
+                return RedirectToAction(nameof(Index));
             }
             ViewData["Departments"] = _context.Department.Where(d => d.CollegeNo == id).ToList();
             var collegeModel = await _context.College.FirstOrDefaultAsync(m => m.CollegeNo == id);
             if (collegeModel == null)
             {
-                return NotFound();
+                TempData["Error"] = "College not found.";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(collegeModel);
         }
 
-        // POST: ManageCollege/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var collegeModel = await _context.College.FindAsync(id);
             var existingDepartments = _context.Department.Where(d => d.CollegeNo == id).ToList();
-            if (existingDepartments.Count > 0)
+            if(existingDepartments.Count() > 0)
             {
                 TempData["DeleteMessage1"] = "Cannot delete college with existing departments.";
-                TempData["DeleteMessage2"] = "Please delete the departments first.";
+                TempData["DeleteMessage2"] = "Please Delete the departments First";
                 return RedirectToAction("Delete");
             }
             if (collegeModel != null)
             {
                 _context.College.Remove(collegeModel);
-                TempData["DeleteMessage"] = "College deleted successfully.";
+                TempData["Message"] = "College deleted successfully.";
             }
 
             await _context.SaveChangesAsync();
