@@ -21,6 +21,7 @@ namespace Triplite_Committee_Platform.Data
         public DbSet<AnnouncementModel> Announcements { get; set; }
         public DbSet<SupportDetail> SupportDetail { get; set; }
         public DbSet<ContactModel> Contact { get; set; }
+        public DbSet<BoardSignaturesModel> BoardSignatures { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

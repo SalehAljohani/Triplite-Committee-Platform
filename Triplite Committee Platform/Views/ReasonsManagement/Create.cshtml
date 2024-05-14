@@ -1,1 +1,7 @@
-﻿
+﻿@model Triplite_Committee_Platform.ViewModels.CustomReasonsViewModel
+
+<form asp-action="Create" method="post">
+    <textarea asp-for="ReasonsTemplate" rows="10" cols="50" dir="rtl"></textarea>
+    <br />
+    <input type="submit" value="Save Form" />
+</form>

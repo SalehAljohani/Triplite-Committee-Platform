@@ -15,12 +15,13 @@ namespace Triplite_Committee_Platform.Models
 
         [Required(ErrorMessage = "Board Reasons is Required.")]
         public string Reasons { get; set; }
-
         public string? AddedReasons { get; set; }
-
         public bool? Recommendation { get; set; }
-
-        public string? signatures { get; set; }
+        public bool? HeadofDeptSign { get; set; }
+        public bool? ViceDeanSign { get; set; }
+        public bool? DeanSign { get; set; }
+        public bool? DeptMemeberSign1 { get; set; }
+        public bool? DeptMemeberSign2 { get; set; }
 
         [ForeignKey("DeptNo")]
         public DepartmentModel? Department { get; set; }
@@ -46,5 +47,7 @@ namespace Triplite_Committee_Platform.Models
         [ForeignKey("ReqTypeID")] public RequestTypeModel? RequestType { get; set; }
 
         [ForeignKey("Id")] public ScholarshipModel? Scholarship { get; set; }
+
+        public ICollection<BoardSignaturesModel>? BoardSignatures { get; set; }
     }
 }
