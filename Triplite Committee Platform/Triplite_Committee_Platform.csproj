@@ -35,10 +35,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\Controllers\" />
-  </ItemGroup>
 	
 	<ItemGroup>
 		<Folder Include="wwwroot\signatures" />
