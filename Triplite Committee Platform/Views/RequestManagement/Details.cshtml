@@ -1,1 +1,50 @@
-﻿
+﻿@model Triplite_Committee_Platform.Models.RequestTypeModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong>@Model?.RequestTypeName</strong></h3>
+    <hr />
+    <div>
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Reasons</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.Reasons != null)
+                {
+                    var count = 0;
+                    @foreach (var item in ViewBag.Reasons)
+                    {
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td>@item.ReasonsModel.Context</td>
+                            <td>
+                                <div class="text-center">
+                                    <a asp-action="Edit" asp-controller="Reasons" asp-route-id="@item.ReasonsID" class="btn btn-md"><i class="fa-solid fa-pen fs-5 text-primary"></i></a>
+                                    <a asp-action="Details" asp-controller="Reasons" asp-route-id="@item.ReasonsID" class="btn btn-md"><i class="fa-solid fa-circle-info fs-5 text-secondary"></i></a>
+                                    <a asp-action="Delete" asp-controller="Reasons" asp-route-id="@item.ReasonsID" class="btn btn-md"><i class="fa-solid fa-trash fs-5 text-danger"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                }
+            </tbody>
+        </table>
+        <dl class="row ps-5">
+        </dl>
+    </div>
+</div>
+<div class="text-center">
+    <a asp-action="Create" asp-controller="Reasons" asp-route-id="@Model?.RequestTypeID" class="btn btn-success btn-md me-3">Add Reasons</a>
+    <a asp-action="Edit" class="btn btn-primary me-3 ms-3" asp-route-id="@Model?.RequestTypeID">Edit Request Type</a>
+    <a asp-action="Index" class="btn btn-secondary ms-3">Back to List</a>
+</div>
+

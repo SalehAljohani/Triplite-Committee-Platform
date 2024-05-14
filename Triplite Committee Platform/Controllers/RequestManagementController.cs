@@ -94,6 +94,7 @@ namespace Triplite_Committee_Platform.Controllers
             if (requestTypeModel == null)
             {
                 TempData["Error"] = "Request Type Not Found.";
+                return RedirectToAction("Index");
             }
 
             return View(requestTypeModel);
