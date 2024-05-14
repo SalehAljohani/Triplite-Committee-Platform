@@ -1,1 +1,221 @@
-﻿
+﻿@model Triplite_Committee_Platform.Models.ScholarshipModel
+@{
+    ViewData["Title"] = "Request Scholarship";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TCP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" rel="application/javascript">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="application/javascript">
+    <script src="https://kit.fontawesome.com/0fc1c09fcd.js" crossorigin="anonymous"></script>
+    <link href="~/css/Login.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <div class="container-fluid">
+            <div class="row mt-4 mb-1"></div>
+            <div class="row mb-5">
+                <div class="col-sm-5 d-sm-inline-flex justify-content-end pt-4">
+                    <h4><strong>Taibah University</strong></h4>
+                </div>
+                <div class="col-sm-2 d-sm-inline-flex justify-content-center">
+                    <img src="~/img/TLogo.png" alt="Logo" width="65px" height="75px">
+                </div>
+                <div class="col-sm-5 d-sm-inline-flex justify-content-start pt-4">
+                    <h4><strong>Triplite Committee Platform</strong></h4>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row mt-5 mb-5">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <div class="container-fluid shadow rounded-4 text-light w-100 mt-3" style="background-color:rgba(56, 56, 56, 0.85);">
+
+                    <div class="text-center mb-5">
+                        <strong> <h3 class="mb-4 pt-4">New Scholarship Request</h3></strong>
+                    </div>
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="row">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-4 text-center">
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>@TempData["Success"]</strong>
+                                    <p class="mt-3">
+                                        @TempData["SuccessMessage"]
+                                    </p>
+                                    <button type="button" class="btn-close mt-4 pt-5" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
+                            <div class="col-sm-4"></div>
+                        </div>
+
+                    }
+                    <form method="post" asp-action="requestScholarship">
+                        <div asp-validation-summary="All"></div>
+                        <div class="row text-dark">
+                            <div class="col-sm-6">
+                                <div class="mb-3 form-floating mx-auto w-75">
+                                    <input type="text" asp-for="National_ID" maxlength="10" class="form-control" placeholder="" id="nID" required>
+                                    <label for="nID" asp-for="National_ID">National ID</label>
+                                    <span asp-validation-for="National_ID" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3 form-floating mx-auto w-75">
+                                    <input type="text" asp-for="EmployeeID" maxlength="10" class="form-control" placeholder="" id="empID" required>
+                                    <label for="empID" asp-for="EmployeeID">Employee ID</label>
+                                    <span asp-validation-for="EmployeeID" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3 form-floating mx-auto w-75">
+                                    <input type="text" asp-for="Name" class="form-control" maxlength="40" placeholder="" id="name" required>
+                                    <label for="name" asp-for="Name">Name</label>
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3 mt-3 text-center text-white">
+                                    <h6 class="text-start ms-5 ps-4 mt-4 mb-3 fw-bolder">Scholarship Type</h6>
+                                    <input type="checkbox" asp-for="CurrentStudy" id="language" name="CurrentStudy" value="true" class="form-check-input form-floating text-black" />
+                                    <label class="form-check-label me-4 fw-bold" for="language">Language</label>
+
+                                    <input type="checkbox" asp-for="CurrentStudy" id="masters" name="CurrentStudy" value="true" class="form-check-input form-floating text-black" />
+                                    <label class="form-check-label me-4 fw-bold" for="masters">Master's</label>
+
+                                    <input type="checkbox" asp-for="CurrentStudy" id="phd" name="CurrentStudy" value="true" class="form-check-input form-floating text-black" />
+                                    <label class="form-check-label fw-bold" for="phd">PhD</label>
+                                    <span asp-validation-for="CurrentStudy" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 form-floating mx-auto w-75">
+                                    <input type="text" class="form-control" asp-for="Phone" maxlength="25" placeholder="Phone number" required>
+                                    <label for="phone" asp-for="Phone">Phone Number</label>
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 form-floating mx-auto w-75">
+                                    <input type="email" asp-for="Email" class="form-control" placeholder="Email" required>
+                                    <label for="email" asp-for="Email">Email</label>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="row w-75 mx-auto">
+                                    <div class="mb-3 form-floating w-50">
+                                        <select id="Degree" name="Degree" class="form-select" asp-for="Degree" required>
+                                            <option disabled selected>Degree</option>
+                                            <option>Bachelor's</option>
+                                            <option>Master's</option>
+                                        </select>
+                                        <span asp-validation-for="Degree" class="text-danger"></span>
+                                    </div>
+                                    <div class="mb-3 form-floating w-50">
+                                        <select id="gender" name="gender" class="form-select" asp-for="Gender" required>
+                                            <option disabled selected>Gender</option>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                        </select>
+                                        <span asp-validation-for="Gender" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3 form-floating mx-auto w-75">
+                                    <input type="text" class="form-control" asp-for="Duration" placeholder="Duration of study" required>
+                                    <label for="duration" asp-for="Duration">Duration of Study</label>
+                                    <span asp-validation-for="Duration" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3 form-floating mx-auto w-75">
+                                    <input type="text" class="form-control" asp-for="GeneralMajor" placeholder="General Specialization" id="generalS" required>
+                                    <label for="generalS" asp-for="GeneralMajor">General Specialization</label>
+                                    <span asp-validation-for="GeneralMajor" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 form-floating mx-auto w-75">
+                                    <input type="text" class="form-control" asp-for="SpecificMajor" placeholder="Specific Specialization" id="specificS">
+                                    <label for="specificS" asp-for="SpecificMajor">Specific Specialization</label>
+                                    <span asp-validation-for="SpecificMajor" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-4 mt-2 form-floating mx-auto w-75">
+                                    <input type="text" asp-for="City" class="form-control" placeholder="" id="city" required>
+                                    <label for="city" asp-for="City">City</label>
+                                    <span asp-validation-for="City" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3 form-floating mx-auto w-75">
+                                    <input type="text" class="form-control" asp-for="Country" placeholder="Country" required>
+                                    <label for="country" asp-for="Country">Country</label>
+                                    <span asp-validation-for="Country" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 form-floating mx-auto w-75">
+                                    <input type="text" asp-for="University" class="form-control" placeholder="University" required>
+                                    <label for="university" asp-for="University">University</label>
+                                    <span asp-validation-for="University" class="text-danger"></span>
+                                </div>
+                                <div class="row w-75 mx-auto">
+                                    @if (ViewBag.Colleges != null)
+                                    {
+                                        <div class="mb-3 form-floating w-50">
+                                            <select id="College" name="College" asp-items="ViewBag.Colleges" name="SelectedCollege" onchange="enableDepartmentSelection(this)" class="form-select" asp-for="Degree" required>
+                                                <option disabled selected>Select College</option>
+                                            </select>
+                                        </div>
+                                    }
+                                    @if (ViewBag.Departments != null)
+                                    {
+                                        <div class="mb-3 form-floating w-50">
+                                            <select id="Department" name="SelectedDepartment" class="form-select" asp-items="ViewBag.Department" asp-for="DeptNo" disabled required>
+                                                <option disabled selected>Select Department</option>
+                                            </select>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <input asp-for="Status" hidden value="Request Scholarship" />
+
+                            <div class="row mt-4 mb-4">
+                                <div class="col-sm-4 text-end mt-2">
+                                    <a id="Login" class="text-light text-decoration-none fs-4" asp-action="Index" asp-controller="Login"><strong>Go back to Login</strong></a>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <h5 class="text-white mt-3">OR</h5>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="submit" class="btn btn-primary btn-block w-50 fs-4 ms-4"><strong>Submit</strong></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var allDepartments = JSON.parse('@Html.Raw(ViewData["Departments"])');
+
+        function enableDepartmentSelection(selectElement) {
+            var departmentSelect = document.getElementsByName("SelectedDepartment")[0];
+            var collegeId = selectElement.value;
+
+            departmentSelect.disabled = collegeId === "";
+            departmentSelect.innerHTML = '<option value=""> Select Department </option>';
+
+            if (collegeId !== "") {
+                allDepartments.forEach(function (department) {
+                    if (department.CollegeNo.toString() === collegeId.toString()) {
+                        let option = new Option(department.DeptName, department.DeptNo);
+                        departmentSelect.add(option);
+                    }
+                });
+                departmentSelect.disabled = departmentSelect.options.length <= 1;
+            }
+        }
+    </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

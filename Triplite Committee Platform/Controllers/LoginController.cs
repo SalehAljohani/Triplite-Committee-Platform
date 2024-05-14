@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Triplite_Committee_Platform.Data;
@@ -178,15 +180,36 @@ namespace Triplite_Committee_Platform.Controllers
             return View();
         }
 
-        public IActionResult requestScholarship()
+        public async Task<IActionResult> requestScholarship()
         {
+            var college = await _context.College.ToListAsync();
+            var department = await _context.Department.ToListAsync();
+
+            ViewData["Colleges"] = new SelectList(college, "CollegeNo", "CollegeName");
+            var departmentsData = department.Select(d => new
+            {
+                DeptNo = d.DeptNo,
+                DeptName = d.DeptName,
+                CollegeNo = d.CollegeNo
+            }).ToList();
+
+            ViewData["Departments"] = Newtonsoft.Json.JsonConvert.SerializeObject(departmentsData);
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> requestScholarship(ScholarshipModel model)
+        public async Task<IActionResult> requestScholarship(ScholarshipModel model, int? SelectedDepartment)
         {
+            if(SelectedDepartment != null)
+            {
+                model.DeptNo = SelectedDepartment.Value;
+            }
+            else
+            {
+                TempData["Error"] = "Department is required.";
+                return View(model);
+            }
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -198,7 +221,7 @@ namespace Triplite_Committee_Platform.Controllers
             TempData["SuccessMessage"] = "Thank you for contacting us. We will get back to you soon.";
 
             ModelState.Clear();
-            return View("requestScholarship");
+            return RedirectToAction("requestScholarship");
         }
 
         public async Task<IActionResult> Logout()
