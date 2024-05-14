@@ -8,8 +8,8 @@ namespace Triplite_Committee_Platform.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RequestTypeID { get; set; }
-        [Required(ErrorMessage = "Request Type Name is Required.")]
-        [StringLength(30, ErrorMessage = "Request Type Name Cannot Exceed 30 Characters.")]
+        [Required(ErrorMessage = "reqType")]
+        [StringLength(30, ErrorMessage = "reqTypeLength")]
         public string RequestTypeName { get; set; }
         public List<BoardModel>? Board { get; set; }
         public List<ReasonsModel>? Reasons { get; set; }

@@ -9,19 +9,19 @@ namespace Triplite_Committee_Platform.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="Contact Email is Required")]
-        [StringLength(35, ErrorMessage ="Contact Email cannot exceed 35 characters")]
+        [Required(ErrorMessage ="emailReq")]
+        [StringLength(35, ErrorMessage ="emailLength")]
         public string ContactEmail { get; set; }
 
-        [StringLength(10, ErrorMessage = "Phone Number cannot exceed 10 characters")]
-        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Phone Number")]
+        [StringLength(10, ErrorMessage = "phoneLength")]
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "phoneValid")]
         public string? PhoneNumber { get; set; }
 
-        [StringLength(15, ErrorMessage = "Telephone Number cannot exceed 15 characters")]
-        [RegularExpression(@"^([0-9]{15})$", ErrorMessage = "Invalid Telephone Number")]
+        [StringLength(15, ErrorMessage = "teleLength")]
+        [RegularExpression(@"^([0-9]{15})$", ErrorMessage = "teleValid")]
         public string? TeleNumber { get; set; }
 
-        [Required(ErrorMessage = "Location is Required")]
+        [Required(ErrorMessage = "locReq")]
         public string Location { get; set; }
     }
 }

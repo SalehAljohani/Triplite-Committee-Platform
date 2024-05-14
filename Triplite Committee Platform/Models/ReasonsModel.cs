@@ -9,11 +9,11 @@ namespace Triplite_Committee_Platform.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ReasonID { get; set; }
 
-        [Required(ErrorMessage = "Request Type is Required.")]
+        [Required(ErrorMessage = "reqType")]
         public int ReqTypeID { get; set; }
 
-        [Required(ErrorMessage = "Context is Required.")]
-        [StringLength(600, ErrorMessage = "Context Cannot Exceed 600 Characters.")]
+        [Required(ErrorMessage = "contReq")]
+        [StringLength(600, ErrorMessage = "contLength")]
         public string Context { get; set; }
 
         [Required(ErrorMessage = "Must Pick if The Reason Require Other Attribute From The User.")]
