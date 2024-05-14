@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.Services;
@@ -13,10 +14,13 @@ namespace Triplite_Committee_Platform.Controllers
     public class AnnouncementController : BaseController
     {
         private readonly AppDbContext _context;
+        private readonly IStringLocalizer<AnnouncementController> Localizer;
 
-        public AnnouncementController(AppDbContext context)
+
+        public AnnouncementController(AppDbContext context, IStringLocalizer<AnnouncementController> localizer)
         {
             _context = context;
+            Localizer = localizer;
         }
         public IActionResult Index()
         {
@@ -43,7 +47,7 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Message"] = "Announcement not found!";
+                TempData["Message"] = @Localizer["announcNotFound"];
                 return RedirectToAction(nameof(Index));
             }
 
@@ -51,7 +55,7 @@ namespace Triplite_Committee_Platform.Controllers
 
             if (announcementModel == null)
             {
-                TempData["Message"] = "Announcement not found!";
+                TempData["Message"] = @Localizer["announcNotFound"];
                 return RedirectToAction(nameof(Index));
             }
 
@@ -59,14 +63,14 @@ namespace Triplite_Committee_Platform.Controllers
 
             if (dept == null)
             {
-                TempData["Message"] = "Department not found!";
+                TempData["Message"] = @Localizer["deptNotFound"];
                 return RedirectToAction(nameof(Index));
             }
 
             var college = await _context.College.Where(c => c.CollegeNo == dept.CollegeNo).FirstOrDefaultAsync();
             if (college == null)
             {
-                TempData["Message"] = "College not found!";
+                TempData["Message"] = @Localizer["collegeNotFound"];
                 return RedirectToAction(nameof(Index));
             }
 
@@ -111,28 +115,28 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Message"] = "Announcement not found!";
+                TempData["Message"] = @Localizer["announcNotFound"];
                 return RedirectToAction(nameof(Index));
             }
 
             var announcementModel = await _context.Announcements.FindAsync(id);
             if (announcementModel == null)
             {
-                TempData["Message"] = "Announcement not found!";
+                TempData["Message"] = @Localizer["announcNotFound"];
                 return RedirectToAction(nameof(Index));
             }
 
             var department = await _context.Department.Where(d => d.DeptNo == announcementModel.DeptNo).FirstOrDefaultAsync();
             if(department == null)
             {
-                TempData["Message"] = "Error, cannot load department!";
+                TempData["Message"] = @Localizer["errorLoadDept"];
                 return RedirectToAction(nameof(Index));
             }
 
             var college = await _context.College.Where(c => c.CollegeNo == department.CollegeNo).FirstOrDefaultAsync();
             if(college == null)
             {
-                TempData["Message"] = "Error, cannot load College!";
+                TempData["Message"] = @Localizer["errorLoadCollege"];
                 return RedirectToAction(nameof(Index));
             }
 
@@ -160,7 +164,7 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id != announcementModel.Id)
             {
-                TempData["Message"] = "Announcement not found!";
+                TempData["Message"] = @Localizer["announcNotFound"];
                 return RedirectToAction(nameof(Index));
             }
 
@@ -169,7 +173,7 @@ namespace Triplite_Committee_Platform.Controllers
                 var existingAnnouncement = await _context.Announcements.FindAsync(id);
                 if (existingAnnouncement == null)
                 {
-                    TempData["Message"] = "Announcement not found!";
+                    TempData["Message"] = @Localizer["announcNotFound"];
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -187,7 +191,7 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (!AnnouncementModelExists(announcementModel.Id))
                     {
-                        TempData["Message"] = "Announcement not found!";
+                        TempData["Message"] = @Localizer["announcNotFound"];
                         return RedirectToAction(nameof(Index));
                     }
                     else
@@ -204,28 +208,28 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Message"] = "Announcement not found!";
+                TempData["Message"] = @Localizer["announcNotFound"];
                 return RedirectToAction(nameof(Index));
             }
 
             var announcementModel = await _context.Announcements.FirstOrDefaultAsync(m => m.Id == id);
             if (announcementModel == null)
             {
-                TempData["Message"] = "Announcement not found!";
+                TempData["Message"] = @Localizer["announcNotFound"];
                 return RedirectToAction(nameof(Index));
             }
 
             var dept = await _context.Department.Where(d => d.DeptNo == announcementModel.DeptNo).FirstOrDefaultAsync();
             if (dept == null)
             {
-                TempData["Message"] = "Department not found!";
+                TempData["Message"] = @Localizer["deptNotFound"];
                 return RedirectToAction(nameof(Index));
             }
 
             var college = await _context.College.Where(c => c.CollegeNo == dept.CollegeNo).FirstOrDefaultAsync();
             if (college == null)
             {
-                TempData["Message"] = "College not found!";
+                TempData["Message"] = @Localizer["collegeNotFound"];
                 return RedirectToAction(nameof(Index));
             }
 

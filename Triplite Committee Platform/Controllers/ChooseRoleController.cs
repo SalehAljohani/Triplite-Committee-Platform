@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Localization;
 using System.Security.Claims;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.ViewModels;
@@ -14,12 +15,14 @@ namespace Triplite_Committee_Platform.Controllers
         private readonly UserManager<UserModel> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private IHttpContextAccessor _httpContextAccessor;
+        private readonly IStringLocalizer<ChooseRoleController> Localizer;
 
-        public ChooseRoleController(UserManager<UserModel> userManager, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor)
+        public ChooseRoleController(UserManager<UserModel> userManager, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor,IStringLocalizer<ChooseRoleController>localizer)
         {
             _httpContextAccessor = httpContextAccessor;
             _roleManager = roleManager;
             _userManager = userManager;
+            Localizer = localizer;
         }
 
         public async Task<IActionResult> Index()
@@ -27,7 +30,7 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                TempData["Message"] = "Unable to load user";
+                TempData["Message"] = @Localizer["unableLoadUser"];
                 return RedirectToAction("Index", "Home");
             }
             if (user.EmailConfirmed == false)
@@ -66,26 +69,26 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (model == null || string.IsNullOrEmpty(model.SelectedRole))
             {
-                TempData["Message"]= "Please select a role";
+                TempData["Message"]= @Localizer["selectRole"];
                 return RedirectToAction(nameof(Index));
             }
 
             var user = await _userManager.GetUserAsync(User);
             if(user == null)
             {
-                TempData["Message"] = "Unable to load user";
+                TempData["Message"] = @Localizer["unableLoadUser"];
                 return RedirectToAction(nameof(Index));
             }
 
             var roles = await _userManager.GetRolesAsync(user);
             if (roles == null || roles.Count < 2)
             {
-                TempData["Message"] = "User does not have multiple roles";
+                TempData["Message"] = @Localizer["multiRoles"];
                 return RedirectToAction(nameof(Index));
             }
             if (!roles.Contains(model.SelectedRole))
             {
-                TempData["Message"] = "You dont have permission for this role";
+                TempData["Message"] = @Localizer["noPermission"];
                 return RedirectToAction(nameof(Index));
             }
             else
