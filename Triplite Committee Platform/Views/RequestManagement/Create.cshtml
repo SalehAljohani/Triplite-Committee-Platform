@@ -27,13 +27,21 @@
                         <label asp-for="RequestTypeName" for="RName" class="col-form-label text-center">Request Type Name</label>
                     </dt>
                     <dd class="col-sm-8">
-                        <input asp-for="RequestTypeName" id="RName" class="form-control" />
+                        <input asp-for="RequestTypeName" dir="rtl" id="RName" class="form-control" />
                         <span asp-validation-for="RequestTypeName" class="text-danger"></span>
 
                     </dd>
                 </div>
                 <hr />
-
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label for="Reasons" class="form-label mt-4">Reasons</label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <textarea class="form-control" dir="rtl" id="Reasons" rows="3" name="reasonsModel.Context"></textarea>
+                    </dd>
+                </div>
+                <hr />
 
 
                 <div class="form-group mt-5  text-center">
