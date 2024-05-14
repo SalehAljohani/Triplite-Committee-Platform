@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
+using Triplite_Committee_Platform.Services;
 using Triplite_Committee_Platform.ViewModels;
 
 
@@ -12,6 +13,7 @@ using Triplite_Committee_Platform.ViewModels;
 namespace Triplite_Committee_Platform.Controllers
 {
     [Authorize(Roles = "Admin")]
+    [ValidateRole("Admin")]
     public class StatsController : BaseController
     {
 
@@ -43,39 +45,33 @@ namespace Triplite_Committee_Platform.Controllers
 
             var statsList = new List<StatsViewModel>();
 
+            var college = await _context.College.ToListAsync();
+            var department = await _context.Department.ToListAsync();
 
-            var activeRole = HttpContext.Session.GetString("ActiveRole");
-
-            if (activeRole == "Admin")
+            foreach (var col in college)
             {
-                var college = await _context.College.ToListAsync();
-                var department = await _context.Department.ToListAsync();
-
-                foreach (var col in college)
+                var stats = new StatsViewModel
                 {
-                    var stats = new StatsViewModel
+                    College = col.CollegeName,
+                    Departments = new List<DepartmentStatsViewModel>(),
+                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus == "Completed" && board.Department.CollegeNo == col.CollegeNo).CountAsync(),
+                    CurrentBoards = await _context.Board.Where(board => board.ReqStatus == "Uncompleted" && board.Department.CollegeNo == col.CollegeNo).CountAsync(),
+                    TotalBoard = await _context.Board.Where(board => board.Department.CollegeNo == col.CollegeNo).CountAsync()
+                };
+                var departments = await _context.Department.Where(d => d.CollegeNo == col.CollegeNo).ToListAsync();
+                foreach (var dept in departments)
+                {
+                    var deptStats = new DepartmentStatsViewModel
                     {
-                        College = col.CollegeName,
-                        Departments = new List<DepartmentStatsViewModel>(),
-                        CompletedBoards = await _context.Board.Where(board => board.ReqStatus == "Completed" && board.Department.CollegeNo == col.CollegeNo).CountAsync(),
-                        CurrentBoards = await _context.Board.Where(board => board.ReqStatus == "Uncompleted" && board.Department.CollegeNo == col.CollegeNo).CountAsync(),
-                        TotalBoard = await _context.Board.Where(board => board.Department.CollegeNo == col.CollegeNo).CountAsync()
+                        DepartmentName = dept.DeptName,
+                        CompletedBoards = await _context.Board.Where(board => board.ReqStatus == "Completed" && board.DeptNo == dept.DeptNo).CountAsync(),
+                        CurrentBoards = await _context.Board.Where(board => board.ReqStatus == "Uncompleted" && board.DeptNo == dept.DeptNo).CountAsync(),
+                        TotalBoard = await _context.Board.Where(board => board.DeptNo == dept.DeptNo).CountAsync()
                     };
-                    var departments = await _context.Department.Where(d => d.CollegeNo == col.CollegeNo).ToListAsync();
-                    foreach (var dept in departments)
-                    {
-                        var deptStats = new DepartmentStatsViewModel
-                        {
-                            DepartmentName = dept.DeptName,
-                            CompletedBoards = await _context.Board.Where(board => board.ReqStatus == "Completed" && board.DeptNo == dept.DeptNo).CountAsync(),
-                            CurrentBoards = await _context.Board.Where(board => board.ReqStatus == "Uncompleted" && board.DeptNo == dept.DeptNo).CountAsync(),
-                            TotalBoard = await _context.Board.Where(board => board.DeptNo == dept.DeptNo).CountAsync()
-                        };
-                        stats.Departments.Add(deptStats);
-                    }
-
-                    statsList.Add(stats);
+                    stats.Departments.Add(deptStats);
                 }
+
+                statsList.Add(stats);
             }
             return View(statsList);
         }

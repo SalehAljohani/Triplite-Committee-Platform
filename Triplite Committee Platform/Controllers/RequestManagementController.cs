@@ -176,6 +176,11 @@ namespace Triplite_Committee_Platform.Controllers
         {
             var requestTypeModel = await _context.RequestType.FindAsync(id);
             var existingReasons = await _context.Reasons.Where(d => d.ReqTypeID == id).FirstOrDefaultAsync();
+            if(requestTypeModel == null)
+            {
+                TempData["Error"] = "Request Type Not Found.";
+                return RedirectToAction("Index");
+            }
             if (existingReasons != null)
             {
                 _context.Reasons.Remove(existingReasons);
