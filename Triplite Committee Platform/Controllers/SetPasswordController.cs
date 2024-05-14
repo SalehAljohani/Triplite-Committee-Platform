@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Localization;
 using System.Text;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.ViewModels;
@@ -11,24 +12,27 @@ namespace Triplite_Committee_Platform.Controllers
     {
         private readonly UserManager<UserModel> _userManager;
         private readonly SignInManager<UserModel> _signInManager;
-        public SetPasswordController(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager)
+        private readonly IStringLocalizer<SetPasswordController> Localizer;
+        public SetPasswordController(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, IStringLocalizer<SetPasswordController> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            Localizer = localizer;
         }
 
         public async Task<IActionResult> Index(string userId, string token)
         {
             if (userId == null || token == null)
             {
-                ModelState.AddModelError(string.Empty, "Verification Failed.");
+                ModelState.AddModelError(string.Empty, @Localizer["verifyFail"]);
                 return View();
             }
 
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{userId}'.");
+                TempData["Error"] = @Localizer["verifyFail"];
+                return RedirectToAction("Index", "Home");
             }
 
             token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
@@ -36,7 +40,7 @@ namespace Triplite_Committee_Platform.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                TempData["ConfirmEmail"] = "Thank you for confirming your email.";
+                TempData["ConfirmEmail"] = @Localizer["thanks"];
                 return RedirectToAction("SetPassword", "SetPassword");
             }
             else
@@ -50,7 +54,8 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                TempData["Error"] = @Localizer["userNotFound"];
+                return RedirectToAction("Index", "Home");
             }
             var hasPassword = await _userManager.HasPasswordAsync(user);
             if (hasPassword)
@@ -72,7 +77,8 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                TempData["Error"] = @Localizer["userNotFound"];
+                return RedirectToAction("Index", "Home");
             }
             
             var result = await _userManager.AddPasswordAsync(user, model.Password);

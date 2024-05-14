@@ -280,13 +280,15 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["Error"] = @Localizer["userNotFound"];
+                return RedirectToAction(nameof(Index));
             }
 
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                return NotFound();
+                TempData["Error"] = @Localizer["userNotFound"];
+                return RedirectToAction(nameof(Index));
             }
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -316,7 +318,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id != editUser.Id)
             {
-                return NotFound();
+                TempData["Error"] = @Localizer["userNotFound"];
+                return RedirectToAction(nameof(Index));
             }
             if (ModelState.IsValid)
             {
@@ -325,7 +328,8 @@ namespace Triplite_Committee_Platform.Controllers
                     var user = await _userManager.FindByIdAsync(id);
                     if (user == null)
                     {
-                        return NotFound();
+                        TempData["Error"] = @Localizer["userNotFound"];
+                        return RedirectToAction(nameof(Index));
                     }
                     if (editUser.Name != user.Name)
                     {
@@ -419,7 +423,8 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (!UserExists(editUser.Id))
                     {
-                        return NotFound();
+                        TempData["Error"] = @Localizer["userNotFound"];
+                        return RedirectToAction(nameof(Index));
                     }
                     else
                     {
@@ -439,13 +444,15 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["Error"] = @Localizer["userNotFound"];
+                return RedirectToAction(nameof(Index));
             }
 
             var user = await _userManager.Users.Include(u => u.Department).FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
-                return NotFound();
+                TempData["Error"] = @Localizer["userNotFound"];
+                return RedirectToAction(nameof(Index));
             }
             var roles = await _userManager.GetRolesAsync(user);
 
