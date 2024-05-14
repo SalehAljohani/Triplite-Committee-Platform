@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using System.Data;
 using System.Diagnostics;
 using Triplite_Committee_Platform.Data;
@@ -16,11 +17,13 @@ namespace Triplite_Committee_Platform.Controllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<UserModel> _userManager;
+        private readonly IStringLocalizer<HomeController> Localizer;
 
-        public HomeController(UserManager<UserModel> userManager, AppDbContext context)
+        public HomeController(UserManager<UserModel> userManager, AppDbContext context, IStringLocalizer<HomeController>localizer)
         {
             _userManager = userManager;
             _context = context;
+            Localizer = localizer;
         }
         public async Task<IActionResult> Index()
         {
@@ -31,7 +34,7 @@ namespace Triplite_Committee_Platform.Controllers
             }
             if (user.EmailConfirmed == false)
             {
-                TempData["Message"] = "You need to confirm your email before proceeding.";
+                TempData["Message"] = @Localizer["confirmEmail"];
                 return RedirectToAction("Index", "ConfirmEmail");
             }
 

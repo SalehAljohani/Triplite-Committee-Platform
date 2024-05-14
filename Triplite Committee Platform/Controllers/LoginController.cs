@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Triplite_Committee_Platform.Data;
@@ -17,12 +18,14 @@ namespace Triplite_Committee_Platform.Controllers
         private readonly UserManager<UserModel> _userManager;
         private readonly EmailSender _emailSender;
         private readonly AppDbContext _context;
-        public LoginController(SignInManager<UserModel> signInManager, UserManager<UserModel> userManager, EmailSender emailSender, AppDbContext context)
+        private readonly IStringLocalizer<LoginController> Localizer;
+        public LoginController(SignInManager<UserModel> signInManager, UserManager<UserModel> userManager, EmailSender emailSender, AppDbContext context, IStringLocalizer<LoginController>localizer)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _emailSender = emailSender;
             _context = context;
+            Localizer = localizer;
         }
 
         public async Task<IActionResult> Index()
@@ -50,7 +53,7 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, @Localizer["invalidLog"]);
                     return View(model);
                 }
             }
@@ -85,7 +88,7 @@ namespace Triplite_Committee_Platform.Controllers
                     var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Action("ResetPassword", "Login", values: new { code }, protocol: Request.Scheme);
-                    var dynamicTemplateData = new { Subject = "Password Reset", ResetPassword = callbackUrl };
+                    var dynamicTemplateData = new { Subject = @Localizer["passReset"], ResetPassword = callbackUrl };
                     var templateId = "d-76703abddcd74314b76d4e7d0b819313";
                     await _emailSender.SendEmailAsync(user.Email, templateId, dynamicTemplateData);
                     return RedirectToAction("ForgotPasswordConfirmation");
@@ -114,7 +117,7 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (code == null)
             {
-                TempData["Error"] = "A code must be supplied for password reset.";
+                TempData["Error"] = @Localizer["codePass"];
                 return RedirectToAction("Index", "Login");
             }
             var model = new ResetPasswordViewModel { Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code)) };
@@ -132,14 +135,14 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                TempData["Error"] = "User not found.";
+                TempData["Error"] = @Localizer["userNotFound"];
                 return RedirectToAction("Index", "Login");
             }
             var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.Code));
             var result = await _userManager.ResetPasswordAsync(user, code, model.Password);
             if (result.Succeeded)
             {
-                TempData["Success"] = "Password reset successful.";
+                TempData["Success"] = @Localizer["passResS"];
                 return RedirectToAction("Index", "Login");
             }
             foreach (var error in result.Errors)
@@ -166,8 +169,8 @@ namespace Triplite_Committee_Platform.Controllers
             await _context.Contact.AddAsync(model);
             await _context.SaveChangesAsync();
 
-            TempData["Success"] = "Message sent successfully.";
-            TempData["SuccessMessage"] = "Thank you for contacting us. We will get back to you soon.";
+            TempData["Success"] = @Localizer["messageSentS"];
+            TempData["SuccessMessage"] = @Localizer["thanks"];
 
             ModelState.Clear();
             ViewData["SupportDetails"] = _context.SupportDetail.FirstOrDefault();
@@ -184,7 +187,7 @@ namespace Triplite_Committee_Platform.Controllers
             HttpContext.Session.Clear();
 
             await _signInManager.SignOutAsync();
-            TempData["Logout"] = "You have been logged out.";
+            TempData["Logout"] = @Localizer["loggedOut"];
             return RedirectToAction("Index", "Login");
         }
     }
