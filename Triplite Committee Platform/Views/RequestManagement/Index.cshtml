@@ -78,14 +78,14 @@
 
 
                         </td>
-
+                        
                         <td>
                             <div class="text-center">
 
-                                @*                              <a asp-action="Create" asp-controller="Reasons" asp-route-id="@RequestTypeID" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Department" id=""><i class="fa-solid text-success fa-plus fs-4"></i></a>
-                        *@      <a asp-action="Edit" asp-route-id="@item.RequestTypeID" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit College" id=""><i class="fa-solid text-primary fa-pen fs-4"></i></a>
+                                <a asp-action="Create" asp-controller="ReasonsManagement" asp-route-id="@item.RequestTypeID" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Reason" id=""><i class="fa-solid text-success fa-plus fs-4"></i></a>
+                                <a asp-action="Edit" asp-route-id="@item.RequestTypeID" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Request type" id=""><i class="fa-solid text-primary fa-pen fs-4"></i></a>
                                 <a asp-action="Details" asp-route-id="@item.RequestTypeID" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title=" View Details" id=""><i class="fa-solid text-secondary fa-circle-info fs-4"></i></a>
-                                <a asp-action="Delete" asp-route-id="@item.RequestTypeID" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="delete College" id=""><i class="fa-solid text-danger fa-trash fs-4"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.RequestTypeID" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="delete Request type" id=""><i class="fa-solid text-danger fa-trash fs-4"></i></a>
 
                             </div>
                         </td>
