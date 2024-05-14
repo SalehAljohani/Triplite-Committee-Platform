@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\signatures\" />
+    <Folder Include="wwwroot\signatures\test\" />
   </ItemGroup>
 
 </Project>
