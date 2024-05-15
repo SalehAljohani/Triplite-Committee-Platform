@@ -1,0 +1,101 @@
+﻿   @model List<BoardModel>
+
+<div class="card p-3 mt-5 rounded-4 mx-auto">
+    <div class="row">
+        <div class="col-sm-4">
+            <strong class="fs-3">Completed Board</strong>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-end">
+        </div>
+    </div>
+    <hr />
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["Success"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["Error"]
+        </div>
+    }
+
+    <table class="table align-middle bg-white w-100 table-striped" id="DTable">
+        <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Type</th>
+                <th class="text-center">Status</th>
+                @if (ViewBag.ActiveRole == "Admin")
+                {
+                    <th class="text-center">College</th>
+                    <th class="text-center">Department</th>
+                }
+                else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
+                {
+                    <th class="text-center">Department</th>
+                }
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <td class="text-center">1</td>
+        <td class="text-center">Saleh Aljohani</td>
+        <td class="text-center">Extend</td>
+        <td class=" text-center"><p class="badge mb-0 text-bg-success fs-6">Completed</p></td>
+            @if (ViewBag.ActiveRole == "Admin")
+            {
+            <td class="text-center">CSE</td>
+            <td class="text-center">information system</td>
+            }
+            else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
+            {
+            <td class="text-center">information system</td>
+            }
+        <td>
+            <div class="text-center">
+                <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-secondary "></i></a>
+                <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Print" id="iconhover"><i class="fa-solid fa-print fs-4 text-primary"></i></a>
+            </div>
+        </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+@* DataTable Library used to add filters to the tables *@
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.min.css" />
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#DTable').DataTable({
+
+        });
+    });
+
+
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+</script>
+
+@* End of DataTable Library initialization *@
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
