@@ -42,14 +42,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = @Localizer["reasonNotFound"];
+                string reasonNotFound = @Localizer["reasonNotFound"];
+                TempData["Error"] = reasonNotFound;
                 return RedirectToAction("Index", "RequestManagement");
             }
 
             var reasonModel = await _context.Reasons.Include(r => r.RequestType).FirstOrDefaultAsync(m => m.ReasonID == id);
             if (reasonModel == null)
             {
-                TempData["Error"] = @Localizer["reasonNotFound"];
+                string reasonNotFound = @Localizer["reasonNotFound"];
+                TempData["Error"] = reasonNotFound;
                 return RedirectToAction("Index", "RequestManagement");
             }
 
@@ -60,13 +62,15 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if(id == null)
             {
-                TempData["Error"] = @Localizer["reqTypeNotFound"];
+                string reqTypeNotFound = @Localizer["reqTypeNotFound"];
+                TempData["Error"] = reqTypeNotFound;
                 return RedirectToAction("Index", "RequestManagement");
             }
             var reqType = await _context.RequestType.FirstOrDefaultAsync(x => x.RequestTypeID == id);
             if (reqType == null)
             {
-                TempData["Error"] = @Localizer["reqTypeNotFound"];
+                string reqTypeNotFound = @Localizer["reqTypeNotFound"];
+                TempData["Error"] = reqTypeNotFound;
                 return RedirectToAction("Index", "RequestManagement");
             }
             return View();
@@ -80,7 +84,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 if (_context.Reasons.Any(r => r.ReqTypeID == reasonsModel.ReqTypeID && r.Context.ToLower() == reasonsModel.Context.ToLower()))
                 {
-                    TempData["Error"] = @Localizer["reasonExist"];
+                    string reasonExist = @Localizer["reasonExist"];
+                    TempData["Error"] = reasonExist;
                     return View(reasonsModel);
                 }
                 _context.Add(reasonsModel);
@@ -94,14 +99,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = @Localizer["reasonNotFound"];
+                string reasonNotFound = @Localizer["reasonNotFound"];
+                TempData["Error"] = reasonNotFound;
                 return RedirectToAction("Index", "RequestManagement");
             }
 
             var reasonModel = await _context.Reasons.Include(r => r.RequestType).FirstOrDefaultAsync(m => m.ReasonID == id);
             if (reasonModel == null)
             {
-                TempData["Error"] = @Localizer["reasonNotFound"];
+                string reasonNotFound = @Localizer["reasonNotFound"];
+                TempData["Error"] = reasonNotFound;
                 return RedirectToAction("Index", "RequestManagement");
             }
 
@@ -114,7 +121,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id != reasonsModel.ReasonID)
             {
-                TempData["Error"] = @Localizer["reasonNotFound"];
+                string reasonNotFound = @Localizer["reasonNotFound"];
+                TempData["Error"] = reasonNotFound;
                 return RedirectToAction("Index", "RequestManagement");
             }
 
@@ -127,7 +135,8 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    TempData["Error"] = @Localizer["updateError"];
+                    string updateError = @Localizer["updateError"];
+                    TempData["Error"] = updateError;
                     return RedirectToAction("Index", "RequestManagement");
                 }
                 return RedirectToAction("Index", "RequestManagement");
@@ -139,14 +148,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = @Localizer["reasonNotFound"];
+                string reasonNotFound = @Localizer["reasonNotFound"];
+                TempData["Error"] = reasonNotFound;
                 return RedirectToAction("Index", "RequestManagement");
             }
 
             var reasonModel = await _context.Reasons.Include(r => r.RequestType).FirstOrDefaultAsync(m => m.ReasonID == id);
             if (reasonModel == null)
             {
-                TempData["Error"] = @Localizer["reasonNotFound"];
+                string reasonNotFound = @Localizer["reasonNotFound"];
+                TempData["Error"] = reasonNotFound;
                 return RedirectToAction("Index", "RequestManagement");
             }
 
@@ -160,7 +171,8 @@ namespace Triplite_Committee_Platform.Controllers
             var reasonModel = await _context.Reasons.FindAsync(id);
             if (reasonModel == null)
             {
-                TempData["Error"] = @Localizer["reasonNotFound"];
+                string reasonNotFound = @Localizer["reasonNotFound"];
+                TempData["Error"] = reasonNotFound;
                 return RedirectToAction("Index", "RequestManagement");
             }
             _context.Reasons.Remove(reasonModel);

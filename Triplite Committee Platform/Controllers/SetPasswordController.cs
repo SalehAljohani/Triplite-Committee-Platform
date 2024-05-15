@@ -24,14 +24,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (userId == null || token == null)
             {
-                ModelState.AddModelError(string.Empty, @Localizer["verifyFail"]);
+                string verifyFail = @Localizer["verifyFail"];
+                ModelState.AddModelError(string.Empty, verifyFail);
                 return View();
             }
 
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                TempData["Error"] = @Localizer["verifyFail"];
+                string verifyFail = @Localizer["verifyFail"];
+                TempData["Error"] = verifyFail;
                 return RedirectToAction("Index", "Home");
             }
 
@@ -40,7 +42,8 @@ namespace Triplite_Committee_Platform.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                TempData["ConfirmEmail"] = @Localizer["thanks"];
+                string thanks = @Localizer["thanks"];
+                TempData["ConfirmEmail"] = thanks;
                 return RedirectToAction("SetPassword", "SetPassword");
             }
             else
@@ -54,7 +57,8 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                TempData["Error"] = @Localizer["userNotFound"];
+                string userNotFound = @Localizer["userNotFound"];
+                TempData["Error"] = userNotFound;
                 return RedirectToAction("Index", "Home");
             }
             var hasPassword = await _userManager.HasPasswordAsync(user);
@@ -77,7 +81,8 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                TempData["Error"] = @Localizer["userNotFound"];
+                string userNotFound = @Localizer["userNotFound"];
+                TempData["Error"] = userNotFound;
                 return RedirectToAction("Index", "Home");
             }
             

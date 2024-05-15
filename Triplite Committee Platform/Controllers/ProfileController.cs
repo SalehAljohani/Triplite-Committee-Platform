@@ -36,20 +36,23 @@ namespace Triplite_Committee_Platform.Controllers
             }
             if (user.EmailConfirmed == false)
             {
-                TempData["Message"] = @Localizer["confirmEmail"];
+                string confirmEmail = @Localizer["confirmEmail"];
+                TempData["Message"] = confirmEmail;
                 return RedirectToAction("Index", "ConfirmEmail");
             }
             var activeRole = HttpContext.Session.GetString("ActiveRole");
             var userDept = await _context.Department.FirstOrDefaultAsync(x => x.DeptNo == user.DeptNo);
             if (userDept == null)
             {
-                TempData["Error"] = @Localizer["errorFetch"];
+                string errorFetch = @Localizer["errorFetch"];
+                TempData["Error"] = errorFetch;
                 return RedirectToAction(nameof(Index));
             }
             var userCollege = await _context.College.FirstOrDefaultAsync(x => x.CollegeNo == userDept.CollegeNo);
             if (userCollege == null)
             {
-                TempData["Error"] = @Localizer["errorFetch"];
+                string errorFetch = @Localizer["errorFetch"];
+                TempData["Error"] = errorFetch;
                 return RedirectToAction(nameof(Index));
             }
             var model = new ProfileViewModel
@@ -80,24 +83,27 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 if (!await _userManager.CheckPasswordAsync(user, model.oldPassword))
                 {
-                    TempData["Error"] = @Localizer["oldPass"];
+                    string oldPass = @Localizer["oldPass"];
+                    TempData["Error"] = oldPass;
                     return RedirectToAction(nameof(Index));
                 }
 
                 var result = await _userManager.ChangePasswordAsync(user, model.oldPassword, model.newPassword);
                 if (result.Succeeded)
                 {
-                    TempData["Message"] = @Localizer["passUpdate"];
+                    string passUpdate = @Localizer["passUpdate"];
+                    TempData["Message"] = passUpdate;
                 }
                 else
                 {
-                    TempData["Error"] = @Localizer["errorUpdate"];
+                    string errorUpdate = @Localizer["errorUpdate"];
+                    TempData["Error"] = errorUpdate;
                 }
             }
             else
             {
-
-                TempData["Error"] = @Localizer["errorUpdate"];
+                string errorUpdate = @Localizer["errorUpdate"];
+                TempData["Error"] = errorUpdate;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -116,7 +122,8 @@ namespace Triplite_Committee_Platform.Controllers
 
             if(string.IsNullOrEmpty(signatureData) && file == null)
             {
-                TempData["Error"] = @Localizer["draw"];
+                string draw = @Localizer["draw"];
+                TempData["Error"] = draw;
                 return RedirectToAction("Index");
             }
 
@@ -137,13 +144,15 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 if (!file.ContentType.StartsWith("image/"))
                 {
-                    TempData["Error"] = @Localizer["invalidImage"];
+                    string invalidImage = @Localizer["invalidImage"];
+                    TempData["Error"] = invalidImage;
                     return RedirectToAction("Index");
                 }
 
                 if (Path.GetExtension(file.FileName).ToLower() != ".png")
                 {
-                    TempData["Error"] = @Localizer["invalidPNG"];
+                    string invalidPNG = @Localizer["invalidPNG"];
+                    TempData["Error"] = invalidPNG;
                     return RedirectToAction("Index");
                 }
 
@@ -160,11 +169,13 @@ namespace Triplite_Committee_Platform.Controllers
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                TempData["Message"] = @Localizer["signAdd"];
+                string signAdd = @Localizer["signAdd"];
+                TempData["Message"] = signAdd;
             }
             else
             {
-                TempData["Message"] = @Localizer["errorSignUpload"];
+                string errorSignUpload = @Localizer["errorSignUpload"];
+                TempData["Message"] = errorSignUpload;
             }
 
             return RedirectToAction("Index");
@@ -192,11 +203,13 @@ namespace Triplite_Committee_Platform.Controllers
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                TempData["Message"] = @Localizer["signRemove"];
+                string signRemove = @Localizer["signRemove"];
+                TempData["Message"] = signRemove;
             }
             else
             {
-                TempData["Message"] = @Localizer["errorSignRemove"];
+                string errorSignRemove = @Localizer["errorSignRemove"];
+                TempData["Message"] = errorSignRemove;
             }
 
             return RedirectToAction("Index");

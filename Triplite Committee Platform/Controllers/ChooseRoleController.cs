@@ -30,7 +30,8 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                TempData["Message"] = @Localizer["unableLoadUser"];
+                string unableLoadUser = Localizer["unableLoadUser"];
+                TempData["Message"] = unableLoadUser;
                 return RedirectToAction("Index", "Home");
             }
             if (user.EmailConfirmed == false)
@@ -69,26 +70,30 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (model == null || string.IsNullOrEmpty(model.SelectedRole))
             {
-                TempData["Message"]= @Localizer["selectRole"];
+                string selectRole = Localizer["selectRole"];
+                TempData["Message"]= selectRole;
                 return RedirectToAction(nameof(Index));
             }
 
             var user = await _userManager.GetUserAsync(User);
             if(user == null)
             {
-                TempData["Message"] = @Localizer["unableLoadUser"];
+                string unableLoadUser = Localizer["unableLoadUser"];
+                TempData["Message"] = unableLoadUser;
                 return RedirectToAction(nameof(Index));
             }
 
             var roles = await _userManager.GetRolesAsync(user);
             if (roles == null || roles.Count < 2)
             {
-                TempData["Message"] = @Localizer["multiRoles"];
+                string multiRoles = Localizer["multiRoles"];
+                TempData["Message"] = multiRoles;
                 return RedirectToAction(nameof(Index));
             }
             if (!roles.Contains(model.SelectedRole))
             {
-                TempData["Message"] = @Localizer["noPermission"];
+                string noPermission = Localizer["noPermission"];
+                TempData["Message"] = noPermission;
                 return RedirectToAction(nameof(Index));
             }
             else

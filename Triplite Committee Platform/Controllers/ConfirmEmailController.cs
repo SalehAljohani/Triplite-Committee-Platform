@@ -30,7 +30,8 @@ namespace Triplite_Committee_Platform.Controllers
 
                 if (user.EmailConfirmed == false)
                 {
-                    ViewData["ConfirmEmail"] = @Localizer["verifyAcc"];
+                    string verifyEmail = @Localizer["verifyEmail"];
+                    ViewData["ConfirmEmail"] = verifyEmail;
                     return View();
                 }
                 else
@@ -68,11 +69,13 @@ namespace Triplite_Committee_Platform.Controllers
                         var encodedToken = Encoding.UTF8.GetBytes(token);
                         var validToken = WebEncoders.Base64UrlEncode(encodedToken);
                         var callbackUrl = Url.Action("Index", "SetPassword", new { userId = user.Id, token = validToken }, Request.Scheme);
-                        var dynamicTemplateData = new { Subject = @Localizer["accConfirm"], ConfirmLink = callbackUrl };
+                        string accConfirm = @Localizer["accConfirm"];
+                        var dynamicTemplateData = new { Subject = accConfirm, ConfirmLink = callbackUrl };
                         var templateId = "d-ca5e1fdee08047d1afa4448fe1cee09a";
                         await _emailSender.SendEmailAsync(user.Email, templateId, dynamicTemplateData);
 
-                        TempData["EmailSent"] = @Localizer["verifySent"];
+                        string verifySent = @Localizer["verifySent"];
+                        TempData["EmailSent"] = verifySent;
                         return RedirectToAction("Index");
                     }
                     return RedirectToAction("Index", "Login");

@@ -41,14 +41,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Message"] = @Localizer["reqNotFound"];
+                string reqNotFound = Localizer["reqNotFound"];
+                TempData["Message"] = reqNotFound;
                 return RedirectToAction("Index");
             }
 
             var contactModel = await _context.Contact.FirstOrDefaultAsync(m => m.Id == id);
             if (contactModel == null)
             {
-                TempData["Message"] = @Localizer["reqNotFound"];
+                string reqNotFound = Localizer["reqNotFound"];
+                TempData["Message"] = reqNotFound;
                 return RedirectToAction("Index");
             }
 
@@ -59,22 +61,26 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Message"] = @Localizer["reqNotFound"];
+                string reqNotFound = Localizer["reqNotFound"];
+                TempData["Message"] = reqNotFound;
                 return RedirectToAction("Index");
             }
 
             var contactModel = await _context.Contact.FirstOrDefaultAsync(m => m.Id == id);
             if (contactModel == null)
             {
-                TempData["Message"] = @Localizer["reqNotFound"];
+                string reqNotFound = Localizer["reqNotFound"];
+                TempData["Message"] = reqNotFound;
                 return RedirectToAction("Index");
             }
             ViewData["ButtonClass"] = "btn btn-success";
-            ViewData["Button"] = @Localizer["solve"];
+            string solve = Localizer["solve"];
+            ViewData["Button"] = solve;
             if(contactModel.Status == true)
             {
                 ViewData["ButtonClass"] = "btn btn-danger";
-                ViewData["Button"] = @Localizer["unsolve"];
+                string unsolve = Localizer["unsolve"];
+                ViewData["Button"] = unsolve;
             }
 
             return View(contactModel);
@@ -97,14 +103,16 @@ namespace Triplite_Committee_Platform.Controllers
                 contactModel.Status = false;
                 _context.Update(contactModel);
                 await _context.SaveChangesAsync();
-                TempData["Message"] = @Localizer["reqUnsolved"];
+                string reqUnsolved = Localizer["reqUnsolved"];
+                TempData["Message"] = reqUnsolved;
                 return RedirectToAction("Index");
             }
 
             contactModel.Status = true;
             _context.Update(contactModel);
             await _context.SaveChangesAsync();
-            TempData["Message"] = @Localizer["reqSolved"];
+            string reqSolved = Localizer["reqSolved"];
+            TempData["Message"] = reqSolved;
 
             return RedirectToAction("Index");
         }
@@ -133,7 +141,8 @@ namespace Triplite_Committee_Platform.Controllers
             var contactModel = await _context.Contact.FindAsync(id);
             _context.Contact.Remove(contactModel);
             await _context.SaveChangesAsync();
-            TempData["Message"] = @Localizer["reqDeleted"];
+            string reqDeleted = Localizer["reqDeleted"];
+            TempData["Message"] = reqDeleted;
             return RedirectToAction(nameof(Index));
         }
     }

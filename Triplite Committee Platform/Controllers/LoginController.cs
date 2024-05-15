@@ -53,7 +53,8 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, @Localizer["invalidLog"]);
+                    string invalidLog = @Localizer["invalidLog"];
+                    ModelState.AddModelError(string.Empty, invalidLog);
                     return View(model);
                 }
             }
@@ -88,7 +89,8 @@ namespace Triplite_Committee_Platform.Controllers
                     var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Action("ResetPassword", "Login", values: new { code }, protocol: Request.Scheme);
-                    var dynamicTemplateData = new { Subject = @Localizer["passReset"], ResetPassword = callbackUrl };
+                    string passReset = @Localizer["passReset"];
+                    var dynamicTemplateData = new { Subject = passReset, ResetPassword = callbackUrl };
                     var templateId = "d-76703abddcd74314b76d4e7d0b819313";
                     await _emailSender.SendEmailAsync(user.Email, templateId, dynamicTemplateData);
                     return RedirectToAction("ForgotPasswordConfirmation");
@@ -117,7 +119,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (code == null)
             {
-                TempData["Error"] = @Localizer["codePass"];
+                string codePass = @Localizer["codePass"];
+                TempData["Error"] = codePass;
                 return RedirectToAction("Index", "Login");
             }
             var model = new ResetPasswordViewModel { Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code)) };
@@ -135,14 +138,16 @@ namespace Triplite_Committee_Platform.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                TempData["Error"] = @Localizer["userNotFound"];
+                string userNotFound = @Localizer["userNotFound"];
+                TempData["Error"] = userNotFound;
                 return RedirectToAction("Index", "Login");
             }
             var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.Code));
             var result = await _userManager.ResetPasswordAsync(user, code, model.Password);
             if (result.Succeeded)
             {
-                TempData["Success"] = @Localizer["passResS"];
+                string passResS = @Localizer["passResS"];
+                TempData["Success"] = passResS;
                 return RedirectToAction("Index", "Login");
             }
             foreach (var error in result.Errors)
@@ -169,8 +174,10 @@ namespace Triplite_Committee_Platform.Controllers
             await _context.Contact.AddAsync(model);
             await _context.SaveChangesAsync();
 
-            TempData["Success"] = @Localizer["messageSentS"];
-            TempData["SuccessMessage"] = @Localizer["thanks"];
+            string messageSentS = @Localizer["messageSentS"];
+            string thanks = @Localizer["thanks"];
+            TempData["Success"] = messageSentS;
+            TempData["SuccessMessage"] = thanks;
 
             ModelState.Clear();
             ViewData["SupportDetails"] = _context.SupportDetail.FirstOrDefault();
@@ -187,7 +194,8 @@ namespace Triplite_Committee_Platform.Controllers
             HttpContext.Session.Clear();
 
             await _signInManager.SignOutAsync();
-            TempData["Logout"] = @Localizer["loggedOut"];
+            string loggedOut = @Localizer["loggedOut"];
+            TempData["Logout"] = loggedOut;
             return RedirectToAction("Index", "Login");
         }
     }

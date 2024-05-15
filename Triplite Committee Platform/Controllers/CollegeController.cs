@@ -43,7 +43,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = @Localizer["collegeNotFound"];
+                string collegeNotFound = @Localizer["collegeNotFound"];
+                TempData["Error"] = collegeNotFound;
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Departments"] = _context.Department.Where(d => d.CollegeNo == id).ToList();
@@ -52,7 +53,8 @@ namespace Triplite_Committee_Platform.Controllers
                 .FirstOrDefaultAsync(m => m.CollegeNo == id);
             if (collegeModel == null)
             {
-                TempData["Error"] = @Localizer["collegeNotFound"];
+                string collegeNotFound = @Localizer["collegeNotFound"];
+                TempData["Error"] = collegeNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -82,14 +84,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = @Localizer["collegeNotFound"];
+                string collegeNotFound = @Localizer["collegeNotFound"];
+                TempData["Error"] = collegeNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
             var collegeModel = await _context.College.FindAsync(id);
             if (collegeModel == null)
             {
-                TempData["Error"] = @Localizer["collegeNotFound"];
+                string collegeNotFound = @Localizer["collegeNotFound"];
+                TempData["Error"] = collegeNotFound;
                 return RedirectToAction(nameof(Index));
             }
             return View(collegeModel);
@@ -102,7 +106,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id != collegeModel.CollegeNo)
             {
-                TempData["Error"] = @Localizer["collegeNotFound"];
+                string collegeNotFound = @Localizer["collegeNotFound"];
+                TempData["Error"] = collegeNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -117,7 +122,8 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (!CollegeModelExists(collegeModel.CollegeNo))
                     {
-                        TempData["Error"] = @Localizer["collegeNotFound"];
+                        string collegeNotFound = @Localizer["collegeNotFound"];
+                        TempData["Error"] = collegeNotFound;
                         return RedirectToAction(nameof(Index));
                     }
                     else
@@ -134,14 +140,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = @Localizer["collegeNotFound"];
+                string collegeNotFound = @Localizer["collegeNotFound"];
+                TempData["Error"] = collegeNotFound;
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Departments"] = _context.Department.Where(d => d.CollegeNo == id).ToList();
             var collegeModel = await _context.College.FirstOrDefaultAsync(m => m.CollegeNo == id);
             if (collegeModel == null)
             {
-                TempData["Error"] = @Localizer["collegeNotFound"];
+                string collegeNotFound = @Localizer["collegeNotFound"];
+                TempData["Error"] = collegeNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -156,14 +164,17 @@ namespace Triplite_Committee_Platform.Controllers
             var existingDepartments = _context.Department.Where(d => d.CollegeNo == id).ToList();
             if(existingDepartments.Count() > 0)
             {
-                TempData["DeleteMessage1"] = @Localizer["cantDeleteCollege"];
-                TempData["DeleteMessage2"] = @Localizer["deleteDept"];
+                string cantDeleteCollege = @Localizer["cantDeleteCollege"];
+                string deleteDept = @Localizer["deleteDept"];
+                TempData["DeleteMessage1"] = cantDeleteCollege;
+                TempData["DeleteMessage2"] = deleteDept;
                 return RedirectToAction("Delete");
             }
             if (collegeModel != null)
             {
                 _context.College.Remove(collegeModel);
-                TempData["Message"] = @Localizer["collegeDeleted"];
+                string collegeDeleted = @Localizer["collegeDeleted"];
+                TempData["Message"] = collegeDeleted;
             }
 
             await _context.SaveChangesAsync();

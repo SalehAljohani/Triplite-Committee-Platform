@@ -88,13 +88,15 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = @Localizer["userNotFound"];  
+                string userNotFound = @Localizer["userNotFound"];
+                TempData["Error"] = userNotFound;  
                 return RedirectToAction(nameof(Index));
             }
             var user = await _userManager.Users.Include(u => u.Department).FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
-                TempData["Error"] = @Localizer["userNotFound"];
+                string userNotFound = @Localizer["userNotFound"];
+                TempData["Error"] = userNotFound;
                 return RedirectToAction(nameof(Index));
             }
             var roles = await _userManager.GetRolesAsync(user);
@@ -143,14 +145,16 @@ namespace Triplite_Committee_Platform.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, @Localizer["nameExist"]);
+                        string nameExist = @Localizer["nameExist"];
+                        ModelState.AddModelError(string.Empty, nameExist);
                         await PopulateDepartmentsAndRoles();
                         return View(accountViewModel);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, @Localizer["nameReq"]);
+                    string nameReq = @Localizer["nameReq"];
+                    ModelState.AddModelError(string.Empty, nameReq);
                     await PopulateDepartmentsAndRoles();
                     return View(accountViewModel);
                 }
@@ -159,7 +163,8 @@ namespace Triplite_Committee_Platform.Controllers
                     var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.EmployeeID == accountViewModel.EmployeeID);
                     if (existingUser != null)
                     {
-                        ModelState.AddModelError(string.Empty, @Localizer["empIDExist"]);
+                        string empIDExist = @Localizer["empIDExist"];
+                        ModelState.AddModelError(string.Empty, empIDExist);
                         await PopulateDepartmentsAndRoles();
                         return View(accountViewModel);
                     }
@@ -167,7 +172,8 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, @Localizer["empIDReq"]);
+                    string empIDReq = @Localizer["empIDReq"];
+                    ModelState.AddModelError(string.Empty, empIDReq);
                     await PopulateDepartmentsAndRoles();
                     return View(accountViewModel);
                 }
@@ -176,14 +182,16 @@ namespace Triplite_Committee_Platform.Controllers
                     var existingEmail = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == accountViewModel.Email);
                     if (existingEmail != null)
                     {
-                        ModelState.AddModelError(string.Empty, @Localizer["emailExist"]);
+                        string emailExist = @Localizer["emailExist"];
+                        ModelState.AddModelError(string.Empty, emailExist);
                         await PopulateDepartmentsAndRoles();
                         return View(accountViewModel);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, @Localizer["emailReq"]);
+                    string emailReq = @Localizer["emailReq"];
+                    ModelState.AddModelError(string.Empty, emailReq);
                     await PopulateDepartmentsAndRoles();
                     return View(accountViewModel);
                 }
@@ -193,7 +201,8 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, @Localizer["phoneReq"]);
+                    string phoneReq = @Localizer["phoneReq"];
+                    ModelState.AddModelError(string.Empty, phoneReq);
                     await PopulateDepartmentsAndRoles();
                     return View(accountViewModel);
                 }
@@ -203,13 +212,15 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, @Localizer["deptReq"]);
+                    string deptReq = @Localizer["deptReq"];
+                    ModelState.AddModelError(string.Empty, deptReq);
                     await PopulateDepartmentsAndRoles();
                     return View(accountViewModel);
                 }
                 if (accountViewModel.ListRoles == null)
                 {
-                    ModelState.AddModelError(string.Empty, @Localizer["selectRole"]);
+                    string selectRole = @Localizer["selectRole"];
+                    ModelState.AddModelError(string.Empty, selectRole);
                     await PopulateDepartmentsAndRoles();
                     return View(accountViewModel);
                 }
@@ -224,7 +235,8 @@ namespace Triplite_Committee_Platform.Controllers
                     {
                         if (accountViewModel.ListRoles == null)
                         {
-                            ModelState.AddModelError(string.Empty, @Localizer["selectRole"]);
+                            string selectRole = @Localizer["selectRole"];
+                            ModelState.AddModelError(string.Empty, selectRole);
                             await PopulateDepartmentsAndRoles();
                             return View(accountViewModel);
                         }
@@ -239,14 +251,16 @@ namespace Triplite_Committee_Platform.Controllers
                         }
                         if (await _userManager.GetRolesAsync(user) == null)
                         {
-                            ModelState.AddModelError(string.Empty, @Localizer["selectRole"]);
+                            string selectRole = @Localizer["selectRole"];
+                            ModelState.AddModelError(string.Empty, selectRole);
                             await PopulateDepartmentsAndRoles();
                             return View(accountViewModel);
                         }
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, @Localizer["selectRole"]);
+                        string selectRole = @Localizer["selectRole"];
+                        ModelState.AddModelError(string.Empty, selectRole);
                         await PopulateDepartmentsAndRoles();
                         return View(accountViewModel);
                     }
@@ -256,11 +270,13 @@ namespace Triplite_Committee_Platform.Controllers
                     var encodedToken = Encoding.UTF8.GetBytes(token);
                     var validToken = WebEncoders.Base64UrlEncode(encodedToken);
                     var callbackUrl = Url.Action("Index", "SetPassword", new { userId = user.Id, token = validToken }, Request.Scheme);
-                    var dynamicTemplateData = new { Subject = @Localizer["accConfirm"], ConfirmLink = callbackUrl };
+                    string accConfirm = @Localizer["accConfirm"];
+                    var dynamicTemplateData = new { Subject = accConfirm, ConfirmLink = callbackUrl };
                     var templateId = "d-ca5e1fdee08047d1afa4448fe1cee09a";
                     await _emailSender.SendEmailAsync(user.Email, templateId, dynamicTemplateData);
 
-                    TempData["Success"] = @Localizer["userCreated"];
+                    string userCreated = @Localizer["userCreated"];
+                    TempData["Success"] = userCreated;
                     return RedirectToAction(nameof(Index));
                 }
                 foreach (var error in result.Errors)
@@ -271,7 +287,8 @@ namespace Triplite_Committee_Platform.Controllers
 
             // If we got this far, something failed, redisplay form
             await PopulateDepartmentsAndRoles();
-            TempData["Error"] = @Localizer["userCreateF"];
+            string userCreateF = @Localizer["userCreateF"];
+            TempData["Error"] = userCreateF;
             return View(accountViewModel);
         }
 
@@ -280,14 +297,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = @Localizer["userNotFound"];
+                string userNotFound = @Localizer["userNotFound"];
+                TempData["Error"] = userNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                TempData["Error"] = @Localizer["userNotFound"];
+                string userNotFound = @Localizer["userNotFound"];
+                TempData["Error"] = userNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -318,7 +337,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id != editUser.Id)
             {
-                TempData["Error"] = @Localizer["userNotFound"];
+                string userNotFound = @Localizer["userNotFound"];
+                TempData["Error"] = userNotFound;
                 return RedirectToAction(nameof(Index));
             }
             if (ModelState.IsValid)
@@ -328,7 +348,8 @@ namespace Triplite_Committee_Platform.Controllers
                     var user = await _userManager.FindByIdAsync(id);
                     if (user == null)
                     {
-                        TempData["Error"] = @Localizer["userNotFound"];
+                        string userNotFound = @Localizer["userNotFound"];
+                        TempData["Error"] = userNotFound;
                         return RedirectToAction(nameof(Index));
                     }
                     if (editUser.Name != user.Name)
@@ -388,7 +409,8 @@ namespace Triplite_Committee_Platform.Controllers
                             {
                                 var adminRole = "Admin";
                                 await _userManager.RemoveFromRolesAsync(user, roles.Except(new List<string> { adminRole }));
-                                TempData["Error"] = @Localizer["removeAdmin"];
+                                string removeAdmin = @Localizer["removeAdmin"];
+                                TempData["Error"] = removeAdmin;
                             }
                             foreach (var role in editUser.ListRoles)
                             {
@@ -405,11 +427,13 @@ namespace Triplite_Committee_Platform.Controllers
                             var result = await _userManager.ResetPasswordAsync(user, token, editUser.Password);
                             if (result.Succeeded)
                             {
-                                TempData["Success"] = @Localizer["passChangeS"];
+                                string passChangeS = @Localizer["passChangeS"];
+                                TempData["Success"] = passChangeS;
                             }
                             else
                             {
-                                TempData["Error"] = @Localizer["passChangeF"];
+                                string passChangeF = @Localizer["passChangeF"];
+                                TempData["Error"] = passChangeF;
                                 foreach (var error in result.Errors)
                                 {
                                     ModelState.AddModelError(string.Empty, error.Description);
@@ -423,7 +447,8 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (!UserExists(editUser.Id))
                     {
-                        TempData["Error"] = @Localizer["userNotFound"];
+                        string userNotFound = @Localizer["userNotFound"];
+                        TempData["Error"] = userNotFound;
                         return RedirectToAction(nameof(Index));
                     }
                     else
@@ -444,14 +469,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = @Localizer["userNotFound"];
+                string userNotFound = @Localizer["userNotFound"];
+                TempData["Error"] = userNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
             var user = await _userManager.Users.Include(u => u.Department).FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
-                TempData["Error"] = @Localizer["userNotFound"];
+                string userNotFound = @Localizer["userNotFound"];
+                TempData["Error"] = userNotFound;
                 return RedirectToAction(nameof(Index));
             }
             var roles = await _userManager.GetRolesAsync(user);
@@ -489,7 +516,8 @@ namespace Triplite_Committee_Platform.Controllers
                     }
                     else
                     {
-                        TempData["Error"] = @Localizer["deleteLastAdmin"];
+                        string deleteLastAdmin = @Localizer["deleteLastAdmin"];
+                        TempData["Error"] = deleteLastAdmin;
                     }
                 }
                 else

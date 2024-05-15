@@ -34,7 +34,8 @@ namespace Triplite_Committee_Platform.Controllers
             }
             if (user.EmailConfirmed == false)
             {
-                TempData["Message"] = @Localizer["confirmEmail"];
+                string confirmEmail = @Localizer["confirmEmail"];
+                TempData["Message"] = confirmEmail;
                 return RedirectToAction("Index", "ConfirmEmail");
             }
 

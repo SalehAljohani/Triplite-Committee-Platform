@@ -49,7 +49,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Message"] = @Localizer["suppNotExist"];
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
                 return RedirectToAction("Create");
             }
 
@@ -57,7 +58,8 @@ namespace Triplite_Committee_Platform.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (SupportDetailModel == null)
             {
-                TempData["Message"] = @Localizer["suppNotExist"];
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
                 return RedirectToAction("Create");
             }
 
@@ -70,7 +72,8 @@ namespace Triplite_Committee_Platform.Controllers
             var existingSupportDetail = _context.SupportDetail.FirstOrDefault();
             if (existingSupportDetail != null)
             {
-                TempData["Message"] = @Localizer["suppAlreadyExist"];
+                string suppAlreadyExist = @Localizer["suppAlreadyExist"];
+                TempData["Message"] = suppAlreadyExist;
                 return RedirectToAction("Edit", new { id = existingSupportDetail.Id });
             }
             return View();
@@ -94,14 +97,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Message"] = @Localizer["suppNotExist"];
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
                 return RedirectToAction("Create");
             }
 
             var SupportDetailModel = await _context.SupportDetail.FindAsync(id);
             if (SupportDetailModel == null)
             {
-                TempData["Message"] = @Localizer["suppNotExist"];
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
                 return RedirectToAction("Create");
             }
             return View(SupportDetailModel);
@@ -116,7 +121,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id != SupportDetailModel.Id)
             {
-                TempData["Message"] = @Localizer["suppNotExist"];
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
                 return RedirectToAction("Create");
             }
 
@@ -131,7 +137,8 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (!SupportDetailModelExists(SupportDetailModel.Id))
                     {
-                        TempData["Message"] = @Localizer["suppNotExist"];
+                        string suppNotExist = @Localizer["suppNotExist"];
+                        TempData["Message"] = suppNotExist;
                         return RedirectToAction("Create");
                     }
                     else
@@ -149,7 +156,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Message"] = @Localizer["suppNotExist"];
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
                 return RedirectToAction("Create");
             }
 
@@ -157,7 +165,8 @@ namespace Triplite_Committee_Platform.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (SupportDetailModel == null)
             {
-                TempData["Message"] = @Localizer["suppNotExist"];
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
                 return RedirectToAction("Create");
             }
 

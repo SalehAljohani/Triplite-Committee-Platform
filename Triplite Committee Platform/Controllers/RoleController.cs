@@ -48,14 +48,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = @Localizer["roleNotFound"];
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
             var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
             {
-                TempData["Error"] = @Localizer["roleNotFound"];
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -84,14 +86,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = @Localizer["roleNotFound"];
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
             var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
             {
-                TempData["Error"] = @Localizer["roleNotFound"];
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -104,7 +108,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id != role.Id)
             {
-                TempData["Error"] = @Localizer["roleNotFound"];
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
                 return RedirectToAction(nameof(Index));
             }
             if (ModelState.IsValid)
@@ -114,7 +119,8 @@ namespace Triplite_Committee_Platform.Controllers
                     var existingRole = await _roleManager.FindByIdAsync(role.Id);
                     if (existingRole == null)
                     {
-                        TempData["Error"] = @Localizer["roleNotFound"];
+                        string roleNotFound = @Localizer["roleNotFound"];
+                        TempData["Error"] = roleNotFound;
                         return RedirectToAction(nameof(Index));
                     }
 
@@ -125,7 +131,8 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (!RoleExists(role.Id))
                     {
-                        TempData["Error"] = @Localizer["roleNotFound"];
+                        string roleNotFound = @Localizer["roleNotFound"];
+                        TempData["Error"] = roleNotFound;
                         return RedirectToAction(nameof(Index));
                     }
                     else
@@ -143,7 +150,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = @Localizer["roleNotFound"];
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -151,7 +159,8 @@ namespace Triplite_Committee_Platform.Controllers
 
             if (role == null)
             {
-                TempData["Error"] = @Localizer["roleNotFound"];
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -166,7 +175,8 @@ namespace Triplite_Committee_Platform.Controllers
             if (role != null)
             {
                 await _roleManager.DeleteAsync(role);
-                TempData["DeleteMessage"] = @Localizer["roleDelete"];
+                string roleDelete = @Localizer["roleDelete"];
+                TempData["DeleteMessage"] = roleDelete;
             }
             return RedirectToAction(nameof(Index));
         }
