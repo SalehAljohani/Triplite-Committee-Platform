@@ -182,18 +182,7 @@ namespace Triplite_Committee_Platform.Controllers
 
         public async Task<IActionResult> requestScholarship()
         {
-            var college = await _context.College.ToListAsync();
-            var department = await _context.Department.ToListAsync();
-
-            ViewData["Colleges"] = new SelectList(college, "CollegeNo", "CollegeName");
-            var departmentsData = department.Select(d => new
-            {
-                DeptNo = d.DeptNo,
-                DeptName = d.DeptName,
-                CollegeNo = d.CollegeNo
-            }).ToList();
-
-            ViewData["Departments"] = Newtonsoft.Json.JsonConvert.SerializeObject(departmentsData);
+            await populateData();
             return View();
         }
 
@@ -208,12 +197,15 @@ namespace Triplite_Committee_Platform.Controllers
             else
             {
                 TempData["Error"] = "Department is required.";
+                await populateData();
                 return View(model);
             }
             if (!ModelState.IsValid)
             {
+                await populateData();
                 return View(model);
             }
+            model.Status = model.Status.ToLower();
             await _context.Scholarship.AddAsync(model);
             await _context.SaveChangesAsync();
 
@@ -231,6 +223,22 @@ namespace Triplite_Committee_Platform.Controllers
             await _signInManager.SignOutAsync();
             TempData["Logout"] = "You have been logged out.";
             return RedirectToAction("Index", "Login");
+        }
+
+        private async Task populateData()
+        {
+            var college = await _context.College.ToListAsync();
+            var department = await _context.Department.ToListAsync();
+
+            ViewData["Colleges"] = new SelectList(college, "CollegeNo", "CollegeName");
+            var departmentsData = department.Select(d => new
+            {
+                DeptNo = d.DeptNo,
+                DeptName = d.DeptName,
+                CollegeNo = d.CollegeNo
+            }).ToList();
+
+            ViewData["Departments"] = Newtonsoft.Json.JsonConvert.SerializeObject(departmentsData);
         }
     }
 }

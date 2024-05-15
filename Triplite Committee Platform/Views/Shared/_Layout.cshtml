@@ -26,29 +26,27 @@
                         <a asp-area="" asp-controller="Search" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-search"></i>Advanced Search </a>
                     </li>
                     <li class="menu-title">Boards</li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa-solid fa-folder"></i>Boards </a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li>
-                                <i class="menu-icon fa-solid fa-file"></i>
-                                <a asp-area="" asp-controller="Boards" asp-action="PreviousBoards" class="nav-link">Previous Boards </a>
-                            </li>
-                            @if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
-                            {
-                                <li>
-                                    <i class="menu-icon fa-solid fa-file-import"></i>
-                                    <a asp-area="" asp-controller="Boards" asp-action="CurrentBoards" class="nav-link">Current Boards</a>
-                                </li>
-                            }
-                            @if (ViewBag.ActiveRole == "Head of Department" || ViewBag.ActiveRole == "Department Member")
-                            {
-                                <li>
-                                    <i class="menu-icon fa-solid fa-file-import"></i>
-                                    <a asp-area="" asp-controller="Boards" asp-action="CurrentBoards" class="nav-link">Current Boards</a>
-                                </li>
-                            }
-                        </ul>
+                    <li>
+                        <a asp-area="" asp-controller="Boards" asp-action="PreviousBoards" class="nav-link"><i class="menu-icon fa-solid fa-file"></i>Previous Boards </a>
                     </li>
+                    @if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean" || ViewBag.ActiveRole == "Head of Department" || ViewBag.ActiveRole == "Department Member")
+                    {
+                        <li>
+                            <a asp-area="" asp-controller="Boards" asp-action="CurrentBoards" class="nav-link"><i class="menu-icon fa-solid fa-file-import"></i>Current Boards </a>
+                        </li>
+                    }
+                    @if (ViewBag.ActiveRole == "Vice Dean")
+                    {
+                        <li>
+                            <a asp-area="" asp-controller="Scholarship" asp-action="RegisterScholarship" class="nav-link"><i class="menu-icon fa-solid fa-file-circle-plus"></i>Register New Request </a>
+                        </li>
+                    }
+                    else if (ViewBag.ActiveRole == "Head of Department")
+                    {
+                        <li>
+                            <a asp-area="" asp-controller="Scholarship" asp-action="NewScholarshipRequest" class="nav-link"><i class="menu-icon fa-solid fa-file-circle-plus"></i>View Faculty Requests</a>
+                        </li>
+                    }
                     @if (ViewBag.ActiveRole == "Admin")
                     {
                         <li class="menu-title">Statistics</li>
@@ -82,19 +80,6 @@
                         </li>
                         <li>
                             <a asp-area="" asp-controller="SupportDetail" asp-action="Index" class="nav-link"><i class="menu-icon fa-solid fa-pen-to-square"></i>Support Details</a>
-                        </li>
-                    }
-                    else if (ViewBag.ActiveRole == "Vice Dean")
-                    {
-                        <li class="menu-title">Register Scholarship</li>
-                        <li>
-                            <a asp-area="" asp-controller="Scholarship" asp-action="RegisterScholarship" class="nav-link"><i class="menu-icon fa-solid fa-file-circle-plus"></i>Register Request </a>
-                        </li>
-                    }else if(ViewBag.ActiveRole == "Head of Department")
-                    {
-                        <li class="menu-title">New Scholarship Requests</li>
-                        <li>
-                            <a asp-area="" asp-controller="Scholarship" asp-action="NewScholarshipRequest" class="nav-link"><i class="menu-icon fa-solid fa-file-circle-plus"></i>View Requests</a>
                         </li>
                     }
                     @if (ViewBag.DisplayRoleChange == true)

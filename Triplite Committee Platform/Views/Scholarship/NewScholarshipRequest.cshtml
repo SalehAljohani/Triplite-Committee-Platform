@@ -54,7 +54,7 @@
                         <td class="text-center">@item.GeneralMajor</td>
                         <td>
                             <div class="text-center">
-                                <a asp-action="" asp-route-id="@item.Id" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Create Board" id="iconhover"><i class="fa-solid text-success fa-plus fs-4"></i></a>
+                                <a asp-controller="Boards" asp-action="ScholarshipDetails" asp-route-id="@item.Id" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Create Board" id="iconhover"><i class="fa-solid text-success fa-plus fs-4"></i></a>
                             </div>
                         </td>
                     </tr>

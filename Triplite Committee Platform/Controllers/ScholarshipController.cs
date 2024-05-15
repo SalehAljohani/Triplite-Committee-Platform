@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.Services;
@@ -43,7 +44,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var newRequest = _context.Scholarship.Where(r => r.Status == "Request Scholarship" && r.DeptNo == user.DeptNo).ToList();
+            var status = "Request New Scholarship";
+            var newRequest = await _context.Scholarship.Where(r => r.Status.ToLower() == status.ToLower() && r.DeptNo == user.DeptNo).ToListAsync();
 
             return View(newRequest);
         }

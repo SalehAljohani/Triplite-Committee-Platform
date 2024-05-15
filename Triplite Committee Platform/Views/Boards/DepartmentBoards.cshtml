@@ -1,0 +1,96 @@
+﻿@model Triplite_Committee_Platform.ViewModels.ScholarReqViewModel
+@{
+    ViewData["Title"] = "Report Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1 class="card-title text-center">التقرير</h1>
+<div class="card p-5 mt-5 w-75 mx-auto rounded-4 ">
+    <div class="row border-top border-bottom border-start">
+        <div class="col-sm-9" dir="rtl">
+            <p class="pt-3">
+                دراسة طلب @(Model.Scholarship.Gender == "Male" ? "المبتعث" : "المبتعثة") / (@Model.Scholarship.Name) لطلب (@Model.RequestType.RequestTypeName) في جامعة (@Model.Scholarship.University) لمرحلة (@Model.Scholarship.Degree)
+            </p>
+        </div>
+        <div class="col-sm-3 align-content-center border-end border-start">
+            <h4 class="text-center pt-1" dir="rtl">الموضوع</h4>
+        </div>
+    </div>
+    <div class="row border-bottom">
+        <div class="col-sm-9 p-3 border-start" dir="rtl">
+            <p>
+                @Model.Reason.Context
+            </p>
+            <div id="textAboveTextarea"></div>
+            <div class="d-flex justify-content-">
+
+                <div class="col-9">
+
+                    <textarea class="form-control w-100 border border-dark mt-2 mb-2" rows="4" placeholder=""></textarea>
+
+                    <div id="textAboveTextarea"></div>
+                </div>
+                <div class="col-3">
+
+                    <a class="me-3 h-25 center" type="button" onclick="addTextAboveTextarea()"><i class="mt-5 fa-solid text-black fa-plus fs-4"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 align-content-center border-start border-end" dir="rtl">
+            <h4 class="text-center">الحيثيات</h4>
+        </div>
+    </div>
+    <div class="row border-bottom">
+        <div class="col-sm-9 p-3 border-start" dir="rtl">
+            <div class="form-check form-check-reverse mb-3">
+                <input class="form-check-input" type="radio" name="Recommendation" value="" id="checkbox1" dir="rtl">
+                <label class="form-check-label" for="checkbox1">
+                    <strong>قبول </strong>
+                    <p> توصي اللجنة المفوضة عن مجلس الكلية لشؤون الابتعاث الداخلي والخارجي بالموافقة على طلب المبتعث (@Model.Scholarship.Name) (@Model.RequestType.RequestTypeName) الى جامعة (@Model.Scholarship.University) من تاريخ (@Model.Scholarship.Beginning_date.ToShortDateString()) في التخصص العام (@Model.Scholarship.GeneralMajor) والتخصص الدقيق(@Model.Scholarship.SpecificMajor) </p>
+                </label>
+
+            </div>
+            <hr />
+            <div class="form-check form-check-reverse mb-3">
+                <input class="form-check-input" type="radio" name="Recommendation" value="" id="checkbox2" dir="rtl">
+                <label class="form-check-label" for="checkbox2">
+                    <strong>رفض</strong>
+                    <p> توصي اللجنة المفوضة عن مجلس الكلية لشؤون الابتعاث الداخلي والخارجي بالرفض على طلب المبتعث (@Model.Scholarship.Name) (@Model.RequestType.RequestTypeName) الى جامعة (@Model.Scholarship.University) من تاريخ (@Model.Scholarship.Beginning_date.ToShortDateString()) في التخصص العام (@Model.Scholarship.GeneralMajor) والتخصص الدقيق ( @Model.Scholarship.SpecificMajor) </p>
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-3 align-content-center border-end border-start" dir="rtl">
+            <h4 class="text-center">التوصيات</h4>
+        </div>
+    </div>
+
+</div>
+
+<div class="text-center">
+    <button type="submit" class="btn btn-lg btn-primary" dir="rtl">حفظ ومتابعة</button>
+
+</div>
+
+
+<script>
+    function addTextAboveTextarea() {
+        var textarea = document.querySelector('.form-control');
+        var textToAdd = textarea.value;
+        var textAboveTextarea = document.getElementById('textAboveTextarea');
+
+        var newLabel = document.createElement('div');
+        newLabel.className = 'added-label text-center';
+        newLabel.innerHTML = "<p class='mb-2 text-end'>" + textToAdd + "</p>";
+
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent = 'حذف';
+        deleteButton.className = 'btn btn-sm btn-danger delete-button';
+        deleteButton.onclick = function () {
+            textAboveTextarea.removeChild(newLabel);
+        };
+
+        newLabel.appendChild(deleteButton);
+        textAboveTextarea.appendChild(newLabel);
+        textarea.value = '';
+    }
+</script>
+
