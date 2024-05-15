@@ -40,9 +40,8 @@ namespace Triplite_Committee_Platform.Models
         [StringLength(10, ErrorMessage = "Gender Cannot Exceed 10 Characters.")]
         public string Gender { get; set; }
 
-        [Required(ErrorMessage = "Current Study is Required.")]
-        [StringLength(50, ErrorMessage = "Current Study Cannot Exceed 50 Characters.")]
-        public string CurrentStudy { get; set; }
+        [Required(ErrorMessage = "Scholarship Types is Required. Must Choose one at least")]
+        public List<string> ScholarshipTypes { get; set; }
 
         [Required(ErrorMessage = "General Major is Required.")]
         [StringLength(50, ErrorMessage = "General Major Cannot Exceed 50 Characters.")]
