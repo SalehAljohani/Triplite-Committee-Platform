@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Triplite_Committee_Platform.Data;
@@ -25,11 +27,11 @@ namespace Triplite_Committee_Platform.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User?.Identity?.IsAuthenticated == true)
             {
-                return RedirectToAction("SetPassword", "SetPassword");
+                return (RedirectToAction("SetPassword", "SetPassword"));
             }
             return View();
         }
@@ -43,7 +45,7 @@ namespace Triplite_Committee_Platform.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(username, model.Password!, false, false);
+                var result = await _signInManager.PasswordSignInAsync(username!, model.Password!, false, false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("SetPassword", "SetPassword");
@@ -59,7 +61,7 @@ namespace Triplite_Committee_Platform.Controllers
 
         public IActionResult ForgotPassword()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User?.Identity?.IsAuthenticated == true)
             {
                 return RedirectToAction("SetPassword", "SetPassword");
             }
@@ -78,7 +80,6 @@ namespace Triplite_Committee_Platform.Controllers
                     var user = await _userManager.FindByEmailAsync(Email);
                     if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                     {
-                        // For Security Perposes, we don't want to reveal that the user does not exist or is not confirmed
                         return RedirectToAction("ForgotPasswordConfirmation");
                     }
 
@@ -98,7 +99,7 @@ namespace Triplite_Committee_Platform.Controllers
 
         public IActionResult ForgotPasswordConfirmation()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User?.Identity?.IsAuthenticated == true)
             {
                 return RedirectToAction("SetPassword", "SetPassword");
             }
@@ -177,6 +178,50 @@ namespace Triplite_Committee_Platform.Controllers
         public IActionResult Help()
         {
             return View();
+        }
+
+        public async Task<IActionResult> requestScholarship()
+        {
+            var college = await _context.College.ToListAsync();
+            var department = await _context.Department.ToListAsync();
+
+            ViewData["Colleges"] = new SelectList(college, "CollegeNo", "CollegeName");
+            var departmentsData = department.Select(d => new
+            {
+                DeptNo = d.DeptNo,
+                DeptName = d.DeptName,
+                CollegeNo = d.CollegeNo
+            }).ToList();
+
+            ViewData["Departments"] = Newtonsoft.Json.JsonConvert.SerializeObject(departmentsData);
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> requestScholarship(ScholarshipModel model, int? SelectedDepartment)
+        {
+            if(SelectedDepartment != null)
+            {
+                model.DeptNo = SelectedDepartment.Value;
+            }
+            else
+            {
+                TempData["Error"] = "Department is required.";
+                return View(model);
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await _context.Scholarship.AddAsync(model);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Scholarship request sent successfully.";
+            TempData["SuccessMessage"] = "Thank you for contacting us. We will get back to you soon.";
+
+            ModelState.Clear();
+            return RedirectToAction("requestScholarship");
         }
 
         public async Task<IActionResult> Logout()

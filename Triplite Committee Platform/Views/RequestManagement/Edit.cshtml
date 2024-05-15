@@ -13,16 +13,23 @@
             <form asp-action="Edit" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="RequestTypeID" />
-
-
                 <div class="row">
                     <dt class="col-sm-4 fw-bold">
-                        <label asp-for="RequestTypeName" for="RName" class="col-form-label text-center">Request Type Name</label>
+                        <label asp-for="RequestTypeName" for="RName" class="col-form-label text-center">Request Type</label>
                     </dt>
                     <dd class="col-sm-8">
                         <input asp-for="RequestTypeName" id="RName" class="form-control" />
                         <span asp-validation-for="RequestTypeName" class="text-danger"></span>
-
+                    </dd>
+                </div>
+                <hr />
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label asp-for="Reasons" for="RName" class="col-form-label text-center">Reasons</label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <textarea class="form-control" name="reasonsModel.Context" asp-for="Reasons.Context"></textarea>
+                        <span asp-validation-for="RequestTypeName" class="text-danger"></span>
                     </dd>
                 </div>
                 <hr />

@@ -885,3 +885,14 @@ footer.site-footer {
     color: #03a9f3;
     font-size: 50px;
 }
+.clickable-row:hover {
+    cursor: pointer;
+}
+
+.progress-complete {
+    background-color: #008b68;
+}
+
+.progress-current {
+    background-color: #e5e5e5;
+}

@@ -9,7 +9,7 @@ namespace Triplite_Committee_Platform.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="National ID is required")]
         [RegularExpression("^[0-9]{10}$", ErrorMessage = "National ID must be a 10 numbers")]
         public string National_ID { get; set; }
 
@@ -18,7 +18,9 @@ namespace Triplite_Committee_Platform.Models
         [Required(ErrorMessage = "Must Pick Department.")]
         public int DeptNo { get; set; }
 
-        [Required(ErrorMessage = "EmployeeID is Required.")]
+        [Required(ErrorMessage = "Employee ID is Required.")]
+        [StringLength(10, ErrorMessage = "Employee ID Cannot Exceed 10 Characters.")]
+        [RegularExpression("^[0-9]{10}$", ErrorMessage = "Employee ID must be a 10 numbers")]
         public string EmployeeID { get; set; }
 
         [Required(ErrorMessage = "Phone Number is Required.")]
@@ -31,6 +33,7 @@ namespace Triplite_Committee_Platform.Models
 
         [Required(ErrorMessage = "Name is Required.")]
         [StringLength(40, ErrorMessage = "Name Cannot Exceed 40 Characters.")]
+        [RegularExpression(@"^[a-zA-Z\u0600-\u06FF ]+$", ErrorMessage = "Name must be letters only.")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Gender is Required.")]

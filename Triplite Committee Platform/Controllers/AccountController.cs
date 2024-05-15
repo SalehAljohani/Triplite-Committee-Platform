@@ -352,17 +352,11 @@ namespace Triplite_Committee_Platform.Controllers
                     }
                     if (editUser.EmailConfirmed != user.EmailConfirmed)
                     {
-                        if (editUser.EmailConfirmed != null)
-                        {
-                            user.EmailConfirmed = editUser.EmailConfirmed;
-                        }
+                        user.EmailConfirmed = editUser.EmailConfirmed;
                     }
                     if (editUser.PhoneNumberConfirmed != user.PhoneNumberConfirmed)
                     {
-                        if (editUser.PhoneNumberConfirmed != null)
-                        {
-                            user.PhoneNumberConfirmed = editUser.PhoneNumberConfirmed;
-                        }
+                        user.PhoneNumberConfirmed = editUser.PhoneNumberConfirmed;
                     }
                     var roles = await _userManager.GetRolesAsync(user);
 
