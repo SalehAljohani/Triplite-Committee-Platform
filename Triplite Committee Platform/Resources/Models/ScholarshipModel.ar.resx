@@ -180,6 +180,9 @@
   <data name="idReq" xml:space="preserve">
     <value>رقم الهوية مطلوب.</value>
   </data>
+  <data name="nameCond" xml:space="preserve">
+    <value>يجب أن يحتوي الإسم على أحرف فقط.</value>
+  </data>
   <data name="nameLength" xml:space="preserve">
     <value>لا يمكن أن يتجاوز الإسم 40 حرف.</value>
   </data>

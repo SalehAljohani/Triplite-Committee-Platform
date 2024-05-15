@@ -123,6 +123,9 @@
   <data name="deptDeleted" xml:space="preserve">
     <value>تم حذف القسم.</value>
   </data>
+  <data name="deptExist" xml:space="preserve">
+    <value>القسم موجود بالفعل.</value>
+  </data>
   <data name="deptNotFound" xml:space="preserve">
     <value>القسم غير موجود.</value>
   </data>

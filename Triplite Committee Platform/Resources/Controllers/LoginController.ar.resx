@@ -120,6 +120,9 @@
   <data name="codePass" xml:space="preserve">
     <value>يجب تزويد الرمز لإعادة تعيين كلمة المرور.</value>
   </data>
+  <data name="deptReq" xml:space="preserve">
+    <value>القسم مطلوب.</value>
+  </data>
   <data name="invalidLog" xml:space="preserve">
     <value>محاولة دخول فاشلة.</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="passResS" xml:space="preserve">
     <value>تم إعادة تعيين كلمة المرور.</value>
+  </data>
+  <data name="scholarMsg" xml:space="preserve">
+    <value>تم إرسال طلب المبتعث.</value>
   </data>
   <data name="thanks" xml:space="preserve">
     <value>شكرًا لتواصلك معنا, سنقوم بالرد في أقرب وقت ممكن.</value>

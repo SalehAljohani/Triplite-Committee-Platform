@@ -123,6 +123,9 @@
   <data name="collegeDeleted" xml:space="preserve">
     <value>تم حذف الكلية.</value>
   </data>
+  <data name="collegeExists" xml:space="preserve">
+    <value>الكلية موجودة بالفعل.</value>
+  </data>
   <data name="collegeNotFound" xml:space="preserve">
     <value>الكلية غير موجودة.</value>
   </data>

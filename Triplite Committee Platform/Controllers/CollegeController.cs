@@ -74,7 +74,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 if(_context.College.Any(c => c.CollegeName == collegeModel.CollegeName))
                 {
-                    TempData["Error"] = "College already exists.";
+                    string collegeExists = @Localizer["collegeExists"];
+                    TempData["Error"] = collegeExists;
                     return View(collegeModel);
                 }
                 _context.Add(collegeModel);

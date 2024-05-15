@@ -9,8 +9,8 @@ namespace Triplite_Committee_Platform.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="National ID is required")]
-        [RegularExpression("^[0-9]{10}$", ErrorMessage = "National ID must be a 10 numbers")]
+        [Required(ErrorMessage ="idReq")]
+        [RegularExpression("^[0-9]{10}$", ErrorMessage = "idLength")]
         public string National_ID { get; set; }
 
         [ForeignKey("DeptNo")] public DepartmentModel? Department { get; set; }
@@ -18,9 +18,9 @@ namespace Triplite_Committee_Platform.Models
         [Required(ErrorMessage = "pickDept")]
         public int DeptNo { get; set; }
 
-        [Required(ErrorMessage = "Employee ID is Required.")]
-        [StringLength(10, ErrorMessage = "Employee ID Cannot Exceed 10 Characters.")]
-        [RegularExpression("^[0-9]{10}$", ErrorMessage = "Employee ID must be a 10 numbers")]
+        [Required(ErrorMessage = "empIDReq")]
+        [StringLength(10, ErrorMessage = "empIDLength")]
+        [RegularExpression("^[0-9]{10}$", ErrorMessage = "empIDCond")]
         public string EmployeeID { get; set; }
 
         [Required(ErrorMessage = "phoneReq")]
@@ -31,9 +31,9 @@ namespace Triplite_Committee_Platform.Models
         [StringLength(50, ErrorMessage = "emailLength")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Name is Required.")]
-        [StringLength(40, ErrorMessage = "Name Cannot Exceed 40 Characters.")]
-        [RegularExpression(@"^[a-zA-Z\u0600-\u06FF ]+$", ErrorMessage = "Name must be letters only.")]
+        [Required(ErrorMessage = "nameReq")]
+        [StringLength(40, ErrorMessage = "nameLength")]
+        [RegularExpression(@"^[a-zA-Z\u0600-\u06FF ]+$", ErrorMessage = "nameCond")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "genderReq")]

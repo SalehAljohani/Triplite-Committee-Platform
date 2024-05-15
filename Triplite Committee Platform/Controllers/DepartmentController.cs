@@ -88,7 +88,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 if (_context.Department.Any(d => d.DeptName == departmentModel.DeptName && d.CollegeNo == departmentModel.CollegeNo))
                 {
-                    TempData["Error"] = "Department already exists.";
+                    string deptExist = @Localizer["deptExist"];
+                    TempData["Error"] = deptExist;
                     ViewData["CollegeNo"] = new SelectList(_context.College, "CollegeNo", "CollegeName", departmentModel.CollegeNo);
                     return View(departmentModel);
                 }

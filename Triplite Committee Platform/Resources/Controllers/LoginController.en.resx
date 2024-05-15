@@ -120,6 +120,9 @@
   <data name="codePass" xml:space="preserve">
     <value>A code must be supplied for password reset.</value>
   </data>
+  <data name="deptReq" xml:space="preserve">
+    <value>Department is required.</value>
+  </data>
   <data name="invalidLog" xml:space="preserve">
     <value>Invalid login attempt.</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="passResS" xml:space="preserve">
     <value>Password reset successfully.</value>
+  </data>
+  <data name="scholarMsg" xml:space="preserve">
+    <value>Scholarship request sent successfully.</value>
   </data>
   <data name="thanks" xml:space="preserve">
     <value>Thank you for contacting us. We will get back to you soon.</value>

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Triplite_Committee_Platform.Data;
@@ -216,7 +217,8 @@ namespace Triplite_Committee_Platform.Controllers
             }
             else
             {
-                TempData["Error"] = "Department is required.";
+                string deptReq = @Localizer["deptReq"];
+                TempData["Error"] = deptReq;
                 return View(model);
             }
             if (!ModelState.IsValid)
@@ -226,8 +228,10 @@ namespace Triplite_Committee_Platform.Controllers
             await _context.Scholarship.AddAsync(model);
             await _context.SaveChangesAsync();
 
-            TempData["Success"] = "Scholarship request sent successfully.";
-            TempData["SuccessMessage"] = "Thank you for contacting us. We will get back to you soon.";
+            string scholarMsg = @Localizer["scholarMsg"];
+            string thanks = @Localizer["thanks"];
+            TempData["Success"] = scholarMsg;
+            TempData["SuccessMessage"] = thanks;
 
             ModelState.Clear();
             return RedirectToAction("requestScholarship");

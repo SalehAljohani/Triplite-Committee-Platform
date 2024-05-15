@@ -120,6 +120,9 @@
   <data name="collegeNotFound" xml:space="preserve">
     <value>College not found.</value>
   </data>
+  <data name="depExist" xml:space="preserve">
+    <value>Department already exists.</value>
+  </data>
   <data name="deptDeleted" xml:space="preserve">
     <value>Department deleted successfully.</value>
   </data>
