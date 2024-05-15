@@ -72,6 +72,11 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(_context.College.Any(c => c.CollegeName == collegeModel.CollegeName))
+                {
+                    TempData["Error"] = "College already exists.";
+                    return View(collegeModel);
+                }
                 _context.Add(collegeModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

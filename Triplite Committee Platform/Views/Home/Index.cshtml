@@ -2,7 +2,7 @@
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var announcements = ViewData["Announce"] as List<AnnouncementModel>;
-    var firstItem = announcements?.FirstOrDefault(); // Ensures we handle null case
+    var firstItem = announcements?.FirstOrDefault();
 
 }
 
@@ -64,7 +64,7 @@
 <div class="card w-75 mx-auto mt-4 rounded-4 testcard">
     <div class="card-body">
         <div class="row">
-            <h5 class="card-title mb-4">@Localizer["boardStatusAtCollege"]</h5>
+            <h5 class="card-title mb-4">Status of the @ViewBag.CardTitle </h5>
             <div class="col-lg-4 col-md-6">
                 <div class="card border rounded-3">
                     <div class="card-body">
@@ -74,8 +74,8 @@
                             </div>
                             <div class="stat-content col-sm-8">
                                 <div class="text-left dib">
-                                    <div class="card-title"><strong>23569</strong></div>
-                                    <div class="card-text mt-3">@Localizer["compBoards"]</div>
+                                    <div class="card-title"><strong>@ViewBag.Stats.CompletedBoards</strong></div>
+                                    <div class="card-text mt-3">Completed Boards</div>
                                 </div>
                             </div>
                         </div>
@@ -92,8 +92,8 @@
                             </div>
                             <div class="stat-content col-sm-8">
                                 <div class="text-left dib">
-                                    <div class="card-title"><strong>23569</strong></div>
-                                    <div class="card-text mt-3">@Localizer["currBoards"]</div>
+                                    <div class="card-title"><strong>@ViewBag.Stats.CurrentBoards</strong></div>
+                                    <div class="card-text mt-3">Current Boards</div>
                                 </div>
                             </div>
                         </div>
@@ -110,8 +110,8 @@
                             </div>
                             <div class="stat-content col-sm-8">
                                 <div class="text-left dib">
-                                    <div class="card-title"><strong>23569</strong></div>
-                                    <div class="card-text mt-3">@Localizer["totBoards"]</div>
+                                    <div class="card-title"><strong>@ViewBag.Stats.TotalBoard</strong></div>
+                                    <div class="card-text mt-3">Total Boards</div>
                                 </div>
                             </div>
                         </div>

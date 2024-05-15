@@ -69,11 +69,11 @@ namespace Triplite_Committee_Platform.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RequestTypeName")] RequestTypeModel requestTypeModel)
+        public async Task<IActionResult> Create([Bind("RequestTypeName")] RequestTypeModel requestTypeModel, [Bind("Context")] ReasonsModel reasonsModel)
         {
             if (ModelState.IsValid)
             {
-                if(_context.RequestType.Any(r => r.RequestTypeName == requestTypeModel.RequestTypeName))
+                if (_context.RequestType.Any(r => r.RequestTypeName == requestTypeModel.RequestTypeName))
                 {
                     string reqTypeExist = @Localizer["reqTypeExist"];
                     TempData["Error"] = reqTypeExist;
@@ -81,8 +81,15 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 _context.Add(requestTypeModel);
                 await _context.SaveChangesAsync();
-                string reqTypeCreated = @Localizer["reqTypeCreated"];
-                TempData["Success"] = reqTypeCreated;
+
+                if (!string.IsNullOrEmpty(reasonsModel.Context))
+                {
+                    var newReasons = new ReasonsModel { Context = reasonsModel.Context, ReqTypeID = requestTypeModel.RequestTypeID };
+                    _context.Add(newReasons);
+                    await _context.SaveChangesAsync();
+                }
+
+                TempData["Success"] = "Request Type Created Successfully.";
                 return RedirectToAction(nameof(Index));
             }
             return View(requestTypeModel);
@@ -97,12 +104,12 @@ namespace Triplite_Committee_Platform.Controllers
                 return RedirectToAction("Index");
             }
 
-            var requestTypeModel = await _context.RequestType.FindAsync(id);
+            var requestTypeModel = await _context.RequestType.Include(r => r.Reasons).FirstOrDefaultAsync(r => r.RequestTypeID == id);
 
             if (requestTypeModel == null)
             {
-                string reqTypeNotFound = @Localizer["reqTypeNotFound"];
-                TempData["Error"] = reqTypeNotFound;
+                TempData["Error"] = "Request Type Not Found.";
+                return RedirectToAction("Index");
             }
 
             return View(requestTypeModel);
@@ -110,13 +117,11 @@ namespace Triplite_Committee_Platform.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RequestTypeName")] RequestTypeModel requestTypeModel)
+        public async Task<IActionResult> Edit(int id, [Bind("RequestTypeID, RequestTypeName")] RequestTypeModel requestTypeModel, [Bind("Context")] ReasonsModel reasonsModel)
         {
             if (id != requestTypeModel.RequestTypeID)
             {
-                string reqTypeNotFound = @Localizer["reqTypeNotFound"];
-                TempData["Error"] = reqTypeNotFound;
-                return RedirectToAction("Index");
+                TempData["Error"] = "Error Updating Request Type.";
             }
 
             if (ModelState.IsValid)
@@ -124,7 +129,19 @@ namespace Triplite_Committee_Platform.Controllers
                 try
                 {
                     _context.Update(requestTypeModel);
+
+                    if (!string.IsNullOrEmpty(reasonsModel.Context))
+                    {
+                        var existingReasons = await _context.Reasons.FirstOrDefaultAsync(r => r.ReqTypeID == requestTypeModel.RequestTypeID);
+                        if (existingReasons != null)
+                        {
+                            existingReasons.Context = reasonsModel.Context;
+                            _context.Update(existingReasons);
+                        }
+                    }
+
                     await _context.SaveChangesAsync();
+                    TempData["Success"] = "Request Type Updated Successfully.";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -153,7 +170,7 @@ namespace Triplite_Committee_Platform.Controllers
                 return RedirectToAction("Index");
             }
 
-            var requestTypeModel = await _context.RequestType.FirstOrDefaultAsync(m => m.RequestTypeID == id);
+            var requestTypeModel = await _context.RequestType.Include(r => r.Reasons).FirstOrDefaultAsync(m => m.RequestTypeID == id);
 
             if (requestTypeModel == null)
             {
@@ -165,18 +182,18 @@ namespace Triplite_Committee_Platform.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, bool deleteReasons)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var requestTypeModel = await _context.RequestType.FindAsync(id);
-            if (deleteReasons)
+            var existingReasons = await _context.Reasons.Where(d => d.ReqTypeID == id).FirstOrDefaultAsync();
+            if(requestTypeModel == null)
             {
-                var existingReasons = _context.Reasons.Where(d => d.ReqTypeID == id).ToList();
-                if (existingReasons.Any())
-                {
-                    string reasonsConnected = @Localizer["reasonsConnected"];
-                    TempData["Error"] = reasonsConnected;
-                    return RedirectToAction(nameof(Index));
-                }
+                TempData["Error"] = "Request Type Not Found.";
+                return RedirectToAction("Index");
+            }
+            if (existingReasons != null)
+            {
+                _context.Reasons.Remove(existingReasons);
             }
             _context.RequestType.Remove(requestTypeModel);
             await _context.SaveChangesAsync();

@@ -6,11 +6,12 @@ using Microsoft.Extensions.Localization;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.Services;
+using Triplite_Committee_Platform.ViewModels;
 
 namespace Triplite_Committee_Platform.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [ValidateRole("Admin")]
+    //[Authorize(Roles = "Admin")]
+    //[ValidateRole("Admin")]
     public class ReasonsManagementController : Controller
     {
         private readonly UserManager<UserModel> _userManager;
@@ -60,7 +61,7 @@ namespace Triplite_Committee_Platform.Controllers
 
         public async Task<IActionResult> Create(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 string reqTypeNotFound = @Localizer["reqTypeNotFound"];
                 TempData["Error"] = reqTypeNotFound;
@@ -73,27 +74,70 @@ namespace Triplite_Committee_Platform.Controllers
                 TempData["Error"] = reqTypeNotFound;
                 return RedirectToAction("Index", "RequestManagement");
             }
-            return View();
+            var viewModel = new CustomReasonsViewModel
+            {
+                ReasonsTemplate = string.Empty,
+                InputValues = new Dictionary<string, string>()
+            };
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReqTypeID,Context,Connected")] ReasonsModel reasonsModel)
+        public async Task<IActionResult> Create(CustomReasonsViewModel model)
         {
-            if (ModelState.IsValid)
+            var customForm = new ReasonsModel
             {
-                if (_context.Reasons.Any(r => r.ReqTypeID == reasonsModel.ReqTypeID && r.Context.ToLower() == reasonsModel.Context.ToLower()))
-                {
-                    string reasonExist = @Localizer["reasonExist"];
-                    TempData["Error"] = reasonExist;
-                    return View(reasonsModel);
-                }
-                _context.Add(reasonsModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "RequestManagement");
-            }
-            return View(reasonsModel);
+                Context = model.ReasonsTemplate,
+                ReqTypeID = 1,
+            };
+            _context.Reasons.Add(customForm);
+            _context.SaveChanges();
+
+            return RedirectToAction("FillForm", new { id = customForm.ReasonID });
+
+            //if (ModelState.IsValid)
+            //{
+            //    if (_context.Reasons.Any(r => r.ReqTypeID == reasonsModel.ReqTypeID && r.Context.ToLower() == reasonsModel.Context.ToLower()))
+            //    {
+            //        TempData["Error"] = "Reason already exists.";
+            //        return View(reasonsModel);
+            //    }
+            //    _context.Add(reasonsModel);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction("Index", "RequestManagement");
+            //}
+            //return View(reasonsModel);
         }
+
+        public IActionResult FillForm(int id)
+        {
+            var customForm = _context.Reasons.Find(id);
+            var viewModel = new CustomReasonsViewModel
+            {
+                Id = customForm.ReasonID,
+                ReasonsTemplate = customForm.Context,
+                InputValues = new Dictionary<string, string>()
+            };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult SubmitForm(CustomReasonsViewModel model)
+        {
+            // Retrieve the form template from the database based on the form ID
+            var customForm = _context.Reasons.Find(model.Id);
+
+            // Replace the input placeholders with the submitted values
+            var formData = customForm.Context;
+            foreach (var entry in model.InputValues)
+            {
+                formData = formData.Replace($"[{entry.Key}]", entry.Value);
+            }
+
+            return RedirectToAction("Index");
+        }
+
 
         public async Task<IActionResult> Edit(int? id)
         {

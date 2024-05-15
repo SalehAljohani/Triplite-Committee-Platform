@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Triplite_Committee_Platform.Data;
 
@@ -11,9 +12,11 @@ using Triplite_Committee_Platform.Data;
 namespace Triplite_Committee_Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240514044129_JointTable_BoardSigns")]
+    partial class JointTable_BoardSigns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -392,8 +395,7 @@ namespace Triplite_Committee_Platform.Migrations
 
                     b.HasKey("ReasonID");
 
-                    b.HasIndex("ReqTypeID")
-                        .IsUnique();
+                    b.HasIndex("ReqTypeID");
 
                     b.ToTable("Reasons");
                 });
@@ -758,8 +760,8 @@ namespace Triplite_Committee_Platform.Migrations
             modelBuilder.Entity("Triplite_Committee_Platform.Models.ReasonsModel", b =>
                 {
                     b.HasOne("Triplite_Committee_Platform.Models.RequestTypeModel", "RequestType")
-                        .WithOne("Reasons")
-                        .HasForeignKey("Triplite_Committee_Platform.Models.ReasonsModel", "ReqTypeID")
+                        .WithMany("Reasons")
+                        .HasForeignKey("ReqTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

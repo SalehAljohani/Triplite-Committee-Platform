@@ -86,6 +86,13 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (_context.Department.Any(d => d.DeptName == departmentModel.DeptName && d.CollegeNo == departmentModel.CollegeNo))
+                {
+                    TempData["Error"] = "Department already exists.";
+                    ViewData["CollegeNo"] = new SelectList(_context.College, "CollegeNo", "CollegeName", departmentModel.CollegeNo);
+                    return View(departmentModel);
+                }
+
                 _context.Add(departmentModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

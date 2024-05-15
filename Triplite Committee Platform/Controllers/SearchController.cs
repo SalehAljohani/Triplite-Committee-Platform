@@ -69,7 +69,7 @@ namespace Triplite_Committee_Platform.Controllers
                 ViewData["Departments"] = new SelectList(department, "DeptNo", "DeptName");
 
             }
-            else if (activeRole == "Department Head" || activeRole == "Department Member")
+            else if (activeRole == "Head of Department" || activeRole == "Department Member")
             {
                 ViewData["Colleges"] = null;
                 ViewData["Departments"] = null;
@@ -165,7 +165,7 @@ namespace Triplite_Committee_Platform.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-            else if (activeRole == "Department Head" || activeRole == "Department Member")
+            else if (activeRole == "Head of Department" || activeRole == "Department Member")
             {
                 var user = await _userManager.GetUserAsync(User);
                 var viewModelList = new List<SearchViewModel>();

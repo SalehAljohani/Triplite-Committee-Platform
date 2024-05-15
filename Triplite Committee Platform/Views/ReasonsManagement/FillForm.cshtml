@@ -1,0 +1,8 @@
+﻿@model Triplite_Committee_Platform.ViewModels.CustomReasonsViewModel
+
+<form asp-action="SubmitForm" method="post">
+    <input type="hidden" name="id" value="@ViewData["FormId"]" />
+    @Html.Raw(Model.ReasonsTemplate.Replace("[", "<input type=\"text\" name=\"").Replace("]", "\" />"))
+    <br />
+    <input type="submit" value="Submit Form" />
+</form>

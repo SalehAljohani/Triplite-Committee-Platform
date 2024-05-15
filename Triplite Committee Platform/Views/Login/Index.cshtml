@@ -44,12 +44,6 @@
                         <label asp-for="Password" class="form-label">@Localizer["password"]</label>
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
-@*                     <div class="checkbox mb-4">
-                        <label asp-for="RememberMe" class="form-label text-light">
-                            <input class="form-check-input" asp-for="RememberMe" />
-                            @Html.DisplayNameFor(m => m.RememberMe)
-                        </label>
-                    </div> *@
                 </div>
                 <div class="col-sm-2"></div>
             </div>
@@ -62,13 +56,10 @@
                     <p class="fs-6">
                         <a id="forgot-password" class="text-light text-decoration-none text-start" asp-controller="Login" asp-action="Help"><strong>@Localizer["needHelp"]</strong></a>
                     </p>
-                    @*                     <p>
-                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p> *@
                 </div>
                 <div class="col-sm-5 text-end">
                     <p class="fs-6">
-                        <a class="text-light text-decoration-none" asp-area="" asp-controller="RequestScholarship" asp-action="Index"><strong>@Localizer["reqScholar"]</strong></a> @* Create Request Scholarship Page *@
+                        <a class="text-light text-decoration-none" asp-area="" asp-controller="Login" asp-action="RequestScholarship"><strong>Request Scholarship</strong></a>
                     </p>
                 </div>
                 <div class="col-sm-1"></div>

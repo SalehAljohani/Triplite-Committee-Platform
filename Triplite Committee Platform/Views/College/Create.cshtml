@@ -5,6 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if (TempData["Error"] != null)
+{
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="alert alert-danger text-center col-sm-4">
+            @TempData["Error"]
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+}
+
 <div class="card w-50 mx-auto mt-3 rounded-4">
     <h3 class="mt-4 text-center"><strong>@Localizer["addCollege"]</strong></h3>
     <hr />
@@ -13,7 +24,7 @@
 
             <form asp-action="Create">
                 <div asp-validation-summary="All" class="text-danger"></div>
-                
+
 
 
                 <div class="row">
@@ -27,7 +38,6 @@
                     </dd>
                 </div>
                 <hr />
-
 
 
                 <div class="form-group mt-5  text-center">
@@ -59,8 +69,8 @@
         <div class="col-sm-8">
 
             <form asp-action="Create">
-                <div asp-validation-summary="All" class="text-danger"></div>              
-                 <input asp-for="CollegeName" class="form-control" /> 
+                <div asp-validation-summary="All" class="text-danger"></div>
+                 <input asp-for="CollegeName" class="form-control" />
                 <div class="row g-3 align-items-center mt-2">
                     <div class="col-2"></div>
                     <div class="col-3">
