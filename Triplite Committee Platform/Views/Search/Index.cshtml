@@ -21,21 +21,34 @@
                 <div class="col-sm-5">
                     <input type="text" class="form-control" name="search" placeholder="Enter search term" />
                 </div>
-                @if (ViewBag.Colleges != null)
+                @if (ViewBag.ActiveRole == "Admin")
                 {
-                    <div class="col-sm-3">
-                        <select class="form-control" asp-items="ViewBag.Colleges" name="SelectedCollege" onchange="enableDepartmentSelection(this)">
-                            <option value="">Select College</option>
-                        </select>
-                    </div>
-                }
-                @if (ViewBag.Departments != null)
+                    @if (ViewBag.Colleges != null)
+                    {
+                        <div class="col-sm-3">
+                            <select class="form-control" asp-items="ViewBag.Colleges" name="SelectedCollege" onchange="enableDepartmentSelection(this)">
+                                <option value="">Select College</option>
+                            </select>
+                        </div>
+                    }
+                    @if (ViewBag.Departments != null)
+                    {
+                        <div class="col-sm-3">
+                            <select class="form-control" name="SelectedDepartment" id="SelectedDepartment" disabled>
+                                <option value="">Select Department</option>
+                            </select>
+                        </div>
+                    }
+                }else if(ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
                 {
-                    <div class="col-sm-3">
-                        <select class="form-control" name="SelectedDepartment" disabled>
-                            <option value="">Select Department</option>
-                        </select>
-                    </div>
+                    @if (ViewBag.Departments != null)
+                    {
+                        <div class="col-sm-3">
+                            <select class="form-control" name="SelectedDepartment" asp-items="ViewBag.Departments">
+                                <option value="">Select Department</option>
+                            </select>
+                        </div>
+                    }
                 }
                 <div class="col-sm-1">
                     <button type="submit" class="btn bg-opacity-10 btn-md " data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Search" id=""><i class="fa fa-search fs-4 text-primary  " title=" Search"></i> </button>
@@ -67,134 +80,40 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="text-center">1</td>
-                <td class="text-center">Saleh Aljohani</td>
-                <td class="text-center">Extend</td>
-                <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">Completed</p></td>
-                @if (ViewBag.ActiveRole == "Admin")
+            @if (Model != null)
+            {
+                foreach (var item in Model)
                 {
-                    <td class="text-center">CSE</td>
-                    <td class="text-center">information system</td>
-
-                }
-                else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
-                {
-                    <td class="text-center">information system</td>
-
-                }
-                <td>
-                    <div class="text-center">
-                        <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-secondary "></i></a>
-                        <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Print" id="iconhover"><i class="fa-solid fa-print fs-4 text-primary"></i></a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-center">1</td>
-                <td class="text-center">Saleh Aljohani</td>
-                <td class="text-center">Extend</td>
-                <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">Completed</p></td>
-                @if (ViewBag.ActiveRole == "Admin")
-                {
-                    <td class="text-center">CSE</td>
-                    <td class="text-center">information system</td>
-
-                }
-                else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
-                {
-                    <td class="text-center">information system</td>
-
-                }
-                <td>
-                    <div class="text-center">
-                        <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-secondary "></i></a>
-                        <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Print" id="iconhover"><i class="fa-solid fa-print fs-4 text-primary"></i></a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-center">1</td>
-                <td class="text-center">Saleh Aljohani</td>
-                <td class="text-center">Extend</td>
-                <td class="mb-0 text-center"><p class="badge text-bg-success fs-6">Completed</p></td>
-                @if (ViewBag.ActiveRole == "Admin")
-                {
-                    <td class="text-center">CSE</td>
-                    <td class="text-center">information system</td>
-
-                }
-                else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
-                {
-                    <td class="text-center">information system</td>
-
-                }
-                <td>
-                    <div class="text-center ">
-                        <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-secondary "></i></a>
-                        <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Print" id="iconhover"><i class="fa-solid fa-print fs-4 text-primary"></i></a>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    @*End of test table*@
-
-    @if (Model != null && Model.Count > 0)
-    {
-        <hr />
-        <table class="table table-striped" id="DTable">
-            <thead>
-                <tr>
-                    <th>Board Number</th>
-                    <th>Scholarship Name</th>
-                    <th>Board Type</th>
-                    <th>Board Date</th>
-                    <th>Board Status</th>
-                    @if (ViewBag.ActiveRole == "Admin")
+                    foreach (var board in item.Boards)
                     {
-                        <th>Scholarship College</th>
-                        <th>Scholarship Department</th>
-                    }
-                    else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
-                    {
-                        <th>Scholarship Department</th>
-                    }
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        @foreach (var board in item.Boards)
-                        {
-                            <td>@board.BoardNo</td>
-                            <td>@item.Name</td>
-                            <td>@board.RequestType.RequestTypeName</td>
-                            <td>@board.ReqDate</td>
-                            <td class="mb-0"><p class="@((board.ReqStatus == "Completed") ? "text-bg-success" :"text-bg-danger")">@board.ReqStatus</p></td>
+                        <tr>
+                            <td class="text-center">@board.BoardNo</td>
+                            <td class="text-center">@item.Name</td>
+                            <td class="text-center">@board.RequestType.RequestTypeName</td>
+                            <td class="mb-0 text-center"><p class="badge text-bg-success fs-6 mb-0">@board.ReqStatus</p></td>
                             @if (ViewBag.ActiveRole == "Admin")
                             {
-                                <td>@item?.CollegeName</td>
-                                <td>@item?.DeptName</td>
+                                <td class="text-center">@item.CollegeName</td>
+                                <td class="text-center">@item.DeptName</td>
+
                             }
                             else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
                             {
-                                <td>@item?.DeptName</td>
+                                <td class="text-center">information system</td>
+
                             }
-                        }
-                        <td>
-                            <div class="d-flex ">
-                                <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-secondary "></i></a>
-                                <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Print" id="iconhover"><i class="fa-solid fa-print fs-4 text-primary"></i></a>
-                            </div>
-                        </td>
-                    </tr>
+                            <td>
+                                <div class="text-center">
+                                    <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-secondary "></i></a>
+                                    <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Print" id="iconhover"><i class="fa-solid fa-print fs-4 text-primary"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 }
-            </tbody>
-        </table>
-    }
+            }
+        </tbody>
+    </table>
 </div>
 
 @* DataTable Library used to add filters to the tables *@
@@ -213,7 +132,7 @@
     var allDepartments = JSON.parse('@Html.Raw(ViewData["Departments"])');
 
     function enableDepartmentSelection(selectElement) {
-        var departmentSelect = document.getElementsByName("SelectedDepartment")[0];
+        var departmentSelect = document.getElementsById("SelectedDepartment")[0];
         var collegeId = selectElement.value;
 
         departmentSelect.disabled = collegeId === "";

@@ -1,0 +1,170 @@
+﻿@model Triplite_Committee_Platform.Models.BoardModel
+@{
+    ViewData["Title"] = "Board Signatures";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-center">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>@TempData["Success"]</strong>
+                <p class="mt-3">
+                    @TempData["SuccessMessage"]
+                </p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-center">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>@TempData["Error"]</strong>
+                <p class="mt-3">
+                    @TempData["ErrorMessage"]
+                </p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+}
+
+<div class="card p-3 mt-5 w-75 mx-auto rounded-4 ">
+    <h3 class="mt-4 text-center" dir="rtl"><strong>اعضاء لجنة وكالة / @ViewBag.College</strong> <i class="bi bi-pencil-square"></i></h3>
+    <hr />
+    @if (Model.ViceDeanSign)
+    {
+        <div class="p-4 rounded-3 mb-4 card border w-75 text-center mx-auto" dir="rtl">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h3 class="fw-bold">
+                        وكيل وكالة / @ViewBag.College
+                    </h3>
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-success fw-bold btn-md" type="button" disabled>تم التوقيع</button>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <form method="post" asp-action="ViceDeanSign">
+            <div class="p-4 rounded-3 mb-4 card border w-75 text-center mx-auto" dir="rtl">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h3 class="fw-bold">
+                            وكيل وكالة / @ViewBag.College
+                        </h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="hidden" name="BoardNo" value="@Model.BoardNo" />
+                        <button class="btn btn-primary fw-bold btn-md" type="submit">اضافة التوقيع</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    }
+    @if (Model.DeanSign)
+    {
+        <div class="p-4 rounded-3 mb-4 card border w-75 text-center mx-auto" dir="rtl">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h3 class="fw-bold">
+                        عميد / @ViewBag.College
+                    </h3>
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-success fw-bold btn-md" type="button" disabled>تم التوقيع</button>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <form method="post" asp-action="DeanSign">
+            <div class="p-4 rounded-3 mb-4 card border w-75 text-center mx-auto" dir="rtl">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h3 class="fw-bold">
+                            عميد / @ViewBag.College
+                        </h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="hidden" name="BoardNo" value="@Model.BoardNo" />
+                        <button class="btn btn-primary fw-bold btn-md" type="submit">اضافة التوقيع</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    }
+    @if (Model.HeadofDeptSign)
+    {
+        <div class="p-4 rounded-3 mb-4 card border w-75 text-center mx-auto" dir="rtl">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h3 class="fw-bold">
+                       رئيس قسم / @ViewBag.Department
+                    </h3>
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-success fw-bold btn-md" type="button" disabled>تم التوقيع</button>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <form method="post" asp-action="HeadofDeptCollegeSign">
+            <div class="p-4 rounded-3 mb-4 card border w-75 text-center mx-auto" dir="rtl">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h3 class="fw-bold">
+                            رئيس قسم / @ViewBag.Department
+                        </h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="hidden" name="BoardNo" value="@Model.BoardNo" />
+                        <button class="btn btn-primary fw-bold btn-md" type="submit">اضافة التوقيع</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    }
+    @if (ViewBag.ActiveRole == "Vice Dean")
+    {
+        @if (Model.HeadofDeptSign && Model.ViceDeanSign && Model.DeanSign)
+        {
+            <form method="post" asp-action="completeBoard">
+                <div class="form-group mt-2 mb-2  text-center">
+                    <input type="hidden" asp-for="@Model.BoardNo" />
+                    <button class="btn btn-primary fw-bold btn-md me-3">
+                        <i class="bi bi-printer me-1"></i>
+                        حفظ وطباعة المجلس
+                    </button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <div class="alert alert-warning text-center w-50 mx-auto" role="alert">
+                <strong>لا يمكن طباعة المجلس قبل ان يوقع من قبل اعضاء لجنة الكلية</strong>
+            </div>
+        }
+    }
+</div>
+<div class="text-center">
+    <a href="@Url.Action("DepartmentBoards", "Boards", new { id = Model.Id, ReqTypeID = Model.ReqTypeID })" class="btn fw-bold btn-secondary">Back</a>
+</div>
+
+<script>
+
+</script>

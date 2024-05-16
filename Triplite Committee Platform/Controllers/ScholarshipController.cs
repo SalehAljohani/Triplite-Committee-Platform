@@ -44,9 +44,15 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var status = "Request New Scholarship";
-            var newRequest = await _context.Scholarship.Where(r => r.Status.ToLower() == status.ToLower() && r.DeptNo == user.DeptNo).ToListAsync();
 
+            var req = await _context.RequestType.ToListAsync();
+
+            var status = req.FirstOrDefault(r => r.RequestTypeName.ToLower() == "ابتعاث خارجي" || r.RequestTypeName.ToLower() == "ابتعاث داخلي")?.RequestTypeName;
+
+            var newRequest = await _context.Scholarship
+                .Where(r => r.Status.ToLower() == status.ToLower() && r.DeptNo == user.DeptNo)
+                .Where(r => r.Board == null || r.Board.Count == 0)
+                .ToListAsync();
             return View(newRequest);
         }
     }

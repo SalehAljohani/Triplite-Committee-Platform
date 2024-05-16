@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Triplite_Committee_Platform.Data;
 
@@ -11,9 +12,11 @@ using Triplite_Committee_Platform.Data;
 namespace Triplite_Committee_Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240516082028_Board_SingedUsersList")]
+    partial class Board_SingedUsersList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,22 +203,22 @@ namespace Triplite_Committee_Platform.Migrations
                     b.Property<string>("BoardSignatures")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("DeanSign")
+                    b.Property<bool?>("DeanSign")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Decision")
+                    b.Property<bool?>("Decision")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DeptMemeberSign1")
+                    b.Property<bool?>("DeptMemeberSign1")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DeptMemeberSign2")
+                    b.Property<bool?>("DeptMemeberSign2")
                         .HasColumnType("bit");
 
                     b.Property<int>("DeptNo")
                         .HasColumnType("int");
 
-                    b.Property<bool>("HeadofDeptSign")
+                    b.Property<bool?>("HeadofDeptSign")
                         .HasColumnType("bit");
 
                     b.Property<int>("Id")
@@ -244,10 +247,7 @@ namespace Triplite_Committee_Platform.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("UserSignatures")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("ViceDeanSign")
+                    b.Property<bool?>("ViceDeanSign")
                         .HasColumnType("bit");
 
                     b.HasKey("BoardNo");
@@ -557,6 +557,9 @@ namespace Triplite_Committee_Platform.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("BoardModelBoardNo")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -616,6 +619,8 @@ namespace Triplite_Committee_Platform.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BoardModelBoardNo");
 
                     b.HasIndex("DeptNo");
 
@@ -788,6 +793,10 @@ namespace Triplite_Committee_Platform.Migrations
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.UserModel", b =>
                 {
+                    b.HasOne("Triplite_Committee_Platform.Models.BoardModel", null)
+                        .WithMany("UserSignatures")
+                        .HasForeignKey("BoardModelBoardNo");
+
                     b.HasOne("Triplite_Committee_Platform.Models.DepartmentModel", "Department")
                         .WithMany()
                         .HasForeignKey("DeptNo");
@@ -798,6 +807,8 @@ namespace Triplite_Committee_Platform.Migrations
             modelBuilder.Entity("Triplite_Committee_Platform.Models.BoardModel", b =>
                 {
                     b.Navigation("File");
+
+                    b.Navigation("UserSignatures");
                 });
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.CollegeModel", b =>

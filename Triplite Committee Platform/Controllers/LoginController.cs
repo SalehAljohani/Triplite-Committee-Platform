@@ -190,7 +190,7 @@ namespace Triplite_Committee_Platform.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> requestScholarship(ScholarshipModel model, int? SelectedDepartment)
         {
-            if(SelectedDepartment != null)
+            if (SelectedDepartment != null)
             {
                 model.DeptNo = SelectedDepartment.Value;
             }
@@ -229,7 +229,11 @@ namespace Triplite_Committee_Platform.Controllers
         {
             var college = await _context.College.ToListAsync();
             var department = await _context.Department.ToListAsync();
+            var request = await _context.RequestType.ToListAsync();
 
+            var facultyRequest = request.Where(r => r.RequestTypeName.ToLower() == "ابتعاث خارجي" || r.RequestTypeName.ToLower() == "ابتعاث داخلي").Select(r => r.RequestTypeName);
+
+            ViewData["Request"] = new SelectList(facultyRequest);
             ViewData["Colleges"] = new SelectList(college, "CollegeNo", "CollegeName");
             var departmentsData = department.Select(d => new
             {

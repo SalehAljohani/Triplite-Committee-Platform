@@ -13,5 +13,7 @@ namespace Triplite_Committee_Platform.ViewModels
         public string? DeptName { get; set; }
         public List<BoardModel>? Boards { get; set; }
         public string? Name { get; set; }
+        public string? RequestType { get; set; }
+        public RequestTypeModel RequestStatus { get; set; }
     }
 }

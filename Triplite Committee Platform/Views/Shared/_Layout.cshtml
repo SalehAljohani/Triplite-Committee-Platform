@@ -41,7 +41,7 @@
                             <a asp-area="" asp-controller="Scholarship" asp-action="RegisterScholarship" class="nav-link"><i class="menu-icon fa-solid fa-file-circle-plus"></i>Register New Request </a>
                         </li>
                     }
-                    else if (ViewBag.ActiveRole == "Head of Department")
+                    else if (ViewBag.ActiveRole == "Head of Department" || ViewBag.ActiveRole == "Department Member")
                     {
                         <li>
                             <a asp-area="" asp-controller="Scholarship" asp-action="NewScholarshipRequest" class="nav-link"><i class="menu-icon fa-solid fa-file-circle-plus"></i>View Faculty Requests</a>

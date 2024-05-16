@@ -56,7 +56,6 @@
                             </div>
                             <div class="col-sm-4"></div>
                         </div>
-
                     }
                     <form method="post" asp-action="requestScholarship">
                         <div asp-validation-summary="All"></div>
@@ -104,20 +103,31 @@
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3 form-floating w-75 mx-auto">
-                                    <select id="Degree" name="Degree" class="form-select text-center" asp-for="Degree" required>
-                                        <option disabled selected>Degree</option>
-                                        <option>Bachelor's</option>
-                                        <option>Master's</option>
-                                    </select>
-                                    <span asp-validation-for="Degree" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3 form-floating w-75 mx-auto">
                                     <select id="gender" name="gender" class="form-select text-center" asp-for="Gender" required>
                                         <option disabled selected>Gender</option>
                                         <option>Male</option>
                                         <option>Female</option>
                                     </select>
                                     <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
+                                <div class="row w-75 mx-auto">
+                                    <div class="mb-3 form-floating w-50 mx-auto">
+                                        <select id="Degree" name="Degree" class="form-select text-center" asp-for="Degree" required>
+                                            <option disabled selected>Degree</option>
+                                            <option>Bachelor's</option>
+                                            <option>Master's</option>
+                                        </select>
+                                        <span asp-validation-for="Degree" class="text-danger"></span>
+                                    </div>
+                                    @if (ViewBag.Request != null)
+                                    {
+                                        <div class="mb-3 form-floating w-50">
+                                            <select asp-for="Status" asp-items="ViewBag.Request" class="form-control text-center">
+                                                <option disabled selected>Scholarship Type</option>
+                                            </select>
+                                            <span asp-validation-for="Status" class="text-danger"></span>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -163,7 +173,7 @@
                                     @if (ViewBag.Colleges != null)
                                     {
                                         <div class="mb-3 form-floating w-50">
-                                            <select id="College" name="College" asp-items="ViewBag.Colleges" name="SelectedCollege" onchange="enableDepartmentSelection(this)" class="form-select" asp-for="Degree" required>
+                                            <select id="College" name="College" asp-items="ViewBag.Colleges" name="SelectedCollege" onchange="enableDepartmentSelection(this)" class="form-select text-center" asp-for="Degree" required>
                                                 <option disabled selected>Select College</option>
                                             </select>
                                         </div>
@@ -171,14 +181,13 @@
                                     @if (ViewBag.Departments != null)
                                     {
                                         <div class="mb-3 form-floating w-50">
-                                            <select id="Department" name="SelectedDepartment" class="form-select" asp-items="ViewBag.Department" asp-for="DeptNo" disabled required>
+                                            <select id="Department" name="SelectedDepartment" class="form-select text-center" asp-items="ViewBag.Department" asp-for="DeptNo" disabled required>
                                                 <option disabled selected>Select Department</option>
                                             </select>
                                         </div>
                                     }
                                 </div>
                             </div>
-                            <input asp-for="Status" hidden value="Request New Scholarship" />
 
                             <div class="row mt-4 mb-4">
                                 <div class="col-sm-4 text-end mt-2">

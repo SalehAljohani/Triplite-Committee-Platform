@@ -1,14 +1,14 @@
 ﻿@model Triplite_Committee_Platform.Models.ScholarshipModel
 
 @{
-    ViewData["Title"] = "New Scholarship Request";
+    ViewData["Title"] = "Scholarship Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="card p-3 mt-5 w-75 rounded-4 mx-auto">
 
     <div class="text-center mb-5">
-        <strong> <h3 class="mb-4 pt-4">New Scholarship Request</h3></strong>
+        <strong> <h3 class="mb-4 pt-4">Scholarship Request</h3></strong>
     </div>
     @if (TempData["Success"] != null)
     {
@@ -42,7 +42,8 @@
             <div class="col-sm-4"></div>
         </div>
     }
-    <form method="post" asp-action="ScholarshipDetails">
+
+    <form method="post" asp-action="RedirectedBoard">
         <div asp-validation-summary="All"></div>
         <div class="row text-dark">
             <div class="col-sm-6">
@@ -145,13 +146,15 @@
                 </div>
 
                 <div class="mb-3 form-floating w-75 mx-auto">
-                    <select asp-items="ViewBag.RequestType" name="ReqTypeId" class="form-select text-center" required>
+                    <select asp-items="ViewBag.RequestType" name="ReqTypeId" class="form-select text-center" required onchange="updateStatus(this)">
                         <option disabled selected value="">Request Type</option>
                     </select>
                 </div>
             </div>
-            <input asp-for="Status" hidden value="department"/>
-            <input asp-for="DeptNo" hidden />
+
+            <input asp-for="Status" hidden value="college" />
+            <input asp-for="DeptNo" hidden value="" />
+            <input name="BoardNo" hidden value="@ViewBag.BoardNo" />
             <div class="form-group mt-5 mb-3 text-center">
                 <input type="submit" value="Save & Continue" class="btn btn-primary w-25 mt-4 mb-3 fw-bold" />
             </div>
@@ -163,3 +166,9 @@
 <div class="text-center">
     <a asp-controller="Scholarship" asp-action="NewScholarshipRequest" class="btn btn-secondary">Back to List</a>
 </div>
+<script>
+    function updateStatus(selectElement) {
+        var selectedValue = selectElement.value;
+        document.getElementById("statusInput").value = selectedValue;
+    }
+</script>

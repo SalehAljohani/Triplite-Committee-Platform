@@ -1,6 +1,6 @@
-﻿   @model List<BoardModel>
+﻿@model IEnumerable<Triplite_Committee_Platform.Models.BoardModel>
 
-<div class="card p-3 mt-5 rounded-4 mx-auto">
+<div class="card p-3 mt-5 rounded-4 w-75 mx-auto">
     <div class="row">
         <div class="col-sm-4">
             <strong class="fs-3">Completed Board</strong>
@@ -44,26 +44,34 @@
             </tr>
         </thead>
         <tbody>
-        <td class="text-center">1</td>
-        <td class="text-center">Saleh Aljohani</td>
-        <td class="text-center">Extend</td>
-        <td class=" text-center"><p class="badge mb-0 text-bg-success fs-6">Completed</p></td>
-            @if (ViewBag.ActiveRole == "Admin")
+            @if (Model.Count() > 0)
             {
-            <td class="text-center">CSE</td>
-            <td class="text-center">information system</td>
+                var count = 0;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">@count</td>
+                        <td class="text-center">@item.Scholarship?.Name</td>
+                        <td class="text-center">@item.RequestType?.RequestTypeName</td>
+                        <td class=" text-center"><p class="badge mb-0 @(item.ReqStatus == "complete" ? "text-bg-success" : "text-bg-warning") fs-6">@item.ReqStatus</p></td>
+                        @if (ViewBag.ActiveRole == "Admin")
+                        {
+                            <td class="text-center">@item.Department?.College?.CollegeName</td>
+                            <td class="text-center">@item.Department?.DeptName</td>
+                        }
+                        else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
+                        {
+                            <td class="text-center">@item.Department?.DeptName</td>
+                        }
+                        <td>
+                            <div class="text-center">
+                                <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-secondary "></i></a>
+                                <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Print" id="iconhover"><i class="fa-solid fa-print fs-4 text-primary"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
             }
-            else if (ViewBag.ActiveRole == "College Dean" || ViewBag.ActiveRole == "Vice Dean")
-            {
-            <td class="text-center">information system</td>
-            }
-        <td>
-            <div class="text-center">
-                <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id="iconhover"><i class="fa-solid fa-circle-info fs-4 text-secondary "></i></a>
-                <a asp-action="" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Print" id="iconhover"><i class="fa-solid fa-print fs-4 text-primary"></i></a>
-            </div>
-        </td>
-        </tr>
         </tbody>
     </table>
 </div>
