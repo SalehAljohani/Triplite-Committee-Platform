@@ -106,6 +106,24 @@
             </div>
             <div class="top-right">
                 <div class="header-menu">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            Language
+                            </button>
+                            <ul class="dropdown-menu">
+                            <li>
+                                <a asp-controller="Base" asp-action="changeCulture" asp-route-culture="en" class="dropdown-item">
+                                    <i class="flag-icon flag-icon-gb"></i> English
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-controller="Base" asp-action="changeCulture" asp-route-culture="ar" class="dropdown-item">
+                                    <i class="flag-icon flag-icon-gb"></i> العربية
+                                </a>
+                            </li>
+                            </ul>
+
+                    </div>
                     <partial name="_LoginPartial" />
                 </div>
             </div>

@@ -51,18 +51,25 @@
                 <button id="login-submit" type="submit" class="w-50 btn btn-lg btn-primary">@Localizer["login"]</button>
             </div>
             <div class="row pb-3">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-5">
+                
+                <div class="col-sm-4">
                     <p class="fs-6">
                         <a id="forgot-password" class="text-light text-decoration-none text-start" asp-controller="Login" asp-action="Help"><strong>@Localizer["needHelp"]</strong></a>
                     </p>
                 </div>
-                <div class="col-sm-5 text-end">
+                <div class="col-sm-4">
+                    <button>
+                        <a asp-controller="Base" asp-action="changeCulture" asp-route-culture="ar" class="w-50 btn btn-lg btn-primary">
+                            <i class="flag-icon flag-icon-gb"></i> العربية
+                        </a>
+                    </button>
+                </div>
+                <div class="col-sm-4 text-end">
                     <p class="fs-6">
                         <a class="text-light text-decoration-none" asp-area="" asp-controller="Login" asp-action="RequestScholarship"><strong>Request Scholarship</strong></a>
                     </p>
                 </div>
-                <div class="col-sm-1"></div>
+                
             </div>
         </form>
     </section>
