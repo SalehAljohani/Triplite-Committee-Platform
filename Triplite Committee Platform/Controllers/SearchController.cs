@@ -96,10 +96,11 @@ namespace Triplite_Committee_Platform.Controllers
                 var viewModelList = new List<SearchViewModel>();
                 var results = await _context.Scholarship
                     .Include(s => s.Board)
+                        .ThenInclude(b => b.RequestType!)
                     .Include(s => s.Department)
-                        .ThenInclude(d => d.College)
+                        .ThenInclude(d => d.College!)
                     .Where(s => (s.National_ID == search || s.Name.ToLower() == search.ToLower() || s.Phone == search || s.EmployeeID == search) &&
-                                (SelectedCollege == null || s.Department.College.CollegeNo == SelectedCollege) &&
+                                (SelectedCollege == null || s.Department.College!.CollegeNo == SelectedCollege) &&
                                 (SelectedDepartment == null || s.Department.DeptNo == SelectedDepartment))
                     .ToListAsync();
 
@@ -116,6 +117,18 @@ namespace Triplite_Committee_Platform.Controllers
                         };
                         viewModelList.Add(viewModel);
                     }
+                    var college = await _context.College.ToListAsync();
+                    var department = await _context.Department.ToListAsync();
+
+                    ViewData["Colleges"] = new SelectList(college, "CollegeNo", "CollegeName");
+                    var departmentsData = department.Select(d => new
+                    {
+                        DeptNo = d.DeptNo,
+                        DeptName = d.DeptName,
+                        CollegeNo = d.CollegeNo
+                    }).ToList();
+
+                    ViewData["Departments"] = Newtonsoft.Json.JsonConvert.SerializeObject(departmentsData);
                     return View(viewModelList);
                 }
                 else
@@ -133,10 +146,13 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     return RedirectToAction("Index", "Login");
                 }
+
                 var userDept = await _context.Department.Where(c => c.DeptNo == user.DeptNo).FirstOrDefaultAsync();
                 var department = await _context.Department.Where(d => d.CollegeNo == userDept.CollegeNo).ToListAsync();
+
                 var results = await _context.Scholarship
                     .Include(s => s.Board)
+                        .ThenInclude(b => b.RequestType)
                     .Include(s => s.Department)
                         .ThenInclude(d => d.College)
                     .Where(s => (s.National_ID == search || s.Name.ToLower() == search.ToLower() || s.Phone == search || s.EmployeeID == search) &&
@@ -156,6 +172,13 @@ namespace Triplite_Committee_Platform.Controllers
                         };
                         viewModelList.Add(viewModel);
                     }
+                    if (userDept == null)
+                    {
+                        TempData["Message"] = "Unable to load user department.";
+                        return RedirectToAction(nameof(Index));
+                    }
+                    ViewData["Departments"] = new SelectList(department, "DeptNo", "DeptName");
+
                     return View(viewModelList);
                 }
                 else
@@ -171,6 +194,7 @@ namespace Triplite_Committee_Platform.Controllers
                 var viewModelList = new List<SearchViewModel>();
                 var results = await _context.Scholarship
                     .Include(s => s.Board)
+                        .ThenInclude(b => b.RequestType)
                     .Include(s => s.Department)
                         .ThenInclude(d => d.College)
                     .Where(s => (s.National_ID == search || s.Name.ToLower() == search.ToLower() || s.Phone == search || s.EmployeeID == search) &&
@@ -188,6 +212,8 @@ namespace Triplite_Committee_Platform.Controllers
                         };
                         viewModelList.Add(viewModel);
                     }
+                    ViewData["Colleges"] = null;
+                    ViewData["Departments"] = null;
                     return View(viewModelList);
                 }
                 else
@@ -204,5 +230,6 @@ namespace Triplite_Committee_Platform.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+        
     }
 }

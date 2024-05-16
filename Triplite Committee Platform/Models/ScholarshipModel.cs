@@ -40,9 +40,8 @@ namespace Triplite_Committee_Platform.Models
         [StringLength(10, ErrorMessage = "genderLength")]
         public string Gender { get; set; }
 
-        [Required(ErrorMessage = "currTypeReq")]
-        [StringLength(50, ErrorMessage = "currTypeLength")]
-        public string CurrentStudy { get; set; }
+        [Required(ErrorMessage = "Scholarship Types is Required. Must Choose one at least")]
+        public List<string> ScholarshipTypes { get; set; }
 
         [Required(ErrorMessage = "generalReq")]
         [StringLength(50, ErrorMessage = "generalLength")]

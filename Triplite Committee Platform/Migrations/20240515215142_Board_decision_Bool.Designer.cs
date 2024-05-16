@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Triplite_Committee_Platform.Data;
 
@@ -11,9 +12,11 @@ using Triplite_Committee_Platform.Data;
 namespace Triplite_Committee_Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240515215142_Board_decision_Bool")]
+    partial class Board_decision_Bool
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,25 +200,22 @@ namespace Triplite_Committee_Platform.Migrations
                     b.Property<string>("AddedReasons")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("BoardSignatures")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("DeanSign")
+                    b.Property<bool?>("DeanSign")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Decision")
+                    b.Property<bool?>("Decision")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DeptMemeberSign1")
+                    b.Property<bool?>("DeptMemeberSign1")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DeptMemeberSign2")
+                    b.Property<bool?>("DeptMemeberSign2")
                         .HasColumnType("bit");
 
                     b.Property<int>("DeptNo")
                         .HasColumnType("int");
 
-                    b.Property<bool>("HeadofDeptSign")
+                    b.Property<bool?>("HeadofDeptSign")
                         .HasColumnType("bit");
 
                     b.Property<int>("Id")
@@ -244,10 +244,7 @@ namespace Triplite_Committee_Platform.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("UserSignatures")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("ViceDeanSign")
+                    b.Property<bool?>("ViceDeanSign")
                         .HasColumnType("bit");
 
                     b.HasKey("BoardNo");
@@ -726,7 +723,7 @@ namespace Triplite_Committee_Platform.Migrations
             modelBuilder.Entity("Triplite_Committee_Platform.Models.BoardSignaturesModel", b =>
                 {
                     b.HasOne("Triplite_Committee_Platform.Models.BoardModel", "Board")
-                        .WithMany()
+                        .WithMany("BoardSignatures")
                         .HasForeignKey("BoardNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -797,6 +794,8 @@ namespace Triplite_Committee_Platform.Migrations
 
             modelBuilder.Entity("Triplite_Committee_Platform.Models.BoardModel", b =>
                 {
+                    b.Navigation("BoardSignatures");
+
                     b.Navigation("File");
                 });
 

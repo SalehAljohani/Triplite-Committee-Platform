@@ -1,0 +1,98 @@
+﻿@model List<ScholarshipModel>
+@{
+    ViewData["Title"] = "New Scholarship Requests";
+}
+<div class="card p-3 mt-5 rounded-4 mx-auto">
+    <div class="row">
+        <div class="col-sm-4">
+            <strong class="fs-3">New Scholarship Requests</strong>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-end">
+        </div>
+    </div>
+    <hr />
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["Success"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["Error"]
+        </div>
+    }
+
+    <table class="table align-middle bg-white w-100 table-striped" id="DTable">
+        <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Type</th>
+                <th class="text-center">General Major</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count != 0)
+            {
+                var count = 0;
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">@count</td>
+                        <td class="text-center">@item.Name</td>
+                        <td class="text-center">
+                            @foreach (var type in item.ScholarshipTypes)
+                            {
+                                <p class="badge mb-0 text-dark fs-6">@type</p>
+                            }
+                        </td>
+                        <td class="text-center">@item.GeneralMajor</td>
+                        <td>
+                            <div class="text-center">
+                                <a asp-controller="Boards" asp-action="ScholarshipDetails" asp-route-id="@item.Id" class="btn btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Create Board" id="iconhover"><i class="fa-solid text-success fa-plus fs-4"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    count++;
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@* DataTable Library used to add filters to the tables *@
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.min.css" />
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#DTable').DataTable({
+
+        });
+    });
+
+
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+</script>
+
+@* End of DataTable Library initialization *@
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
