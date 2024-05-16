@@ -129,6 +129,9 @@
   <data name="link" xml:space="preserve">
     <value>Announcment link</value>
   </data>
+  <data name="selectDept" xml:space="preserve">
+    <value>Select department</value>
+  </data>
   <data name="title" xml:space="preserve">
     <value>Title</value>
   </data>

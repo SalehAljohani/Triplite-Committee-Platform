@@ -129,6 +129,9 @@
   <data name="link" xml:space="preserve">
     <value>رابط الإعلان</value>
   </data>
+  <data name="selectDept" xml:space="preserve">
+    <value>إختر قسم</value>
+  </data>
   <data name="title" xml:space="preserve">
     <value>العنوان</value>
   </data>
