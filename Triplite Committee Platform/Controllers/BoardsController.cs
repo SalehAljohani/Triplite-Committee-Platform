@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Drawing2D;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.Services;
@@ -304,15 +305,18 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 ViewData["CollegeBoard"] = false;
             }
-            var reqType = await _context.RequestType.Where(r => r.RequestTypeID.ToString() == scholarshipDetails.Status).FirstOrDefaultAsync();
-            if (reqType != null)
+            if (board != null)
             {
+                var reqType = await _context.RequestType.Where(r => r.RequestTypeID == board.ReqTypeID).FirstOrDefaultAsync();
                 ViewData["RequestType"] = reqType;
             }
             else
             {
-                reqType = await _context.RequestType.Where(r => r.RequestTypeID == board.ReqTypeID).FirstOrDefaultAsync();
-                ViewData["RequestType"] = reqType;
+                var reqType = await _context.RequestType.Where(r => r.RequestTypeID.ToString() == scholarshipDetails.Status).FirstOrDefaultAsync();
+                if (reqType != null)
+                {
+                    ViewData["RequestType"] = reqType;
+                }
             }
             return View(scholarshipDetails);
         }
@@ -690,7 +694,7 @@ namespace Triplite_Committee_Platform.Controllers
         {
             var activeRole = HttpContext.Session.GetString("ActiveRole");
 
-            if(activeRole == null)
+            if (activeRole == null)
             {
                 TempData["Error"] = "You are not Authorized";
                 return RedirectToAction("CurrentBoards", "Boards");
@@ -737,7 +741,7 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 board.UserSignatures = new List<string>();
             }
-            if(board.UserRoleSignature == null)
+            if (board.UserRoleSignature == null)
             {
                 board.UserRoleSignature = new List<string>();
             }
@@ -807,7 +811,7 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 board.UserSignatures = new List<string>();
             }
-            if(board.UserRoleSignature == null)
+            if (board.UserRoleSignature == null)
             {
                 board.UserRoleSignature = new List<string>();
             }

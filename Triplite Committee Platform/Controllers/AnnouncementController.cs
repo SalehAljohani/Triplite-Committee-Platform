@@ -98,6 +98,11 @@ namespace Triplite_Committee_Platform.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(AnnouncementModel announcement)
         {
+            if(announcement.DeptNo == 0)
+            {
+                TempData["Message"] = "Department is required.";
+                return RedirectToAction("Create");
+            }
             if (ModelState.IsValid)
             {
                 _context.Announcements.Add(announcement);

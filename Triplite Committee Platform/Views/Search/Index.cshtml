@@ -132,7 +132,7 @@
     var allDepartments = JSON.parse('@Html.Raw(ViewData["Departments"])');
 
     function enableDepartmentSelection(selectElement) {
-        var departmentSelect = document.getElementsById("SelectedDepartment")[0];
+        var departmentSelect = document.getElementById("SelectedDepartment");
         var collegeId = selectElement.value;
 
         departmentSelect.disabled = collegeId === "";
