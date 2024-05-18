@@ -51,5 +51,6 @@ namespace Triplite_Committee_Platform.Models
 
         public List<string>? BoardSignatures { get; set; }
         public List<string>? UserSignatures { get; set; }
+        public List<string>? UserRoleSignature { get; set; }
     }
 }

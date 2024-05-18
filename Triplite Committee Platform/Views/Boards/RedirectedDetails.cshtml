@@ -146,9 +146,7 @@
                 </div>
 
                 <div class="mb-3 form-floating w-75 mx-auto">
-                    <select asp-items="ViewBag.RequestType" name="ReqTypeId" class="form-select text-center" required onchange="updateStatus(this)">
-                        <option disabled selected value="">Request Type</option>
-                    </select>
+                    <p class="form-control">@ViewBag.RequestType</p>
                 </div>
             </div>
 
@@ -164,7 +162,7 @@
 
 
 <div class="text-center">
-    <a asp-controller="Scholarship" asp-action="NewScholarshipRequest" class="btn btn-secondary">Back to List</a>
+    <a asp-controller="Boards" asp-action="CurrentBoards" class="btn btn-secondary">Back to List</a>
 </div>
 <script>
     function updateStatus(selectElement) {

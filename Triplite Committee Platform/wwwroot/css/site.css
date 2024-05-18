@@ -399,6 +399,7 @@ aside.left-panel {
     background: #f1f2f7;
     margin-left: 280px;
     margin-top: 55px;
+    min-height: 84vh;
 }
 
     .right-panel .top-left {
@@ -724,6 +725,7 @@ header.fixed-top {
 /* Footer */
 footer.site-footer {
     padding: 0 1.875em;
+    background: #f1f2f7;
 }
 
     footer.site-footer .footer-inner {
@@ -885,6 +887,7 @@ footer.site-footer {
     color: #03a9f3;
     font-size: 50px;
 }
+
 .clickable-row:hover {
     cursor: pointer;
 }

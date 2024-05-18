@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DinkToPdf;
+using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.Services;
@@ -17,10 +20,12 @@ namespace Triplite_Committee_Platform.Controllers
     {
         private readonly UserManager<UserModel> _userManager;
         private readonly AppDbContext _context;
-        public BoardsController(UserManager<UserModel> userManager, AppDbContext context)
+        private readonly IConverter _converter;
+        public BoardsController(UserManager<UserModel> userManager, AppDbContext context, IConverter converter)
         {
             _userManager = userManager;
             _context = context;
+            _converter = converter;
         }
 
         public async Task<IActionResult> Index()
@@ -49,20 +54,39 @@ namespace Triplite_Committee_Platform.Controllers
             var activeRole = HttpContext.Session.GetString("ActiveRole");
             if (activeRole == "Admin")
             {
-                boards = await _context.Board.Where(b => b.ReqStatus.ToLower() == "completed").ToListAsync();
+                var userDept = await _context.Department.Where(d => d.DeptNo == user.DeptNo).FirstOrDefaultAsync();
+                if (userDept == null)
+                {
+                    TempData["Error"] = "You are not Authorized";
+                    return RedirectToAction("Index", "Home");
+                }
+                var college = await _context.College.Where(c => c.CollegeNo == userDept.CollegeNo).FirstOrDefaultAsync();
+                var departments = await _context.Department.Where(d => d.CollegeNo == college.CollegeNo).ToListAsync();
+
+                foreach (var department in departments)
+                {
+                    var departmentBoards = await _context.Board.Where(b => b.ReqStatus.ToLower() == "completed" && b.DeptNo == department.DeptNo).ToListAsync();
+                    boards.AddRange(departmentBoards);
+                }
+
                 foreach (var item in boards)
                 {
                     var scholar = await _context.Scholarship.Where(s => s.Id == item.Id).FirstOrDefaultAsync();
                     var reqType = await _context.RequestType.Where(r => r.RequestTypeID == item.ReqTypeID).FirstOrDefaultAsync();
-                    var dept = await _context.Department.Where(d => d.DeptNo == item.DeptNo).FirstOrDefaultAsync();
                     item.Scholarship = scholar;
                     item.RequestType = reqType;
-                    item.Department = dept;
-                    var college = await _context.College.Where(c => c.CollegeNo == dept.CollegeNo).FirstOrDefaultAsync();
+
+                    if (item.ReqStatus.ToLower() == "college")
+                    {
+                        ViewData["CollegeBoard"] = true;
+                    }
+                    else
+                    {
+                        ViewData["CollegeBoard"] = false;
+                    }
                 }
-                return View(boards);
             }
-            else if (activeRole == "Vice Dean" || activeRole == "College Dean")
+            if (activeRole == "Vice Dean" || activeRole == "College Dean" || activeRole == "Head of Department")
             {
                 var userDept = await _context.Department.Where(d => d.DeptNo == user.DeptNo).FirstOrDefaultAsync();
                 if (userDept == null)
@@ -85,66 +109,6 @@ namespace Triplite_Committee_Platform.Controllers
                     var reqType = await _context.RequestType.Where(r => r.RequestTypeID == item.ReqTypeID).FirstOrDefaultAsync();
                     item.Scholarship = scholar;
                     item.RequestType = reqType;
-                }
-                return View(boards);
-            }
-            else if (activeRole == "Head of Department" || activeRole == "Department Member")
-            {
-                boards = await _context.Board.Where(b => b.ReqStatus.ToLower() != "department" && b.DeptNo == user.DeptNo).ToListAsync();
-                foreach (var item in boards)
-                {
-                    var scholar = await _context.Scholarship.Where(s => s.Id == item.Id).FirstOrDefaultAsync();
-                    var reqType = await _context.RequestType.Where(r => r.RequestTypeID == item.ReqTypeID).FirstOrDefaultAsync();
-                    var dept = await _context.Department.Where(d => d.DeptNo == item.DeptNo).FirstOrDefaultAsync();
-                    item.Scholarship = scholar;
-                    item.RequestType = reqType;
-                    item.Department = dept;
-                }
-                return View(boards);
-            }
-            else
-            {
-                TempData["Error"] = "You are not Authorized";
-                return RedirectToAction("Index", "Home");
-            }
-        }
-
-        [ValidateRole]
-        public async Task<IActionResult> CurrentBoards()
-        {
-            var boards = new List<BoardModel>();
-            var user = await _userManager.GetUserAsync(User);
-
-            if (user == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-
-            var activeRole = HttpContext.Session.GetString("ActiveRole");
-
-            if (activeRole == "Vice Dean" || activeRole == "College Dean" || activeRole == "Head of Department")
-            {
-                var userDept = await _context.Department.Where(d => d.DeptNo == user.DeptNo).FirstOrDefaultAsync();
-                if (userDept == null)
-                {
-                    TempData["Error"] = "You are not Authorized";
-                    return RedirectToAction("Index", "Home");
-                }
-                var college = await _context.College.Where(c => c.CollegeNo == userDept.CollegeNo).FirstOrDefaultAsync();
-                var departments = await _context.Department.Where(d => d.CollegeNo == college.CollegeNo).ToListAsync();
-
-                foreach (var department in departments)
-                {
-                    var departmentBoards = await _context.Board.Where(b => b.ReqStatus.ToLower() == "college" && b.DeptNo == department.DeptNo).ToListAsync();
-                    boards.AddRange(departmentBoards);
-                }
-
-                foreach (var item in boards)
-                {
-                    var scholar = await _context.Scholarship.Where(s => s.Id == item.Id).FirstOrDefaultAsync();
-                    var reqType = await _context.RequestType.Where(r => r.RequestTypeID == item.ReqTypeID).FirstOrDefaultAsync();
-                    item.Scholarship = scholar;
-                    item.RequestType = reqType;
 
                     if (item.ReqStatus.ToLower() == "college")
                     {
@@ -158,7 +122,7 @@ namespace Triplite_Committee_Platform.Controllers
             }
             if (activeRole == "Head of Department" || activeRole == "Department Member")
             {
-                boards = await _context.Board.Where(b => b.ReqStatus.ToLower() == "department" && b.DeptNo == user.DeptNo).ToListAsync();
+                boards = await _context.Board.Where(b => b.ReqStatus.ToLower() == "completed" && b.DeptNo == user.DeptNo).ToListAsync();
                 foreach (var item in boards)
                 {
                     var scholar = await _context.Scholarship.Where(s => s.Id == item.Id).FirstOrDefaultAsync();
@@ -191,7 +155,7 @@ namespace Triplite_Committee_Platform.Controllers
 
                         foreach (var department in departments)
                         {
-                            var departmentBoards = await _context.Board.Where(b => b.ReqStatus.ToLower() == "college" && b.DeptNo == department.DeptNo).ToListAsync();
+                            var departmentBoards = await _context.Board.Where(b => b.ReqStatus.ToLower() == "completed" && b.DeptNo == department.DeptNo).ToListAsync();
                             boards.AddRange(departmentBoards);
                         }
 
@@ -218,6 +182,105 @@ namespace Triplite_Committee_Platform.Controllers
         }
 
         [ValidateRole]
+        public async Task<IActionResult> CurrentBoards()
+        {
+            var boards = new List<BoardModel>();
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            var activeRole = HttpContext.Session.GetString("ActiveRole");
+
+            if (activeRole == "Vice Dean" || activeRole == "College Dean" || activeRole == "Head of Department")
+            {
+                var userDept = await _context.Department.Where(d => d.DeptNo == user.DeptNo).FirstOrDefaultAsync();
+                if (userDept == null)
+                {
+                    TempData["Error"] = "You are not Authorized";
+                    return RedirectToAction("Index", "Home");
+                }
+                var college = await _context.College.Where(c => c.CollegeNo == userDept.CollegeNo).FirstOrDefaultAsync();
+                var departments = await _context.Department.Where(d => d.CollegeNo == college.CollegeNo).ToListAsync();
+                if (activeRole == "Head of Department")
+                {
+                    foreach (var department in departments)
+                    {
+                        var departmentBoards = await _context.Board.Where(b => (b.ReqStatus.ToLower() == "college" || b.ReqStatus.ToLower() == "department") && b.DeptNo == department.DeptNo).ToListAsync();
+                        boards.AddRange(departmentBoards);
+                    }
+                    foreach (var item in boards)
+                    {
+                        var scholar = await _context.Scholarship.Where(s => s.Id == item.Id).FirstOrDefaultAsync();
+                        var reqType = await _context.RequestType.Where(r => r.RequestTypeID == item.ReqTypeID).FirstOrDefaultAsync();
+                        item.Scholarship = scholar;
+                        item.RequestType = reqType;
+
+                        if (item.ReqStatus.ToLower() == "college")
+                        {
+                            ViewData["CollegeBoard"] = true;
+                        }
+                        else
+                        {
+                            ViewData["CollegeBoard"] = false;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var department in departments)
+                    {
+                        var departmentBoards = await _context.Board.Where(b => b.ReqStatus.ToLower() == "college" && b.DeptNo == department.DeptNo).ToListAsync();
+                        boards.AddRange(departmentBoards);
+                    }
+                    foreach (var item in boards)
+                    {
+                        var scholar = await _context.Scholarship.Where(s => s.Id == item.Id).FirstOrDefaultAsync();
+                        var reqType = await _context.RequestType.Where(r => r.RequestTypeID == item.ReqTypeID).FirstOrDefaultAsync();
+                        item.Scholarship = scholar;
+                        item.RequestType = reqType;
+
+                        if (item.ReqStatus.ToLower() == "college")
+                        {
+                            ViewData["CollegeBoard"] = true;
+                        }
+                        else
+                        {
+                            ViewData["CollegeBoard"] = false;
+                        }
+                    }
+                }
+            }
+            if (boards.Count == 0)
+            {
+                if (activeRole == "Head of Department" || activeRole == "Department Member")
+                {
+                    boards = await _context.Board.Where(b => b.ReqStatus.ToLower() == "department" && b.DeptNo == user.DeptNo).ToListAsync();
+                    foreach (var item in boards)
+                    {
+                        var scholar = await _context.Scholarship.Where(s => s.Id == item.Id).FirstOrDefaultAsync();
+                        var reqType = await _context.RequestType.Where(r => r.RequestTypeID == item.ReqTypeID).FirstOrDefaultAsync();
+                        var dept = await _context.Department.Where(d => d.DeptNo == item.DeptNo).FirstOrDefaultAsync();
+                        item.Scholarship = scholar;
+                        item.RequestType = reqType;
+                        item.Department = dept;
+                        if (item.ReqStatus.ToLower() == "college")
+                        {
+                            ViewData["CollegeBoard"] = true;
+                        }
+                        else
+                        {
+                            ViewData["CollegeBoard"] = false;
+                        }
+                    }
+                }
+            }
+            return View(boards);
+        }
+
+        [ValidateRole]
         public async Task<IActionResult> ScholarshipDetails(int? id)
         {
             if (id == null)
@@ -225,8 +288,6 @@ namespace Triplite_Committee_Platform.Controllers
                 TempData["Error"] = "Scholarship was not found";
                 return RedirectToAction("NewScholarshipRequest", "Scholarship");
             }
-            var reqType = await _context.RequestType.ToListAsync();
-            ViewData["RequestType"] = new SelectList(reqType, "RequestTypeID", "RequestTypeName");
             var scholarshipDetails = await _context.Scholarship.FirstOrDefaultAsync(s => s.Id == id);
             if (scholarshipDetails == null)
             {
@@ -242,6 +303,16 @@ namespace Triplite_Committee_Platform.Controllers
             else
             {
                 ViewData["CollegeBoard"] = false;
+            }
+            var reqType = await _context.RequestType.Where(r => r.RequestTypeID.ToString() == scholarshipDetails.Status).FirstOrDefaultAsync();
+            if (reqType != null)
+            {
+                ViewData["RequestType"] = reqType;
+            }
+            else
+            {
+                reqType = await _context.RequestType.Where(r => r.RequestTypeID == board.ReqTypeID).FirstOrDefaultAsync();
+                ViewData["RequestType"] = reqType;
             }
             return View(scholarshipDetails);
         }
@@ -267,7 +338,6 @@ namespace Triplite_Committee_Platform.Controllers
                 return RedirectToAction("NewScholarshipRequest", "Scholarship");
             }
 
-            model.Status = "department";
             if (ModelState.IsValid)
             {
                 _context.Update(model);
@@ -318,7 +388,7 @@ namespace Triplite_Committee_Platform.Controllers
             }
             string context = reasons.Context;
             string contextFormated = context.Replace(Environment.NewLine, "<br />");
-            ViewData["Context"] = contextFormated;
+            ViewData["rContext"] = contextFormated;
             ScholarReq = new BoardDetailsViewModel
             {
                 RequestType = reqType,
@@ -338,10 +408,16 @@ namespace Triplite_Committee_Platform.Controllers
                 TempData["Error"] = "Board was not found";
                 return RedirectToAction("CurrentBoards", "Boards");
             }
-            var reqType = await _context.RequestType.ToListAsync();
-            ViewData["RequestType"] = new SelectList(reqType, "RequestTypeID", "RequestTypeName");
             var board = await _context.Board.FirstOrDefaultAsync(b => b.BoardNo == id);
+            var request = await _context.RequestType.FirstOrDefaultAsync(r => r.RequestTypeID == board.ReqTypeID);
             var scholarship = await _context.Scholarship.FirstOrDefaultAsync(s => s.Id == board.Id);
+
+            if (board == null && request == null && scholarship == null)
+            {
+                TempData["Error"] = "Board was not found";
+                return RedirectToAction("CurrentBoards", "Boards");
+            }
+            ViewData["RequestType"] = request.RequestTypeName;
             ViewData["BoardNo"] = board.BoardNo;
             return View(scholarship);
         }
@@ -388,6 +464,7 @@ namespace Triplite_Committee_Platform.Controllers
                         _context.Entry(model.Board).Property(b => b.BoardNo).IsModified = false;
                         _context.Entry(model.Board).Property(b => b.BoardSignatures).IsModified = false;
                         _context.Entry(model.Board).Property(b => b.UserSignatures).IsModified = false;
+                        _context.Entry(model.Board).Property(b => b.UserRoleSignature).IsModified = false;
                         _context.Entry(model.Board).Property(b => b.ReqDate).IsModified = false;
                         _context.Entry(model.Board).Property(b => b.ReqStatus).IsModified = false;
                         _context.Entry(model.Board).Property(b => b.ReqTypeID).IsModified = false;
@@ -450,23 +527,21 @@ namespace Triplite_Committee_Platform.Controllers
             if (board == null)
             {
                 TempData["Error"] = "Board was not found";
-                return RedirectToAction("BoardFile", "Boards");
+                return RedirectToAction("currentBoards", "Boards");
             }
             if (board.ViceDeanSign && board.DeanSign && board.HeadofDeptSign)
             {
-                board.ReqStatus = "complete";
+                board.ReqStatus = "completed";
                 board.Reasons += model.Recommendation;
-                board.HeadofDeptSign = false;
                 _context.Entry(board).Property(b => b.ReqStatus).IsModified = true;
-                _context.Entry(board).Property(b => b.HeadofDeptSign).IsModified = true;
                 _context.Entry(board).Property(b => b.Reasons).IsModified = true;
                 await _context.SaveChangesAsync();
-                TempData["Success"] = "The board has been completed. Great Job 👍";
+                TempData["Success"] = "The board has been completed. you can view the board as PDF in Previous Boards Page";
                 var vModel = new BoardDetailsViewModel
                 {
-                    Id = board.BoardNo,
+                    Board = board,
                 };
-                return RedirectToAction("PreviousBoards", board);
+                return RedirectToAction("PreviousBoards", "Boards");
             }
             else
             {
@@ -475,24 +550,110 @@ namespace Triplite_Committee_Platform.Controllers
             }
         }
 
-        [HttpGet]
         [ValidateRole]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BoardFile(BoardModel model)
+        public async Task<IActionResult> BoardFile(int? boardNo)
         {
-            var board = await _context.Board.FirstOrDefaultAsync(b => b.BoardNo == model.BoardNo);
+            if (boardNo == null)
+            {
+                TempData["Error"] = "Board was not found";
+                return RedirectToAction("CurrentBoards", "Boards");
+            }
+            var board = await _context.Board.FirstOrDefaultAsync(b => b.BoardNo == boardNo);
             if (board == null)
             {
                 TempData["Error"] = "Board was not found";
                 return RedirectToAction("CurrentBoards", "Boards");
             }
+            var users = new List<UserModel>();
+            foreach (var user in board.UserSignatures)
+            {
+                var userSign = await _userManager.FindByIdAsync(user);
+                users.Add(userSign);
+            }
+
             var scholarship = await _context.Scholarship.FirstOrDefaultAsync(s => s.Id == board.Id);
             var modelView = new BoardDetailsViewModel
             {
                 Board = board,
                 Scholarship = scholarship,
+                Users = users,
             };
-            return View(modelView);
+
+            var html = await RenderViewAsync("BoardFile", modelView, true);
+
+            var pdf = await GeneratePdfFromHtmlAsync(html);
+
+            return File(pdf, "application/pdf", $"Board_{board.BoardNo}.pdf");
+        }
+
+        private async Task<string> RenderViewAsync(string viewName, object model, bool partial = false)
+        {
+            if (string.IsNullOrEmpty(viewName))
+            {
+                viewName = ControllerContext.ActionDescriptor.ActionName;
+            }
+
+            ViewData.Model = model;
+
+            using (var writer = new StringWriter())
+            {
+                IViewEngine viewEngine = HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
+                ViewEngineResult viewResult = viewEngine.FindView(ControllerContext, viewName, !partial);
+
+                if (viewEngine is null)
+                {
+                    throw new InvalidOperationException("ICompositeViewEngine service is not available.");
+                }
+
+                if (viewResult.Success == false)
+                {
+                    throw new ArgumentException($"The view '{viewName}' cannot be found.");
+                }
+
+                ViewContext viewContext = new ViewContext(
+                    ControllerContext,
+                    viewResult.View,
+                    ViewData,
+                    TempData,
+                    writer,
+                    new HtmlHelperOptions()
+                );
+
+                await viewResult.View.RenderAsync(viewContext);
+
+                return writer.GetStringBuilder().ToString();
+            }
+        }
+        private async Task<byte[]> GeneratePdfFromHtmlAsync(string html)
+        {
+            var globalSettings = new GlobalSettings
+            {
+                ColorMode = ColorMode.Color,
+                Orientation = Orientation.Portrait,
+                Outline = false,
+                PaperSize = PaperKind.A4,
+                Margins = new MarginSettings { Top = 10, Bottom = 10, Left = 10, Right = 10 },
+                DocumentTitle = "Board File",
+            };
+
+            var objectSettings = new ObjectSettings
+            {
+                PagesCount = true,
+                HtmlContent = html,
+                UseLocalLinks = true,
+                UseExternalLinks = true,
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/lib/bootstrap/dist/css/bootstrap.css"), MinimumFontSize = 18, enablePlugins = true, PrintMediaType = true, LoadImages = true },
+            };
+
+            var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings = globalSettings,
+                Objects = { objectSettings },
+            };
+
+            var pdfBytes = _converter.Convert(pdf);
+
+            return pdfBytes;
         }
 
         [ValidateRole("College Dean", "Vice Dean", "Head of Department")]
@@ -512,7 +673,7 @@ namespace Triplite_Committee_Platform.Controllers
             }
             var dept = await _context.Department.FirstOrDefaultAsync(d => d.DeptNo == board.DeptNo);
             var college = await _context.College.FirstOrDefaultAsync(c => c.CollegeNo == dept.CollegeNo);
-            if(college == null && dept == null)
+            if (college == null && dept == null)
             {
                 TempData["Error"] = "Failed to Load College Details";
                 return RedirectToAction("CurrentBoards", "Boards");
@@ -527,6 +688,14 @@ namespace Triplite_Committee_Platform.Controllers
         [ValidateRole("Vice Dean")]
         public async Task<IActionResult> ViceDeanSign(int? BoardNo)
         {
+            var activeRole = HttpContext.Session.GetString("ActiveRole");
+
+            if(activeRole == null)
+            {
+                TempData["Error"] = "You are not Authorized";
+                return RedirectToAction("CurrentBoards", "Boards");
+            }
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -568,8 +737,13 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 board.UserSignatures = new List<string>();
             }
+            if(board.UserRoleSignature == null)
+            {
+                board.UserRoleSignature = new List<string>();
+            }
 
             board.UserSignatures.Add(user.Id);
+            board.UserRoleSignature.Add(activeRole);
             board.ViceDeanSign = true;
             _context.Update(board);
             await _context.SaveChangesAsync();
@@ -585,6 +759,13 @@ namespace Triplite_Committee_Platform.Controllers
         [ValidateRole("College Dean")]
         public async Task<IActionResult> DeanSign(int? BoardNo)
         {
+            var activeRole = HttpContext.Session.GetString("ActiveRole");
+            if (activeRole == null)
+            {
+                TempData["Error"] = "You are not Authorized";
+                return RedirectToAction("CurrentBoards", "Boards");
+            }
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -626,8 +807,13 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 board.UserSignatures = new List<string>();
             }
+            if(board.UserRoleSignature == null)
+            {
+                board.UserRoleSignature = new List<string>();
+            }
 
             board.UserSignatures.Add(user.Id);
+            board.UserRoleSignature.Add(activeRole);
             board.DeanSign = true;
             _context.Update(board);
             await _context.SaveChangesAsync();
@@ -643,6 +829,13 @@ namespace Triplite_Committee_Platform.Controllers
         [ValidateRole("Head of Department")]
         public async Task<IActionResult> HeadofDeptCollegeSign(int? BoardNo)
         {
+            var activeRole = HttpContext.Session.GetString("ActiveRole");
+            if (activeRole == null)
+            {
+                TempData["Error"] = "You are not Authorized";
+                return RedirectToAction("CurrentBoards", "Boards");
+            }
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -684,8 +877,13 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 board.UserSignatures = new List<string>();
             }
+            if (board.UserRoleSignature == null)
+            {
+                board.UserRoleSignature = new List<string>();
+            }
 
             board.UserSignatures.Add(user.Id);
+            board.UserRoleSignature.Add(activeRole);
             board.HeadofDeptSign = true;
             _context.Update(board);
             await _context.SaveChangesAsync();
@@ -741,6 +939,7 @@ namespace Triplite_Committee_Platform.Controllers
                 model.Board.AddedReasons = null;
                 if (ModelState.IsValid)
                 {
+                    model.Board.ReqStatus = "department";
                     await _context.Board.AddAsync(model.Board);
                     await _context.SaveChangesAsync();
                     TempData["Success"] = "Board Saved Successfully";
@@ -930,8 +1129,11 @@ namespace Triplite_Committee_Platform.Controllers
             if (board.HeadofDeptSign && board.DeptMemeberSign1 && board.DeptMemeberSign2)
             {
                 board.ReqStatus = "college";
-                board.Reasons += model.Recommendation;
+                board.Reasons += board.Recommendation;
                 board.HeadofDeptSign = false;
+                board.UserSignatures = null;
+                board.UserRoleSignature = null;
+                board.BoardSignatures = null;
                 _context.Entry(board).Property(b => b.ReqStatus).IsModified = true;
                 _context.Entry(board).Property(b => b.HeadofDeptSign).IsModified = true;
                 _context.Entry(board).Property(b => b.Reasons).IsModified = true;

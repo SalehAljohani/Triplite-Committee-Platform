@@ -10,5 +10,6 @@ namespace Triplite_Committee_Platform.ViewModels
         public ReasonsModel? Reason { get; set; }
         public ScholarshipModel? Scholarship { get; set; }
         public BoardModel Board { get; set; }
+        public List<UserModel>? Users { get; set; }
     }
 }

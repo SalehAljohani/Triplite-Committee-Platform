@@ -231,9 +231,9 @@ namespace Triplite_Committee_Platform.Controllers
             var department = await _context.Department.ToListAsync();
             var request = await _context.RequestType.ToListAsync();
 
-            var facultyRequest = request.Where(r => r.RequestTypeName.ToLower() == "ابتعاث خارجي" || r.RequestTypeName.ToLower() == "ابتعاث داخلي").Select(r => r.RequestTypeName);
+            var facultyRequest = request.Where(r => r.RequestTypeName.ToLower() == "ابتعاث خارجي" || r.RequestTypeName.ToLower() == "ابتعاث داخلي");
 
-            ViewData["Request"] = new SelectList(facultyRequest);
+            ViewData["Request"] = new SelectList(facultyRequest, "RequestTypeID", "RequestTypeName");
             ViewData["Colleges"] = new SelectList(college, "CollegeNo", "CollegeName");
             var departmentsData = department.Select(d => new
             {

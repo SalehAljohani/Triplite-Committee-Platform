@@ -244,6 +244,9 @@ namespace Triplite_Committee_Platform.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<string>("UserRoleSignature")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserSignatures")
                         .HasColumnType("nvarchar(max)");
 

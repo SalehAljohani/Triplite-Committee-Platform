@@ -1,1 +1,201 @@
-﻿
+﻿@model Triplite_Committee_Platform.Models.ScholarshipModel
+
+@{
+    ViewData["Title"] = "New Scholarship Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card p-3 mt-5 w-75 rounded-4 mx-auto">
+
+    <div class="text-center mb-5">
+        <strong> <h3 class="mb-4 pt-4">New Scholarship Request</h3></strong>
+    </div>
+    @if (TempData["Success"] != null)
+    {
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4 text-center">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>@TempData["Success"]</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4 text-center">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>@TempData["Error"]</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+    }
+    <form method="post" asp-action="RegisterScholarship">
+        <div asp-validation-summary="All"></div>
+        <div class="row text-dark">
+            <div class="col-sm-6">
+                <div class="mb-3 form-floating mx-auto w-75">
+                    <input type="text" asp-for="National_ID" maxlength="10" class="form-control" placeholder="" id="nID" required>
+                    <label for="nID" asp-for="National_ID">National ID</label>
+                    <span asp-validation-for="National_ID" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 form-floating mx-auto w-75">
+                    <input type="text" asp-for="EmployeeID" maxlength="10" class="form-control" placeholder="" id="empID" required>
+                    <label for="empID" asp-for="EmployeeID">Employee ID</label>
+                    <span asp-validation-for="EmployeeID" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 form-floating mx-auto w-75">
+                    <input type="text" asp-for="Name" class="form-control" maxlength="40" placeholder="" id="name" required>
+                    <label for="name" asp-for="Name">Name</label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 mt-3 text-center">
+                    <h6 class="text-start ms-5 ps-4 mt-4 mb-3 fw-bolder">Scholarship Type</h6>
+                    <input type="checkbox" id="language" name="ScholarshipTypes[]" value="Language" class="form-check-input form-floating text-black" />
+                    <label class="form-check-label me-4 fw-bold" for="language">Language</label>
+
+                    <input type="checkbox" id="masters" name="ScholarshipTypes[]" value="Master's" class="form-check-input form-floating text-black" />
+                    <label class="form-check-label me-4 fw-bold" for="masters">Master's</label>
+
+                    <input type="checkbox" id="phd" name="ScholarshipTypes[]" value="PhD" class="form-check-input form-floating text-black" />
+                    <label class="form-check-label fw-bold" for="phd">PhD</label>
+                    <span asp-validation-for="ScholarshipTypes" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 form-floating mx-auto w-75">
+                    <input type="text" class="form-control" asp-for="Phone" maxlength="25" placeholder="Phone number" required>
+                    <label for="phone" asp-for="Phone">Phone Number</label>
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="mb-3 form-floating mx-auto w-75">
+                    <input type="email" asp-for="Email" class="form-control" placeholder="Email" required>
+                    <label for="email" asp-for="Email">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3 form-floating w-75 mx-auto">
+                    <select id="gender" name="gender" class="form-select text-center" asp-for="Gender" required>
+                        <option disabled selected>Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+                <div class="row w-75 mx-auto">
+                    <div class="mb-3 form-floating w-50 mx-auto">
+                        <select id="Degree" name="Degree" class="form-select text-center" asp-for="Degree" required>
+                            <option disabled selected>Degree</option>
+                            <option>Bachelor's</option>
+                            <option>Master's</option>
+                        </select>
+                        <span asp-validation-for="Degree" class="text-danger"></span>
+                    </div>
+                    @if (ViewBag.Request != null)
+                    {
+                        <div class="mb-3 form-floating w-50">
+                            <select asp-for="Status" asp-items="ViewBag.Request" class="form-control text-center">
+                                <option disabled selected>Scholarship Type</option>
+                            </select>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="mb-3 form-floating mx-auto w-75">
+                    <input type="text" class="form-control" asp-for="Duration" placeholder="Duration of study" required>
+                    <label for="duration" asp-for="Duration">Duration of Study</label>
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 form-floating mx-auto w-75">
+                    <input type="text" class="form-control" asp-for="GeneralMajor" placeholder="General Specialization" id="generalS" required>
+                    <label for="generalS" asp-for="GeneralMajor">General Specialization</label>
+                    <span asp-validation-for="GeneralMajor" class="text-danger"></span>
+                </div>
+                <div class="mb-3 form-floating mx-auto w-75">
+                    <input type="text" class="form-control" asp-for="SpecificMajor" placeholder="Specific Specialization" id="specificS">
+                    <label for="specificS" asp-for="SpecificMajor">Specific Specialization</label>
+                    <span asp-validation-for="SpecificMajor" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4 mt-2 form-floating mx-auto w-75">
+                    <input type="text" asp-for="City" class="form-control" placeholder="" id="city" required>
+                    <label for="city" asp-for="City">City</label>
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 form-floating mx-auto w-75">
+                    <input type="text" class="form-control" asp-for="Country" placeholder="Country" required>
+                    <label for="country" asp-for="Country">Country</label>
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+                <div class="mb-3 form-floating mx-auto w-75">
+                    <input type="text" asp-for="University" class="form-control" placeholder="University" required>
+                    <label for="university" asp-for="University">University</label>
+                    <span asp-validation-for="University" class="text-danger"></span>
+                </div>
+                <div class="mb-3 form-floating mx-auto w-75">
+                    <input type="Date" asp-for="Beginning_date" class="form-control" placeholder="University" required>
+                    <label for="university" asp-for="Beginning_date">Start Date</label>
+                    <span asp-validation-for="Beginning_date" class="text-danger"></span>
+                </div>
+                <div class="row w-75 mx-auto">
+                    @if (ViewBag.Colleges != null)
+                    {
+                        <div class="mb-3 form-floating w-50">
+                            <select id="College" name="College" asp-items="ViewBag.Colleges" name="SelectedCollege" onchange="enableDepartmentSelection(this)" class="form-select text-center" asp-for="Degree" required>
+                                <option disabled selected>Select College</option>
+                            </select>
+                        </div>
+                    }
+                    @if (ViewBag.Departments != null)
+                    {
+                        <div class="mb-3 form-floating w-50">
+                            <select id="Department" name="SelectedDepartment" class="form-select text-center" asp-items="ViewBag.Department" asp-for="DeptNo" disabled required>
+                                <option disabled selected>Select Department</option>
+                            </select>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="form-group mt-5 mb-3 text-center">
+                <input type="submit" value="Save & Continue" class="btn btn-primary w-25 mt-4 mb-3 fw-bold" />
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="text-center">
+    <a asp-controller="Scholarship" asp-action="NewScholarshipRequest" class="btn btn-secondary">Back to List</a>
+</div>
+<script>
+        var allDepartments = JSON.parse('@Html.Raw(ViewData["Departments"])');
+
+        function enableDepartmentSelection(selectElement) {
+            var departmentSelect = document.getElementsByName("SelectedDepartment")[0];
+            var collegeId = selectElement.value;
+
+            departmentSelect.disabled = collegeId === "";
+            departmentSelect.innerHTML = '<option value=""> Select Department </option>';
+
+            if (collegeId !== "") {
+                allDepartments.forEach(function (department) {
+                    if (department.CollegeNo.toString() === collegeId.toString()) {
+                        let option = new Option(department.DeptName, department.DeptNo);
+                        departmentSelect.add(option);
+                    }
+                });
+                departmentSelect.disabled = departmentSelect.options.length <= 1;
+            }
+        }
+    </script>

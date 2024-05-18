@@ -51,7 +51,7 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     College = col.CollegeName,
                     Departments = new List<DepartmentStatsViewModel>(),
-                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "complete" && board.Department.CollegeNo == col.CollegeNo).CountAsync(),
+                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "completed" && board.Department.CollegeNo == col.CollegeNo).CountAsync(),
                     CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "complete" && board.Department.CollegeNo == col.CollegeNo).CountAsync(),
                     TotalBoard = await _context.Board.Where(board => board.Department.CollegeNo == col.CollegeNo).CountAsync()
                 };
@@ -61,8 +61,8 @@ namespace Triplite_Committee_Platform.Controllers
                     var deptStats = new DepartmentStatsViewModel
                     {
                         DepartmentName = dept.DeptName,
-                        CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "    " && board.DeptNo == dept.DeptNo).CountAsync(),
-                        CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "complete" && board.DeptNo == dept.DeptNo).CountAsync(),
+                        CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "completed" && board.DeptNo == dept.DeptNo).CountAsync(),
+                        CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "completed" && board.DeptNo == dept.DeptNo).CountAsync(),
                         TotalBoard = await _context.Board.Where(board => board.DeptNo == dept.DeptNo).CountAsync()
                     };
                     stats.Departments.Add(deptStats);
@@ -81,8 +81,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 var model = new StatsViewModel
                 {
-                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "complete").CountAsync(),
-                    CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "complete").CountAsync(),
+                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "completed").CountAsync(),
+                    CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "completed").CountAsync(),
                     TotalBoard = await _context.Board.CountAsync()
                 };
                 return PartialView("_StatsPartial", model);
@@ -94,8 +94,8 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     var model = new StatsViewModel
                     {
-                        CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "complete" && board.DeptNo == user.DeptNo).CountAsync(),
-                        CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "complete" && board.DeptNo == user.DeptNo).CountAsync(),
+                        CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "completed" && board.DeptNo == user.DeptNo).CountAsync(),
+                        CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "completed" && board.DeptNo == user.DeptNo).CountAsync(),
                         TotalBoard = await _context.Board.Where(board => board.DeptNo == user.DeptNo).CountAsync()
                     };
                     return PartialView("_StatsPartial", model);
@@ -105,8 +105,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 var model = new StatsViewModel
                 {
-                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "complete").CountAsync(),
-                    CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "complete").CountAsync(),
+                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "completed").CountAsync(),
+                    CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "completed").CountAsync(),
                     TotalBoard = await _context.Board.CountAsync()
                 };
                 return PartialView("_StatsPartial", model);

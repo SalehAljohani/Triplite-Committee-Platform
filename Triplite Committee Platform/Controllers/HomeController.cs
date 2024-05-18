@@ -51,8 +51,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 statsList = new StatsViewModel
                 {
-                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "complete").CountAsync(),
-                    CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "complete").CountAsync(),
+                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "completed").CountAsync(),
+                    CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "completed").CountAsync(),
                     TotalBoard = await _context.Board.CountAsync()
                 };
                 ViewData["CardTitle"] = "Platform";
@@ -61,8 +61,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 statsList = new StatsViewModel
                 {
-                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "complete" && board.Department.CollegeNo == user.Department.CollegeNo).CountAsync(),
-                    CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "complete" && board.Department.CollegeNo == user.Department.CollegeNo).CountAsync(),
+                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "completed" && board.Department.CollegeNo == user.Department.CollegeNo).CountAsync(),
+                    CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "completed" && board.Department.CollegeNo == user.Department.CollegeNo).CountAsync(),
                     TotalBoard = await _context.Board.Where(board => board.Department.CollegeNo == user.Department.CollegeNo).CountAsync()
                 };
                 ViewData["CardTitle"] = await _context.College.Where(c => c.CollegeNo == user.Department.CollegeNo).Select(c => c.CollegeName).FirstOrDefaultAsync();
@@ -71,8 +71,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 statsList = new StatsViewModel
                 {
-                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "complete" && board.Department.DeptNo == user.DeptNo).CountAsync(),
-                    CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "complete" && board.Department.DeptNo == user.DeptNo).CountAsync(),
+                    CompletedBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() == "completed" && board.Department.DeptNo == user.DeptNo).CountAsync(),
+                    CurrentBoards = await _context.Board.Where(board => board.ReqStatus.ToLower() != "completed" && board.Department.DeptNo == user.DeptNo).CountAsync(),
                     TotalBoard = await _context.Board.Where(board => board.Department.DeptNo == user.DeptNo).CountAsync()
                 };
                 ViewData["CardTitle"] = await _context.Department.Where(d => d.DeptNo == user.DeptNo).Select(d => d.DeptName).FirstOrDefaultAsync();

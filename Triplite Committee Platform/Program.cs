@@ -1,3 +1,5 @@
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Triplite_Committee_Platform.Data;
@@ -51,7 +53,7 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddTransient<EmailSender>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
-
+builder.Services.AddSingleton<IConverter>(new SynchronizedConverter(new PdfTools()));
 
 var app = builder.Build();
 
@@ -75,6 +77,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 
 app.Run();

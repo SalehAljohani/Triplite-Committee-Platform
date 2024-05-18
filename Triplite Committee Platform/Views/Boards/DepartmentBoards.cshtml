@@ -35,7 +35,7 @@
             else
             {
                 <label class="text-end" id="Reasons">
-                    @Html.Raw(ViewBag.Context.Replace("[", "<input type=\"text\" class=\"mt-2\" style=\"width:150px\" Placeholder=\"").Replace("]", "\" />"))
+                    @Html.Raw(ViewBag.rContext.Replace("[", "<input type=\"text\" class=\"mt-2\" style=\"width:150px\" Placeholder=\"").Replace("]", "\" />"))
                 </label>
                 <button type="button" class="btn btn-success w-25 my-3" onclick="saveInputValues()" id="saveBtn"> حفظ البيانات المدخلة</button>
             }
@@ -104,13 +104,34 @@
 
 <div class="text-center">
     <form method="post" asp-action="SaveBoards">
-        @if(Model.Board?.BoardNo != null)
+        @if (Model.Board?.BoardNo != null)
         {
             <input type="hidden" asp-for="Board.BoardNo" value="@Model.Board.BoardNo" />
         }
         <input type="hidden" asp-for="Board.Id" value="@Model.Scholarship.Id" />
         <input type="hidden" asp-for="Board.Title" value="دراسة طلب @(Model.Scholarship.Gender == "Male" ? "المبتعث" : "المبتعثة") / (@Model.Scholarship.Name) لطلب (@Model.RequestType.RequestTypeName) في جامعة (@Model.Scholarship.University) لمرحلة (@Model.Scholarship.Degree)" />
-        <input type="hidden" asp-for="Board.Reasons" id="BoardReasons" />
+        @{
+            if(ViewBag.rContext != null)
+            {
+                var context = ViewBag.rContext as string;
+                bool containsPlaceholders = context.Contains("[") && context.Contains("]");
+                if (containsPlaceholders == false)
+                {
+                    <input type="hidden" asp-for="Board.Reasons" value="@context" />
+                }
+                else
+                {
+                    <input type="hidden" asp-for="Board.Reasons" id="BoardReasons" />
+
+                }
+            }
+            else
+            {
+                <input type="hidden" asp-for="Board.Reasons" value="@Model.Board?.Reasons" />
+
+            }
+            
+        }
         <input type="hidden" asp-for="Board.AddedReasons" id="addedReasons" />
         <input type="hidden" asp-for="Board.Recommendation" id="recommendation" />
         <input type="hidden" asp-for="Board.DeptNo" value="@Model.Scholarship.DeptNo" />

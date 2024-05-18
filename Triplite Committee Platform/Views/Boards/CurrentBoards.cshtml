@@ -45,7 +45,7 @@
                         <td class="text-center">@item.Scholarship.Name</td>
                         <td class="text-center">@item.RequestType.RequestTypeName</td>
                         <td class="text-center">@item.Department.DeptName</td>
-                        @if (ViewBag.CollegeBoard)
+                        @if (item.ReqStatus == "college")
                         {
                             <td>
                                 <div class="text-center">
