@@ -1,0 +1,43 @@
+﻿@model Triplite_Committee_Platform.Models.ContactModel
+@{
+    ViewData["Title"] = "Solved";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong>Mark Request as @ViewData["Button"]</strong></h3>
+    <h4 class="text-danger mt-2 text-center">Are you sure you want to mark this request as @ViewData["Button"]?</h4>
+    <hr />
+    <div class="card-body">
+        <dl class="row g-3">
+
+            <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.Name)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+            <hr />
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Email)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+            <hr />
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Subject)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Subject)</dd>
+            <hr />
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Message)</dt>
+            <dd class="col-sm-8 text-break">@Html.DisplayFor(model => model.Message)</dd>
+            
+        </dl>
+    </div>
+</div>
+
+<div class="text-center">
+
+    <form asp-action="SolveConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <input type="submit" value="@ViewData["Button"]" class="@ViewData["ButtonClass"]" />
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+
+
+

@@ -1,0 +1,113 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityRole
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong>Edit Role </strong></h3>
+    <hr />
+    <div class="card-body">
+        <dl class="row g-3">
+
+            <form asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+
+
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label asp-for="Name" class="col-form-label control-label text-center">Role Name</label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+
+                    </dd>
+                </div>
+                <hr />
+
+              
+
+                <div class="form-group mt-5  text-center">
+                    <input type="submit" value="Save" class="btn btn-primary w-25" />
+
+
+                </div>
+
+            </form>
+        </dl>
+    </div>
+</div>
+
+
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+@* <div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong>Edit [@Model.Name] Name</strong></h3>
+    <hr />
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+
+            <form asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="row g-3 align-items-center mt-2">
+                    <div class="col-2"></div>
+                    <div class="col-3">
+                        <label asp-for="Name" class="col-form-label control-label text-center">College Name</label>
+
+                        
+                    </div>
+                    <div class="col-7">
+                        <input asp-for="Name"  class="form-control" />
+                    </div>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-4 mb-5 text-center">
+                    <input type="submit" value="Save" class="btn btn-primary w-25" />
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div> *@
+
+@* <h1>Edit Role</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div> *@
+

@@ -1,0 +1,110 @@
+﻿@model Triplite_Committee_Platform.Models.AnnouncementModel
+@{
+    ViewData["Title"] = "Create Announcement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["Message"]
+    </div>
+}
+
+<div class="card rounded-3 p-3 mt-5 mx-auto w-50">
+    <div class="text-center mb-3">
+        <strong class="fs-3">Edit @Model.Title</strong>
+    </div>
+    <hr />
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            <div class="row mb-3">
+                <dt class="col-sm-4 fw-bold">
+                    <label asp-for="Title" class="col-form-label text-center">Title</label>
+                </dt>
+                <dd class="col-sm-8">
+                    <input asp-for="Title" class="form-control" autocomplete="off" aria-required="true" placeholder="" maxlength="100" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+
+                </dd>
+            </div>
+            <div class="row mb-3">
+                <dt class="col-sm-4 fw-bold">
+                    <label asp-for="Description" class="col-form-label text-center">Description</label>
+                </dt>
+                <dd class="col-sm-8">
+                    <textarea asp-for="Description" class="form-control" autocomplete="off" aria-required="true" placeholder=""></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </dd>
+            </div>
+            <div class="row mb-3">
+                <dt class="col-sm-4 fw-bold">
+                    <label asp-for="Link" class="col-form-label text-center">Announcement Link</label>
+                </dt>
+                <dd class="col-sm-8">
+                    <input asp-for="Link" class="form-control" autocomplete="off" aria-required="true" placeholder="" />
+                    <span asp-validation-for="Link" class="text-danger"></span>
+
+                </dd>
+            </div>
+            <div class="row mb-5">
+                <dt class="col-sm-4 fw-bold">
+                    <label asp-for="DeptNo" class="col-form-label text-center">Department</label>
+                </dt>
+                <dd class="col-sm-4">
+                    @if (ViewBag.Colleges != null)
+                    {
+                        <select class="form-control" asp-items="ViewBag.Colleges" name="SelectedCollege" onchange="enableDepartmentSelection(this)">
+                        </select>
+                    }
+                </dd>
+                <dd class="col-sm-4">
+                    @if (ViewBag.Departments != null)
+                    {
+                        <select class="form-control" name="DeptNo" disabled>
+                            @if(ViewBag.SelectedDept != null)
+                            {
+                                <option value="@ViewBag.SelectedDept.DeptNo">@ViewBag.SelectedDept.DeptName</option>
+                            }
+                            else
+                            {
+                                <option value="">Select Department</option>
+                            }
+                        </select>
+                    }
+                </dd>
+                <span asp-validation-for="DeptNo" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group mt-4 text-center">
+                <input type="submit" value="Edit" class="btn btn-primary w-25" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+
+<script>
+    var allDepartments = JSON.parse('@Html.Raw(ViewData["Departments"])');
+
+    function enableDepartmentSelection(selectElement) {
+        var departmentSelect = document.getElementsByName("DeptNo")[0];
+        var collegeId = selectElement.value;
+
+        departmentSelect.disabled = collegeId === "";
+        departmentSelect.innerHTML = '<option value=""> Select Department </option>';
+
+        if (collegeId !== "") {
+            allDepartments.forEach(function (department) {
+                if (department.CollegeNo.toString() === collegeId.toString()) {
+                    let option = new Option(department.DeptName, department.DeptNo);
+                    departmentSelect.add(option);
+                }
+            });
+            departmentSelect.disabled = departmentSelect.options.length <= 1;
+        }
+    }
+</script>

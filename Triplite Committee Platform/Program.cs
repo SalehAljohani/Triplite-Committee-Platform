@@ -1,5 +1,10 @@
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Triplite_Committee_Platform.Data;
+using Triplite_Committee_Platform.Models;
+using Triplite_Committee_Platform.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +12,48 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddIdentity<UserModel, IdentityRole>(
+    options =>
+    {
+        // Lockout settings.
+        //options.SignIn.RequireConfirmedAccount = false;
+        //options.SignIn.RequireConfirmedEmail = true;
+        options.Lockout.AllowedForNewUsers = false;
+
+        // User settings.
+        options.User.RequireUniqueEmail = true;
+
+        // Password settings.
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequiredLength = 8;
+    }
+    )
+    .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Cookie settings
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+
+    options.LoginPath = "/Login";
+    options.AccessDeniedPath = "/Login/AccessDenied";
+    options.SlidingExpiration = true;
+});
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+
+builder.Services.AddTransient<EmailSender>();
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+builder.Services.AddSingleton<IConverter>(new SynchronizedConverter(new PdfTools()));
 
 var app = builder.Build();
 
@@ -22,6 +69,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 

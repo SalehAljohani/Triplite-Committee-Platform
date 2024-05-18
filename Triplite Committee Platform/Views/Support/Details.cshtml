@@ -1,0 +1,50 @@
+﻿@model Triplite_Committee_Platform.Models.ContactModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong>Request Details</strong></h3>
+    <hr />
+    <div class="card-body">
+        <dl class="row g-3">
+
+            <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.Name)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+            <hr />
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Email)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+            <hr />
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Subject)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Subject)</dd>
+            <hr />
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Message)</dt>
+            <dd class="col-sm-8 text-break">@Html.DisplayFor(model => model.Message)</dd>
+            <hr />
+            <dd class="col-sm-4">Status</dd>
+            <dt class="col-sm-8">
+                @if (Model.Status)
+                {
+                    <span class="text-success">Solved</span>
+                }
+                else
+                {
+                    <span class="text-danger">Not Solved</span>
+                }
+            </dt>
+
+            
+            
+        </dl>
+    </div>
+</div>
+
+<div class="text-center">
+    
+    
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+
+

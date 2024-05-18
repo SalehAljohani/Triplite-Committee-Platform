@@ -1,0 +1,28 @@
+﻿@model Triplite_Committee_Platform.Models.RequestTypeModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong>@Model?.RequestTypeName</strong></h3>
+    <hr />
+    <div>
+        <dl class="row g-3">
+            <dt class="col-sm-4 fw-bold">
+                <label asp-for="Reasons.Context" class="col-form-label text-center ms-4">Reasons: </label>
+            </dt>
+            <dd class="col-sm-7">
+                <div class="card border">
+                    <label class="col-form-label text-center ms-4">@Model.Reasons.Context</label>
+                </div>
+            </dd>
+            <dd class="col-sm-1"></dd>
+        </dl>
+    </div>
+</div>
+<div class="text-center">
+    <a asp-action="Edit" class="btn btn-primary me-3 ms-3" asp-route-id="@Model?.RequestTypeID">Edit Request</a>
+    <a asp-action="Index" class="btn btn-secondary ms-3">Back to List</a>
+</div>
+

@@ -1,0 +1,147 @@
+﻿@using Triplite_Committee_Platform.ViewModels
+@model IEnumerable<AccountViewModel>
+@{
+    ViewData["Title"] = "User List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card p-3 w-75 mt-5 mx-auto rounded-4">
+    <div class="row">
+        <div class="col-sm-4">
+            <strong class="fs-3">Users List</strong>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-end">
+            <a asp-action="Create" class="text-decoration-none text-light btn btn-primary me-1">
+                <strong class="fs-5">Create New User</strong>
+            </a>
+        </div>
+    </div>
+    <hr />
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["Success"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["Error"]
+        </div>
+    }
+
+    <table class="table align-middle  bg-white w-100 table-striped" id="DTable">
+        <thead>
+            <tr>
+                <th class="text-center">Name</th>
+                <th class="text-center">Employee ID</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Email Confirmation</th>
+
+                <th class="text-center">Action</th>
+
+            </tr>
+        </thead>
+
+
+
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="text-center align-items-center">
+
+                            <div>
+                                <p class=" mb-1">@user.Name</p>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center align-items-center">
+
+                            <div>
+                                <p class=" ms-0 mb-0">@user.EmployeeID</p>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center align-items-center">
+
+                            <div>
+                                <p class="ms-0 mb-0">@user.Email</p>
+
+                            </div>
+                        </div>
+
+
+                    </td>
+
+
+                    <td>
+                        <div class="text-center align-items-center">
+
+                            <div>
+
+                                @if (@user.EmailConfirmed)
+                                {
+                                    <span class=" badge text-bg-success fs-6">Confirmed</span>
+                                }
+                                else
+                                {
+                                    <span class="badge text-bg-danger text fs-6">Unconfirmed</span>
+                                }
+
+                            </div>
+                        </div>
+
+
+                    </td>
+
+
+                    @* Data-bs must be added to all the remain tables(tooltip)*@
+                    <td>
+                        <div class="text-center">
+                            <a asp-action="Edit" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit User"><i class="fa-solid fa-pen fs-5 text-primary"></i></a>
+                            <a asp-action="Details" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
+                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete User"><i class="fa-solid fa-trash fs-5 text-danger"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@* DataTable Library used to add filters to the tables *@
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.min.css" />
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#DTable').DataTable({});
+    });
+
+
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+</script>
+
+@* End of DataTable Library initialization *@
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

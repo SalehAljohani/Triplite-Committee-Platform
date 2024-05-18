@@ -1,0 +1,202 @@
+﻿@model Triplite_Committee_Platform.ViewModels.BoardDetailsViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <table class="mx-auto w-100 table-borderless" style="border: hidden;">
+        <tbody>
+            <tr>
+                <td style="border: hidden;">
+                    <h3 style="text-align: start; font-weight: bold;">
+                        KINGDOM OF SAUDI ARABIA
+                        <br />
+                        MINISTRY OF EDUCATION
+                        <br />
+                        TAIBAH UNIVERSITY
+                        <br />
+                        CCSE
+                        <br />
+                        @Model.Board.BoardNo
+                    </h3>
+                </td>
+
+                <td style="border: hidden; align-self: center;">
+                    @{
+                        var imagePath = Url.Content("~/img/TLogo.png");
+                        var imageFullPath = $"{Context.Request.Scheme}://{Context.Request.Host}{imagePath}";
+                    }
+                    <img src="@imageFullPath" width="108px" height="115px" />
+
+
+                </td>
+                <td style="border: hidden;">
+                    <h3 style="text-align: end; font-weight: bold;">
+                        المملكة العربية السعودية
+                        <br />
+                        وزارة التعليم
+                        <br />
+                        جامعة طيبة
+                        <br />
+                        كلية علوم الحاسب والمعلومات
+                        <br />
+                        @Model.Board.BoardNo
+                    </h3>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="border: solid; border-radius: 15px; width: 50%; margin: auto; text-align:center; padding-top: 10px; margin-top: 30px; margin-bottom: 30px;" dir="rtl">
+        <h2>
+            وكالة الدراسات العليا والبحث العلمي
+        </h2>
+    </div>
+    <div class="row text-center w-100 mx-auto" dir="rtl">
+        <h3 class="fw-bold">
+            محضر اللجنة الثلاثية المفوضة عن مجلس الكلية
+        </h3>
+        <br />
+        <h3 class="fw-bold">
+            الاجتماع رقم (@Model.Board.BoardNo) بتاريخ (@Model.Board.ReqDate.ToShortDateString()) للعام الدراسي
+            (@Model.Board.ReqDate.Year)
+        </h3>
+        <h3 class="fw-bold">
+            @Model.Board.Title
+        </h3>
+    </div>
+    <table class="mx-auto w-100 table-bordered text-center mt-3" dir="rtl">
+        <tbody>
+            <tr>
+                <td>
+                    <strong>لجنة رقم</strong>
+                </td>
+                <td>
+                    <p>@Model.Board.BoardNo</p>
+                </td>
+                <td>
+                    <strong>التاريخ</strong>
+                </td>
+                <td>
+                    <p>@Model.Board.ReqDate.ToShortDateString()</p>
+                </td>
+                <td>
+                    <strong>التوصية</strong>
+                </td>
+                <td>
+                    <p>@(Model.Board.Decision ? "نعم" : "لا")</p>
+                </td>
+                <td>
+                    <strong>اعتماد العميد</strong>
+                </td>
+                <td>
+                    <p>@(Model.Board.DeanSign ? "نعم" : "لا")</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="mx-auto w-100 table-bordered text-center" dir="rtl">
+        <tbody>
+            <tr>
+                <td><strong>مقر البعثة</strong></td>
+                <td><p>@Model.Scholarship.University</p></td>
+                <td><strong>المدينة</strong></td>
+                <td><p>@Model.Scholarship.City</p></td>
+                <td><strong>الدولة</strong></td>
+                <td><p>@Model.Scholarship.Country</p></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="mx-auto w-100 table-bordered text-center" dir="rtl">
+        <tbody>
+            <tr>
+                <td><strong>التخصص العام</strong></td>
+                <td>@Model.Scholarship.GeneralMajor</td>
+                <td><strong>التخصص الدقيق</strong></td>
+                <td>@Model.Scholarship.SpecificMajor</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="mx-auto w-100 table-bordered text-center" dir="rtl">
+        <tbody>
+            <tr>
+                <td><strong>الدرجة العلمية</strong></td>
+                <td><p>@Model.Scholarship.Degree</p></td>
+                <td><strong>بداية الدراسة</strong></td>
+                <td><p>@Model.Scholarship.Beginning_date.ToShortDateString()</p></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="mx-auto w-100 table-bordered text-center" dir="rtl">
+        <tbody>
+            <tr>
+                <td class="ps-3 pe-3"><strong>الحيثيات</strong></td>
+                <td class="text-end pe-2">
+                    @Html.Raw(Model.Board.Reasons.Replace("\n", "<br>"))
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="mx-auto w-100 table-bordered text-center" dir="rtl">
+        <tbody>
+            <tr>
+                <td class="ps-3 pe-3"><strong>التوصية</strong></td>
+                <td class="text-end pe-2">
+                    @Html.Raw(Model.Board.Recommendation.Replace("\n", "<br>"))
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-center mt-2 fw-bolder" dir="rtl">
+        <h5>والله الموفق</h5>
+    </div>
+    <div class="text-center mt-3 fw-bold" dir="rtl">
+        <h6>اعضاء اللجنة</h5>
+    </div>
+    <table class="mx-auto w-100 text-center" dir="rtl">
+        <tbody>
+            @if (Model.Users != null && Model.Board.UserRoleSignature != null && Model.Board.BoardSignatures != null)
+            {
+                <tr>
+                    <td>@Model.Board.UserRoleSignature[0]</td>
+                    <td>@Model.Board.UserRoleSignature[1]</td>
+                    <td>@Model.Board.UserRoleSignature[2]</td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>@Model.Users[0].Name</p>
+                    </td>
+                    <td>
+                        <p>@Model.Users[1].Name</p>
+                    </td>
+                    <td>
+                        <p>@Model.Users[2].Name</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @{
+                            var signPath = Url.Content("~/signatures/" + Model.Board.BoardSignatures[0]);
+                            var signFullPath = $"{Context.Request.Scheme}://{Context.Request.Host}{signPath}";
+                        }
+                        <img src="@signFullPath" width="200px">
+                    </td>
+                    <td>
+                        @{
+                             signPath = Url.Content("~/signatures/" + Model.Board.BoardSignatures[1]);
+                             signFullPath = $"{Context.Request.Scheme}://{Context.Request.Host}{signPath}";
+                        }
+                        <img src="@signFullPath" width="200px">
+                    </td>
+                    <td>
+                        @{
+                             signPath = Url.Content("~/signatures/" + Model.Board.BoardSignatures[2]);
+                             signFullPath = $"{Context.Request.Scheme}://{Context.Request.Host}{signPath}";
+                        }
+                        <img src="@signFullPath" width="200px">
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+
+</html>

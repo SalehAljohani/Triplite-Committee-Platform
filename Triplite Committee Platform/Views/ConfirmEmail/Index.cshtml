@@ -1,0 +1,46 @@
+﻿@model Triplite_Committee_Platform.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Confirm Email";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<h3 class="text-center pt-5 pb-4">@ViewData["Title"]</h3>
+<hr />
+@if (TempData["EmailSent"] != null)
+{
+    <div class="alert alert-success text-center" role="alert">
+        @TempData["EmailSent"]
+    </div>
+
+}
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8 text-dark">
+        <form method="post" asp-action="ResendEmail">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-5 mt-5">
+                <input asp-for="Email" class="form-control w-100" autocomplete="username" aria-required="true" placeholder="" />
+                <label asp-for="Email" class="form-label">Email</label>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="w-50 mb-5 btn btn-lg btn-primary">Confirm Email</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+<div class="row pb-4">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5">
+        <p class="fs-6">
+            <a id="Login" class="text-light text-decoration-none text-start" asp-action="Index" asp-controller="Login"><strong>Go back to Login</strong></a>
+        </p>
+    </div>
+    <div class="col-sm-5 text-end">
+        <p class="fs-6">
+            <a class="text-light text-decoration-none" asp-area="" asp-controller="Login" asp-action="Support"><strong>Contact Support</strong></a>
+        </p>
+    </div>
+    <div class="col-sm-1"></div>
+</div>
