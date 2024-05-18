@@ -121,7 +121,7 @@
                 <td><strong>الدرجة العلمية</strong></td>
                 <td><p>@Model.Scholarship.Degree</p></td>
                 <td><strong>بداية الدراسة</strong></td>
-                <td><p>@Model.Scholarship.Beginning_date</p></td>
+                <td><p>@Model.Scholarship.Beginning_date.ToShortDateString()</p></td>
             </tr>
         </tbody>
     </table>

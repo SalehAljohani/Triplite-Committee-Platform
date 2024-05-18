@@ -148,7 +148,7 @@ namespace Triplite_Committee_Platform.Controllers
                         .ThenInclude(b => b.RequestType)
                     .Include(s => s.Department)
                         .ThenInclude(d => d.College)
-                    .Where(s => (s.National_ID == search || s.Name.ToLower() == search.ToLower() || s.Phone == search || s.EmployeeID == search) &&
+                    .Where(s => (s.National_ID.Contains(search) || s.Name.ToLower().Contains(search.ToLower()) || s.Phone.Contains(search) || s.EmployeeID.Contains(search)) &&
                                 (SelectedDepartment == null || s.Department.DeptNo == SelectedDepartment) &&
                                  department.Contains(s.Department))
                     .ToListAsync();
@@ -189,7 +189,7 @@ namespace Triplite_Committee_Platform.Controllers
                         .ThenInclude(b => b.RequestType)
                     .Include(s => s.Department)
                         .ThenInclude(d => d.College)
-                    .Where(s => (s.National_ID == search || s.Name.ToLower() == search.ToLower() || s.Phone == search || s.EmployeeID == search) &&
+                    .Where(s => (s.National_ID.Contains(search) || s.Name.ToLower().Contains(search.ToLower()) || s.Phone.Contains(search) || s.EmployeeID.Contains(search)) &&
                           (s.DeptNo == user.DeptNo))
                     .ToListAsync();
 

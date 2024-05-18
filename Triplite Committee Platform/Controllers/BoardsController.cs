@@ -460,8 +460,11 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 if (model.Board.BoardNo != 0)
                 {
-                    model.Board.Reasons += model.Board.AddedReasons;
-                    model.Board.AddedReasons = null;
+                    if (model.Board.AddedReasons != null)
+                    {
+                        model.Board.Reasons += "\n" + model.Board.AddedReasons;
+                        model.Board.AddedReasons = null;
+                    }
                     if (ModelState.IsValid)
                     {
                         _context.Update(model.Board);
@@ -745,6 +748,15 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 board.UserRoleSignature = new List<string>();
             }
+            var vModel = new BoardDetailsViewModel
+            {
+                Id = board.BoardNo,
+            };
+            if (board.UserSignatures != null && board.UserSignatures.Contains(user.Id))
+            {
+                TempData["Error"] = "You have already signed this board";
+                return RedirectToAction("CollegeBoardSignatures", vModel);
+            }
 
             board.UserSignatures.Add(user.Id);
             board.UserRoleSignature.Add(activeRole);
@@ -752,10 +764,7 @@ namespace Triplite_Committee_Platform.Controllers
             _context.Update(board);
             await _context.SaveChangesAsync();
             TempData["Success"] = "Board Signed Successfully";
-            var vModel = new BoardDetailsViewModel
-            {
-                Id = board.BoardNo,
-            };
+
             return RedirectToAction("CollegeBoardSignatures", vModel);
         }
 
@@ -815,6 +824,15 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 board.UserRoleSignature = new List<string>();
             }
+            var vModel = new BoardDetailsViewModel
+            {
+                Id = board.BoardNo,
+            };
+            if (board.UserSignatures != null && board.UserSignatures.Contains(user.Id))
+            {
+                TempData["Error"] = "You have already signed this board";
+                return RedirectToAction("CollegeBoardSignatures", vModel);
+            }
 
             board.UserSignatures.Add(user.Id);
             board.UserRoleSignature.Add(activeRole);
@@ -822,10 +840,6 @@ namespace Triplite_Committee_Platform.Controllers
             _context.Update(board);
             await _context.SaveChangesAsync();
             TempData["Success"] = "Board Signed Successfully";
-            var vModel = new BoardDetailsViewModel
-            {
-                Id = board.BoardNo,
-            };
             return RedirectToAction("CollegeBoardSignatures", vModel);
         }
 
@@ -885,6 +899,16 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 board.UserRoleSignature = new List<string>();
             }
+            var vModel = new BoardDetailsViewModel
+            {
+                Id = board.BoardNo,
+            };
+
+            if (board.UserSignatures != null && board.UserSignatures.Contains(user.Id))
+            {
+                TempData["Error"] = "You have already signed this board";
+                return RedirectToAction("CollegeBoardSignatures", vModel);
+            }
 
             board.UserSignatures.Add(user.Id);
             board.UserRoleSignature.Add(activeRole);
@@ -892,13 +916,8 @@ namespace Triplite_Committee_Platform.Controllers
             _context.Update(board);
             await _context.SaveChangesAsync();
             TempData["Success"] = "Board Signed Successfully";
-            var vModel = new BoardDetailsViewModel
-            {
-                Id = board.BoardNo,
-            };
             return RedirectToAction("CollegeBoardSignatures", vModel);
         }
-
 
         [HttpPost]
         [ValidateRole("Head of Department", "Department Member")]
@@ -908,8 +927,11 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 if (model.Board.BoardNo != 0)
                 {
-                    model.Board.Reasons += model.Board.AddedReasons;
-                    model.Board.AddedReasons = null;
+                    if (model.Board.AddedReasons == null)
+                    {
+                        model.Board.Reasons += "\n" + model.Board.AddedReasons;
+                        model.Board.AddedReasons = null;
+                    }
                     if (ModelState.IsValid)
                     {
                         _context.Update(model.Board);

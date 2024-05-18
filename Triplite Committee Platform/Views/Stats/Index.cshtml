@@ -51,7 +51,7 @@
                                         <dd class="col-sm-3">
                                             <div class="progress">
                                                 <div class="progress-bar progress-complete" role="progressbar" style="width: @(GetProgressPercentage(departmentStats.CompletedBoards, departmentStats.TotalBoard))%" aria-valuenow="@departmentStats.CompletedBoards" aria-valuemin="0" aria-valuemax="@departmentStats.TotalBoard">@GetProgressPercentage(departmentStats.CompletedBoards, departmentStats.TotalBoard)%</div>
-                                                <div class="progress-bar progress-current" role="progressbar" style="width: @(GetRemainingPercentage(departmentStats.CurrentBoards, departmentStats.TotalBoard))%" aria-valuenow="@departmentStats.CurrentBoards" aria-valuemin="0" aria-valuemax="@departmentStats.TotalBoard"></div>
+                                                <div class="progress-bar progress-current" role="progressbar" style="width: @(GetRemainingPercentage(departmentStats.CompletedBoards, departmentStats.TotalBoard))%" aria-valuenow="@departmentStats.CurrentBoards" aria-valuemin="0" aria-valuemax="@departmentStats.TotalBoard"></div>
                                             </div>
                                         </dd>
                                     </dl>
