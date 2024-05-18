@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Globalization
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -104,24 +105,14 @@
             </div>
             <div class="top-right">
                 <div class="header-menu">
-                    <div class="dropdown">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            Language
-                            </button>
-                            <ul class="dropdown-menu">
-                            <li>
-                                <a asp-controller="Base" asp-action="changeCulture" asp-route-culture="en" class="dropdown-item">
-                                    <i class="flag-icon flag-icon-gb"></i> English
-                                </a>
-                            </li>
-                            <li>
-                                <a asp-controller="Base" asp-action="changeCulture" asp-route-culture="ar" class="dropdown-item">
-                                    <i class="flag-icon flag-icon-gb"></i> العربية
-                                </a>
-                            </li>
-                            </ul>
-
-                    </div>
+                    @if (CultureInfo.CurrentCulture.Name == "ar")
+                    {
+                        <a id="forgot-password" class="text-dark text-decoration-none text-start fs-6 pt-2 mt-1" asp-controller="Base" asp-action="changeCulture" asp-route-culture="en"><strong>English</strong></a>
+                    }
+                    else
+                    {
+                        <a id="forgot-password" class="text-dark text-decoration-none text-start fs-5 pt-2 mt-1" asp-controller="Base" asp-action="changeCulture" asp-route-culture="ar"><strong>العربية</strong></a>
+                    }
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -136,7 +127,7 @@
     </div>
     <footer class="site-footer">
         <div class="footer-inner text-center">
-            <span class="">Triplite Committee Platform Development Team &copy; <script>document.write(new Date().getFullYear())</script></span> <span class="fs-5">-</span> <span class="ps-3">Taibah University</span>
+            <span class="">@Localizer["tcpDevTeam"] <script>document.write(new Date().getFullYear())</script></span> <span class="fs-5">-</span> <span class="ps-3">@Localizer["taibahU"]</span>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>

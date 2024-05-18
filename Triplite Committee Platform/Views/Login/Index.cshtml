@@ -1,4 +1,5 @@
 ﻿@model Triplite_Committee_Platform.ViewModels.LoginViewModel
+@using System.Globalization
 @{
     ViewData["Title"] = @Localizer["title"];
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
@@ -58,11 +59,15 @@
                     </p>
                 </div>
                 <div class="col-sm-4">
-                    <button>
-                        <a asp-controller="Base" asp-action="changeCulture" asp-route-culture="ar" class="w-50 btn btn-lg btn-primary">
-                            <i class="flag-icon flag-icon-gb"></i> العربية
-                        </a>
-                    </button>
+                    <p class="fs-6">
+                        @if (CultureInfo.CurrentCulture.Name == "ar")
+                        {
+                            <a id="forgot-password" class="text-light text-decoration-none text-start" asp-controller="Base" asp-action="changeCulture" asp-route-culture="en"><strong>English</strong></a>
+                        }
+                        else
+                        {
+                            <a id="forgot-password" class="text-light text-decoration-none text-start" asp-controller="Base" asp-action="changeCulture" asp-route-culture="ar"><strong>العربية</strong></a>
+                        }
                 </div>
                 <div class="col-sm-4 text-end">
                     <p class="fs-6">

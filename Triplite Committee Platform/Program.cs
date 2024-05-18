@@ -56,6 +56,7 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddTransient<EmailSender>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+builder.Services.AddSingleton<IConverter>(new SynchronizedConverter(new PdfTools()));
 
 var supportedCultures = new[]
 {
