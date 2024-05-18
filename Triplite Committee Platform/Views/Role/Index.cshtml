@@ -8,12 +8,12 @@
 <div class="card p-3 mt-5 w-75 rounded-4 mx-auto">
     <div class="row">
         <div class="col-sm-4">
-            <strong class="fs-3">Roles List</strong>
+            <strong class="fs-3">@Localizer["rolesList"]</strong>
         </div>
         <div class="col-sm-4"></div>
         <div class="col-sm-4 text-end">
             <a asp-action="Create" class="text-decoration-none text-light btn btn-primary me-1">
-                <strong class="fs-5">Add Role</strong>
+                <strong class="fs-5">@Localizer["addRole"]</strong>
             </a>
         </div>
     </div>
@@ -21,8 +21,8 @@
     <table class="table align-middle mb-0 w-100 bg-white table-striped" id="DTable">
         <thead>
             <tr>
-                <th class="text-center" >Role</th>
-                <th class="text-center">Action</th>
+                <th class="text-center" >@Localizer["role"]</th>
+                <th class="text-center">@Localizer["action"]</th>
             </tr>
         </thead>
         <tbody>
@@ -44,9 +44,9 @@
                     <td>
                         <div class="text-center">
 
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Role" id=""><i class="fa-solid fa-pen fs-4 text-primary"></i></a>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details" id=""><i class="fa-solid fa-circle-info fs-4 text-secondary"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Role" id=""><i class="fa-solid fa-trash fs-4 text-danger"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["editRole"]" id=""><i class="fa-solid fa-pen fs-5 text-primary"></i></a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["viewDetails"]" id=""><i class="fa-solid fa-circle-info fs-5 text-secondary"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn bg-opacity-10 btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["deleteRole"]" id=""><i class="fa-solid fa-trash fs-5 text-danger"></i></a>
                         </div> 
                     </td>
                 </tr>

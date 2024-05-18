@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.Services;
@@ -16,12 +17,14 @@ namespace Triplite_Committee_Platform.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AppDbContext _context;
         private readonly UserManager<UserModel> _userManager;
+        private readonly IStringLocalizer<RoleController> Localizer;
 
-        public RoleController(RoleManager<IdentityRole> roleManager, AppDbContext context, UserManager<UserModel> userManager)
+        public RoleController(RoleManager<IdentityRole> roleManager, AppDbContext context, UserManager<UserModel> userManager, IStringLocalizer<RoleController>localizer)
         {
             _roleManager = roleManager;
             _context = context;
             _userManager = userManager;
+            Localizer = localizer;
         }
         public IList<IdentityRole> Roles { get; set; }
 
@@ -45,13 +48,17 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
+                return RedirectToAction(nameof(Index));
             }
 
             var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
             {
-                return NotFound();
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
+                return RedirectToAction(nameof(Index));
             }
 
             return View(role);
@@ -79,13 +86,17 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
+                return RedirectToAction(nameof(Index));
             }
 
             var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
             {
-                return NotFound();
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
+                return RedirectToAction(nameof(Index));
             }
 
             return View(role);
@@ -97,7 +108,9 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id != role.Id)
             {
-                return NotFound();
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
+                return RedirectToAction(nameof(Index));
             }
             if (ModelState.IsValid)
             {
@@ -106,7 +119,9 @@ namespace Triplite_Committee_Platform.Controllers
                     var existingRole = await _roleManager.FindByIdAsync(role.Id);
                     if (existingRole == null)
                     {
-                        return NotFound();
+                        string roleNotFound = @Localizer["roleNotFound"];
+                        TempData["Error"] = roleNotFound;
+                        return RedirectToAction(nameof(Index));
                     }
 
                     existingRole.Name = role.Name;
@@ -116,7 +131,9 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (!RoleExists(role.Id))
                     {
-                        return NotFound();
+                        string roleNotFound = @Localizer["roleNotFound"];
+                        TempData["Error"] = roleNotFound;
+                        return RedirectToAction(nameof(Index));
                     }
                     else
                     {
@@ -133,14 +150,18 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
+                return RedirectToAction(nameof(Index));
             }
 
             var role = await _roleManager.FindByIdAsync(id);
 
             if (role == null)
             {
-                return NotFound();
+                string roleNotFound = @Localizer["roleNotFound"];
+                TempData["Error"] = roleNotFound;
+                return RedirectToAction(nameof(Index));
             }
 
             return View(role);
@@ -154,7 +175,8 @@ namespace Triplite_Committee_Platform.Controllers
             if (role != null)
             {
                 await _roleManager.DeleteAsync(role);
-                TempData["DeleteMessage"] = "Role deleted successfully.";
+                string roleDelete = @Localizer["roleDelete"];
+                TempData["DeleteMessage"] = roleDelete;
             }
             return RedirectToAction(nameof(Index));
         }

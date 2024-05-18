@@ -7,12 +7,12 @@
 <div class="card p-3 w-75 mt-5 mx-auto rounded-4">
     <div class="row">
         <div class="col-sm-4">
-            <strong class="fs-3">Users List</strong>
+            <strong class="fs-3">@Localizer["userList"]</strong>
         </div>
         <div class="col-sm-4"></div>
         <div class="col-sm-4 text-end">
             <a asp-action="Create" class="text-decoration-none text-light btn btn-primary me-1">
-                <strong class="fs-5">Create New User</strong>
+                <strong class="fs-5">@Localizer["createUser"]</strong>
             </a>
         </div>
     </div>
@@ -34,12 +34,12 @@
     <table class="table align-middle  bg-white w-100 table-striped" id="DTable">
         <thead>
             <tr>
-                <th class="text-center">Name</th>
-                <th class="text-center">Employee ID</th>
-                <th class="text-center">Email</th>
-                <th class="text-center">Email Confirmation</th>
+                <th class="text-center">@Localizer["name"]</th>
+                <th class="text-center">@Localizer["empID"]</th>
+                <th class="text-center">@Localizer["email"]</th>
+                <th class="text-center">@Localizer["emailConfirmation"]</th>
 
-                <th class="text-center">Action</th>
+                <th class="text-center">@Localizer["action"]</th>
 
             </tr>
         </thead>
@@ -88,11 +88,11 @@
 
                                 @if (@user.EmailConfirmed)
                                 {
-                                    <span class=" badge text-bg-success fs-6">Confirmed</span>
+                                    <span class=" badge text-bg-success fs-6">@Localizer["confirmed"]</span>
                                 }
                                 else
                                 {
-                                    <span class="badge text-bg-danger text fs-6">Unconfirmed</span>
+                                    <span class="badge text-bg-danger text fs-6">@Localizer["unconfirmed"]</span>
                                 }
 
                             </div>
@@ -105,9 +105,9 @@
                     @* Data-bs must be added to all the remain tables(tooltip)*@
                     <td>
                         <div class="text-center">
-                            <a asp-action="Edit" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit User"><i class="fa-solid fa-pen fs-5 text-primary"></i></a>
-                            <a asp-action="Details" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="View Details"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
-                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete User"><i class="fa-solid fa-trash fs-5 text-danger"></i></a>
+                            <a asp-action="Edit" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["editUser"]"><i class="fa-solid fa-pen fs-5 text-primary"></i></a>
+                            <a asp-action="Details" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["viewDetails"]"><i class="fa-solid fa-circle-info fs-5 text-secondary "></i></a>
+                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn  btn-md" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="@Localizer["deleteUser"]"><i class="fa-solid fa-trash fs-5 text-danger"></i></a>
                         </div>
                     </td>
                 </tr>

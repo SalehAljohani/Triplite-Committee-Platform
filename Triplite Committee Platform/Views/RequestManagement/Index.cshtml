@@ -7,12 +7,12 @@
 <div class="card p-3 w-75 mt-5 mx-auto rounded-4">
     <div class="row">
         <div class="col-sm-4">
-            <strong class="fs-3">Request Type</strong>
+            <strong class="fs-3">@Localizer["reqType"]</strong>
         </div>
         <div class="col-sm-4"></div>
         <div class="col-sm-4 text-end">
             <a asp-action="Create" class="text-decoration-none text-light btn btn-primary me-1">
-                <strong class="fs-5">Create New Request Type</strong>
+                <strong class="fs-5">@Localizer["createReqType"]</strong>
             </a>
         </div>
     </div>
@@ -35,9 +35,9 @@
         <thead>
             <tr>
                 <th class="text-center">#</th>
-                <th class="text-center">Request type</th>
-                <th class="text-center">Reasons</th>
-                <th class="text-center">Action</th>
+                <th class="text-center">@Localizer["reqType"]</th>
+                <th class="text-center">@Localizer["numOfReasons"]</th>
+                <th class="text-center">@Localizer["actions"]</th>
             </tr>
         </thead>
 

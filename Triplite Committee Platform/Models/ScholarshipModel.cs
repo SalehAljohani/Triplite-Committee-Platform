@@ -9,66 +9,66 @@ namespace Triplite_Committee_Platform.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="National ID is required")]
-        [RegularExpression("^[0-9]{10}$", ErrorMessage = "National ID must be a 10 numbers")]
+        [Required(ErrorMessage ="idReq")]
+        [RegularExpression("^[0-9]{10}$", ErrorMessage = "idLength")]
         public string National_ID { get; set; }
 
         [ForeignKey("DeptNo")] public DepartmentModel? Department { get; set; }
 
-        [Required(ErrorMessage = "Must Pick Department.")]
+        [Required(ErrorMessage = "pickDept")]
         public int DeptNo { get; set; }
 
-        [Required(ErrorMessage = "Employee ID is Required.")]
-        [StringLength(10, ErrorMessage = "Employee ID Cannot Exceed 10 Characters.")]
-        [RegularExpression("^[0-9]{10}$", ErrorMessage = "Employee ID must be a 10 numbers")]
+        [Required(ErrorMessage = "empIDReq")]
+        [StringLength(10, ErrorMessage = "empIDLength")]
+        [RegularExpression("^[0-9]{10}$", ErrorMessage = "empIDCond")]
         public string EmployeeID { get; set; }
 
-        [Required(ErrorMessage = "Phone Number is Required.")]
-        [StringLength(25, ErrorMessage = "Phone Number Cannot Exceed 25 Characters.")]
+        [Required(ErrorMessage = "phoneReq")]
+        [StringLength(25, ErrorMessage = "phoneLength")]
         public string Phone { get; set; }
 
-        [Required(ErrorMessage = "Email is Required.")]
-        [StringLength(50, ErrorMessage = "Email cannot exceed 50 characters.")]
+        [Required(ErrorMessage = "emailReq")]
+        [StringLength(50, ErrorMessage = "emailLength")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Name is Required.")]
-        [StringLength(40, ErrorMessage = "Name Cannot Exceed 40 Characters.")]
-        [RegularExpression(@"^[a-zA-Z\u0600-\u06FF ]+$", ErrorMessage = "Name must be letters only.")]
+        [Required(ErrorMessage = "nameReq")]
+        [StringLength(40, ErrorMessage = "nameLength")]
+        [RegularExpression(@"^[a-zA-Z\u0600-\u06FF ]+$", ErrorMessage = "nameCond")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Gender is Required.")]
-        [StringLength(10, ErrorMessage = "Gender Cannot Exceed 10 Characters.")]
+        [Required(ErrorMessage = "genderReq")]
+        [StringLength(10, ErrorMessage = "genderLength")]
         public string Gender { get; set; }
 
         [Required(ErrorMessage = "Scholarship Types is Required. Must Choose one at least")]
         public List<string> ScholarshipTypes { get; set; }
 
-        [Required(ErrorMessage = "General Major is Required.")]
-        [StringLength(50, ErrorMessage = "General Major Cannot Exceed 50 Characters.")]
+        [Required(ErrorMessage = "generalReq")]
+        [StringLength(50, ErrorMessage = "generalLength")]
         public string GeneralMajor { get; set; }
 
-        [Required(ErrorMessage = "Specific Major is Required.")]
-        [StringLength(50, ErrorMessage = "Specific Major Cannot Exceed 50 Characters.")]
+        [Required(ErrorMessage = "specReq")]
+        [StringLength(50, ErrorMessage = "specLength")]
         public string SpecificMajor { get; set; }
 
-        [Required(ErrorMessage = "Status is Required.")]
-        [StringLength(30, ErrorMessage = "Status Cannot Exceed 30 Characters.")]
+        [Required(ErrorMessage = "statusReq")]
+        [StringLength(30, ErrorMessage = "statusLength")]
         public string Status { get; set; }
 
-        [Required(ErrorMessage = "Country Name is Required.")]
-        [StringLength(50, ErrorMessage = "Country Name Cannot Exceed 50 Characters.")]
+        [Required(ErrorMessage = "countryReq")]
+        [StringLength(50, ErrorMessage = "countryLength")]
         public string Country { get; set; }
 
-        [Required(ErrorMessage = "City Name is Required.")]
-        [StringLength(50, ErrorMessage = "City Name Cannot Exceed 50 Characters.")]
+        [Required(ErrorMessage = "cityReq")]
+        [StringLength(50, ErrorMessage = "cityLength")]
         public string City { get; set; }
 
-        [Required(ErrorMessage = "University Name is Required.")]
-        [StringLength(60, ErrorMessage = "University Name Cannot Exceed 60 Characters.")]
+        [Required(ErrorMessage = "uniReq")]
+        [StringLength(60, ErrorMessage = "uniLength")]
         public string University { get; set; }
 
-        [Required(ErrorMessage = "Duration is Required.")]
-        [StringLength(20, ErrorMessage = "Duration cannot exceed 20 characters.")]
+        [Required(ErrorMessage = "durationReq")]
+        [StringLength(20, ErrorMessage = "durationLength")]
         public string Duration { get; set; }
 
         [Required]
@@ -76,8 +76,8 @@ namespace Triplite_Committee_Platform.Models
 
         public List<BoardModel>? Board { get; set; }
 
-        [Required(ErrorMessage = "Degree is Required.")]
-        [StringLength(20, ErrorMessage = "Degree Cannot Exceed 20 Characters.")]
+        [Required(ErrorMessage = "degreeReq")]
+        [StringLength(20, ErrorMessage = "degreeLength")]
         public string Degree { get; set; }
     }
 }

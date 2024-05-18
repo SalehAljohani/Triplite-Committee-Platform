@@ -5,11 +5,12 @@ namespace Triplite_Committee_Platform.ViewModels
 {
     public class AccountViewModel : UserModel
     {
+        [Required(ErrorMessage ="notWork")]
         public IList<string?> ListRoles { get; set; }
 
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
+        [StringLength(20, ErrorMessage = "passLength", MinimumLength = 8)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "pass")]
         public string? Password { get; set; }
     }
 }

@@ -6,6 +6,7 @@
 
 }
 
+
 @if (TempData["Success"] != null)
 {
     <div class="alert alert-success" role="alert">
@@ -48,11 +49,11 @@
                 </div>
                 <button class="carousel-control-prev mb-3" type="button" data-bs-target="#Announcement" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
+                    <span class="visually-hidden">@Localizer["prev"]</span>
                 </button>
                 <button class="carousel-control-next mb-3" type="button" data-bs-target="#Announcement" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
+                    <span class="visually-hidden">@Localizer["next"]</span>
                 </button>
             </div>
         </div>
@@ -74,7 +75,7 @@
                             <div class="stat-content col-sm-8">
                                 <div class="text-left dib">
                                     <div class="card-title"><strong>@ViewBag.Stats.CompletedBoards</strong></div>
-                                    <div class="card-text mt-3">Completed Boards</div>
+                                    <div class="card-text mt-3">@Localizer["compBoards"]</div>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +93,7 @@
                             <div class="stat-content col-sm-8">
                                 <div class="text-left dib">
                                     <div class="card-title"><strong>@ViewBag.Stats.CurrentBoards</strong></div>
-                                    <div class="card-text mt-3">Current Boards</div>
+                                    <div class="card-text mt-3">@Localizer["currBoards"]</div>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +111,7 @@
                             <div class="stat-content col-sm-8">
                                 <div class="text-left dib">
                                     <div class="card-title"><strong>@ViewBag.Stats.TotalBoard</strong></div>
-                                    <div class="card-text mt-3">Total Boards</div>
+                                    <div class="card-text mt-3">@Localizer["totBoards"]</div>
                                 </div>
                             </div>
                         </div>

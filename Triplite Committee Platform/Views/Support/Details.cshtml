@@ -5,7 +5,7 @@
 }
 
 <div class="card w-50 mx-auto mt-3 rounded-4">
-    <h3 class="mt-4 text-center"><strong>Request Details</strong></h3>
+    <h3 class="mt-4 text-center"><strong>@Localizer["reqDetails"]</strong></h3>
     <hr />
     <div class="card-body">
         <dl class="row g-3">
@@ -27,11 +27,11 @@
             <dt class="col-sm-8">
                 @if (Model.Status)
                 {
-                    <span class="text-success">Solved</span>
+                    <span class="text-success">@Localizer["solved"]</span>
                 }
                 else
                 {
-                    <span class="text-danger">Not Solved</span>
+                    <span class="text-danger">@Localizer["notSolved"]</span>
                 }
             </dt>
 
@@ -43,8 +43,8 @@
 
 <div class="text-center">
     
-    
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    @* <a asp-action="Solved" class="btn btn-success">Solved</a> *@
+    <a asp-action="Index" class="btn btn-secondary">@Localizer["backToList"]</a>
 </div>
 
 

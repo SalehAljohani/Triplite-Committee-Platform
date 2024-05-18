@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using System.Reflection.Metadata;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.Services;
@@ -15,11 +17,13 @@ namespace Triplite_Committee_Platform.Controllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<UserModel> _userManager;
+        private readonly IStringLocalizer<SearchController> Localizer;
 
-        public SearchController(AppDbContext context, UserManager<UserModel> userManager)
+        public SearchController(AppDbContext context, UserManager<UserModel> userManager, IStringLocalizer<SearchController>localizer)
         {
             _context = context;
             _userManager = userManager;
+            Localizer = localizer;
         }
         [ValidateRole]
         public async Task<IActionResult> Index()
@@ -57,7 +61,8 @@ namespace Triplite_Committee_Platform.Controllers
                 var userDept = await _context.Department.Where(c => c.DeptNo == user.DeptNo).FirstOrDefaultAsync();
                 if (userDept == null)
                 {
-                    TempData["Message"] = "Unable to load user department.";
+                    string unableLoad = @Localizer["unableLoad"];
+                    TempData["Message"] = unableLoad;
                     return RedirectToAction(nameof(Index));
                 }
                 var department = await _context.Department.Where(d => d.CollegeNo == userDept.CollegeNo).ToListAsync();
@@ -80,7 +85,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (string.IsNullOrWhiteSpace(search))
             {
-                TempData["Message"] = "No search term was entered. Please enter a valid identifier such as National ID, Board number, Phone number, Employee ID, or Scholarship name.";
+                string noTerm = @Localizer["noTerm"];
+                TempData["Message"] = noTerm;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -127,7 +133,8 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 else
                 {
-                    TempData["Message"] = "No results found.";
+                    string noResult = @Localizer["noResult"];
+                    TempData["Message"] = noResult;
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -176,7 +183,8 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 else
                 {
-                    TempData["Message"] = "No results found.";
+                    string noResult = @Localizer["noResult"];
+                    TempData["Message"] = noResult;
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -210,13 +218,15 @@ namespace Triplite_Committee_Platform.Controllers
                 }
                 else
                 {
-                    TempData["Message"] = "No results found.";
+                    string noResult = @Localizer["noResult"];
+                    TempData["Message"] = noResult;
                     return RedirectToAction(nameof(Index));
                 }
             }
             else
             {
-                TempData["Message"] = "You are not authorized to perform this action.";
+                string notAuth = @Localizer["notAuth"];
+                TempData["Message"] = notAuth;
                 return RedirectToAction(nameof(Index));
             }
         }

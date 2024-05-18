@@ -8,26 +8,26 @@
 <div class="mt-5 mb-5"></div>
 <div class="text-center text-danger" role="alert">
     <h3 class="pt-5 pb-4">
-        Access Denied 🚫
+        @Localizer["accessD"]
     </h3>
 </div>
 <p class="text-center pb-5 fs-5">
-    Apologies for the inconvenience. <br /> If you think this message was a mistake. <br />our support team is ready to assist you.
+    @Localizer["apologyPT1"] <br /> @Localizer["apologyPT2"] <br />@Localizer["apologyPT3"]
 </p>
 
 
 <div class="row">
     <div class="col-sm-4 mb-5 text-center">
         <form id="logoutForm" class="text-center form-inline" asp-area="" asp-controller="Login" asp-action="Logout">
-            <button id="logout" type="submit" class="btn btn-danger text-light fs-5"><strong>Logout</strong></button>
+            <button id="logout" type="submit" class="btn btn-danger text-light fs-5"><strong>@Localizer["logout"]</strong></button>
         </form>
     </div>
     <div class="col-sm-4 text-center">
-        <p class="fs-3">or</p>
+        <p class="fs-3">@Localizer["or"]</p>
     </div>
     <div class="col-sm-4 text-center">
         <p class="fs-5">
-            <a class="text-light text-decoration-none" asp-area="" asp-controller="Login" asp-action="Support"><strong>Contact Support</strong></a>
+            <a class="text-light text-decoration-none" asp-area="" asp-controller="Login" asp-action="Support"><strong>@Localizer["contactSupp"]</strong></a>
         </p>
     </div>
 </div>

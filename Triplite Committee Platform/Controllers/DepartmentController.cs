@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.Services;
@@ -15,11 +16,13 @@ namespace Triplite_Committee_Platform.Controllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<UserModel> _userManager;
+        private readonly IStringLocalizer<DepartmentController> Localizer;
 
-        public DepartmentController(AppDbContext context, UserManager<UserModel> userManager)
+        public DepartmentController(AppDbContext context, UserManager<UserModel> userManager, IStringLocalizer<DepartmentController>localizer)
         {
             _context = context;
             _userManager = userManager;
+            Localizer = localizer;
         }
 
         public async Task<IActionResult> Index()
@@ -40,7 +43,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = "Department not found.";
+                string deptNotFound = @Localizer["deptNotFound"];
+                TempData["Error"] = deptNotFound;
                 return RedirectToAction("Index", "College");
             }
 
@@ -49,7 +53,8 @@ namespace Triplite_Committee_Platform.Controllers
                 .FirstOrDefaultAsync(m => m.DeptNo == id);
             if (departmentModel == null)
             {
-                TempData["Error"] = "Department not found.";
+                string deptNotFound = @Localizer["deptNotFound"];
+                TempData["Error"] = deptNotFound;
                 return RedirectToAction("Index", "College");
             }
 
@@ -60,12 +65,14 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = "College not found.";
+                string collegeNotFound = @Localizer["collegeNotFound"];
+                TempData["Error"] = collegeNotFound;
                 return RedirectToAction("Index", "College");
             }
             if(_context.College.Find(id) == null)
             {
-                TempData["Error"] = "College not found.";
+                string collegeNotFound = @Localizer["collegeNotFound"];
+                TempData["Error"] = collegeNotFound;
                 return RedirectToAction("Index", "College");
             }
             ViewData["CollegeNo"] = new SelectList(_context.College, "CollegeNo", "CollegeName", id);
@@ -81,7 +88,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 if (_context.Department.Any(d => d.DeptName == departmentModel.DeptName && d.CollegeNo == departmentModel.CollegeNo))
                 {
-                    TempData["Error"] = "Department already exists.";
+                    string deptExist = @Localizer["deptExist"];
+                    TempData["Error"] = deptExist;
                     ViewData["CollegeNo"] = new SelectList(_context.College, "CollegeNo", "CollegeName", departmentModel.CollegeNo);
                     return View(departmentModel);
                 }
@@ -99,14 +107,16 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = "Department not found.";
+                string deptNotFound = @Localizer["deptNotFound"];
+                TempData["Error"] = deptNotFound;
                 return RedirectToAction("Index", "College");
             }
 
             var departmentModel = await _context.Department.FindAsync(id);
             if (departmentModel == null)
             {
-                TempData["Error"] = "Department not found.";
+                string deptNotFound = @Localizer["deptNotFound"];
+                TempData["Error"] = deptNotFound;
                 return RedirectToAction("Index", "College");
             }
             ViewData["CollegeNo"] = new SelectList(_context.College, "CollegeNo", "CollegeName", departmentModel.CollegeNo);
@@ -120,7 +130,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id != departmentModel.DeptNo)
             {
-                TempData["Error"] = "Department not found.";
+                string deptNotFound = @Localizer["deptNotFound"];
+                TempData["Error"] = deptNotFound;
                 return RedirectToAction("Index", "College");
             }
 
@@ -135,7 +146,8 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (!DepartmentModelExists(departmentModel.DeptNo))
                     {
-                        TempData["Error"] = "Department not found.";
+                        string deptNotFound = @Localizer["deptNotFound"];
+                        TempData["Error"] = deptNotFound;
                         return RedirectToAction("Index", "College");
                     }
                     else
@@ -153,13 +165,15 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = "Department not found.";
+                string deptNotFound = @Localizer["deptNotFound"];
+                TempData["Error"] = deptNotFound;
                 return RedirectToAction("Index", "College");
             }
 
             if (_context.Department.Find(id) == null)
             {
-                TempData["Error"] = "Department not found.";
+                string deptNotFound = @Localizer["deptNotFound"];
+                TempData["Error"] = deptNotFound;
                 return RedirectToAction("Index", "College");
             }
 
@@ -168,7 +182,8 @@ namespace Triplite_Committee_Platform.Controllers
                 .FirstOrDefaultAsync(m => m.DeptNo == id);
             if (departmentModel == null)
             {
-                TempData["Error"] = "Department not found.";
+                string deptNotFound = @Localizer["deptNotFound"];
+                TempData["Error"] = deptNotFound;
                 return RedirectToAction("Index", "College");
             }
 
@@ -176,7 +191,8 @@ namespace Triplite_Committee_Platform.Controllers
 
             if (hasUsers)
             {
-                ViewData["UserMessage"] = "Department has users. Please delete users first.";
+                string deptUsers = @Localizer["deptUsers"];
+                ViewData["UserMessage"] = deptUsers;
                 
                 return View(departmentModel);
             }
@@ -193,14 +209,16 @@ namespace Triplite_Committee_Platform.Controllers
 
             if (hasUsers)
             {
-                TempData["UserMessage"] = "Department has users. Please delete users first.";
+                string deptUsers = @Localizer["deptUsers"];
+                TempData["UserMessage"] = deptUsers;
 
                 return View(departmentModel);
             }
             if (departmentModel != null)
             {
                 _context.Department.Remove(departmentModel);
-                ViewData["Message"] = "Department deleted successfully.";
+                string deptDeleted = @Localizer["deptDeleted"];
+                ViewData["Message"] = deptDeleted;
             }
 
             await _context.SaveChangesAsync();

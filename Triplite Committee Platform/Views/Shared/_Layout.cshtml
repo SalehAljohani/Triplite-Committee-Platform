@@ -19,11 +19,11 @@
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-home"></i>Home </a>
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-home"></i>@Localizer["home"] </a>
                     </li>
                     <li class="menu-title">Search</li>
                     <li>
-                        <a asp-area="" asp-controller="Search" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-search"></i>Advanced Search </a>
+                        <a asp-area="" asp-controller="Search" asp-action="Index" class="nav-link"><i class="menu-icon fa fa-search"></i>@Localizer["advancedSearch"] </a>
                     </li>
                     <li class="menu-title">Boards</li>
                     <li>
@@ -104,6 +104,24 @@
             </div>
             <div class="top-right">
                 <div class="header-menu">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            Language
+                            </button>
+                            <ul class="dropdown-menu">
+                            <li>
+                                <a asp-controller="Base" asp-action="changeCulture" asp-route-culture="en" class="dropdown-item">
+                                    <i class="flag-icon flag-icon-gb"></i> English
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-controller="Base" asp-action="changeCulture" asp-route-culture="ar" class="dropdown-item">
+                                    <i class="flag-icon flag-icon-gb"></i> العربية
+                                </a>
+                            </li>
+                            </ul>
+
+                    </div>
                     <partial name="_LoginPartial" />
                 </div>
             </div>

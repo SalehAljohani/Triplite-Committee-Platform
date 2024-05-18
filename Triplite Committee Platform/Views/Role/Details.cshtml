@@ -6,12 +6,12 @@
 
 
 <div class="card w-50 mx-auto mt-3 rounded-4">
-    <h3 class="mt-4 text-center"><strong>Role Details</strong></h3>
+    <h3 class="mt-4 text-center"><strong>@Localizer["roleDetails"]</strong></h3>
     <hr />
     <div class="card-body">
         <dl class="row g-3">
 
-            <dt class="col-sm-4 fw-bold">Role Name</dt>
+            <dt class="col-sm-4 fw-bold">@Localizer["roleName"]</dt>
             <dd class="col-sm-8">@Model.Name</dd>
             <hr />
         </dl>
@@ -21,8 +21,8 @@
 
 <div class="text-center">
 
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-md">  Edit Role </a>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-md">  @Localizer["editRole"] </a>
+    <a asp-action="Index" class="btn btn-secondary">@Localizer["backToList"]</a>
 </div>
 
 @* <h1>Role Details</h1>

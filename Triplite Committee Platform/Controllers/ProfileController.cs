@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.Services;
@@ -17,11 +18,13 @@ namespace Triplite_Committee_Platform.Controllers
         private readonly UserManager<UserModel> _userManager;
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _env;
-        public ProfileController(UserManager<UserModel> userManager, AppDbContext context, IWebHostEnvironment env)
+        private readonly IStringLocalizer<ProfileController> Localizer;
+        public ProfileController(UserManager<UserModel> userManager, AppDbContext context, IWebHostEnvironment env, IStringLocalizer<ProfileController>localizer)
         {
             _userManager = userManager;
             _context = context;
             _env = env;
+            Localizer = localizer;
         }
 
         public async Task<IActionResult> Index()
@@ -33,20 +36,23 @@ namespace Triplite_Committee_Platform.Controllers
             }
             if (user.EmailConfirmed == false)
             {
-                TempData["Message"] = "You need to confirm your email before proceeding.";
+                string confirmEmail = @Localizer["confirmEmail"];
+                TempData["Message"] = confirmEmail;
                 return RedirectToAction("Index", "ConfirmEmail");
             }
             var activeRole = HttpContext.Session.GetString("ActiveRole");
             var userDept = await _context.Department.FirstOrDefaultAsync(x => x.DeptNo == user.DeptNo);
             if (userDept == null)
             {
-                TempData["Error"] = "An error occurred while fetching your profile.";
+                string errorFetch = @Localizer["errorFetch"];
+                TempData["Error"] = errorFetch;
                 return RedirectToAction(nameof(Index));
             }
             var userCollege = await _context.College.FirstOrDefaultAsync(x => x.CollegeNo == userDept.CollegeNo);
             if (userCollege == null)
             {
-                TempData["Error"] = "An error occurred while fetching your profile.";
+                string errorFetch = @Localizer["errorFetch"];
+                TempData["Error"] = errorFetch;
                 return RedirectToAction(nameof(Index));
             }
             var model = new ProfileViewModel
@@ -77,24 +83,27 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 if (!await _userManager.CheckPasswordAsync(user, model.oldPassword))
                 {
-                    TempData["Error"] = "Old password is incorrect.";
+                    string oldPass = @Localizer["oldPass"];
+                    TempData["Error"] = oldPass;
                     return RedirectToAction(nameof(Index));
                 }
 
                 var result = await _userManager.ChangePasswordAsync(user, model.oldPassword, model.newPassword);
                 if (result.Succeeded)
                 {
-                    TempData["Message"] = "Password updated successfully.";
+                    string passUpdate = @Localizer["passUpdate"];
+                    TempData["Message"] = passUpdate;
                 }
                 else
                 {
-                    TempData["Error"] = "An error occurred while updating your password.";
+                    string errorUpdate = @Localizer["errorUpdate"];
+                    TempData["Error"] = errorUpdate;
                 }
             }
             else
             {
-
-                TempData["Error"] = "An error occurred while updating your password.";
+                string errorUpdate = @Localizer["errorUpdate"];
+                TempData["Error"] = errorUpdate;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -113,7 +122,8 @@ namespace Triplite_Committee_Platform.Controllers
 
             if(string.IsNullOrEmpty(signatureData) && file == null)
             {
-                TempData["Error"] = "You havent Draw or Upload Signature";
+                string draw = @Localizer["draw"];
+                TempData["Error"] = draw;
                 return RedirectToAction("Index");
             }
 
@@ -134,13 +144,15 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 if (!file.ContentType.StartsWith("image/"))
                 {
-                    TempData["Error"] = "Invalid file type. Only image files are allowed.";
+                    string invalidImage = @Localizer["invalidImage"];
+                    TempData["Error"] = invalidImage;
                     return RedirectToAction("Index");
                 }
 
                 if (Path.GetExtension(file.FileName).ToLower() != ".png")
                 {
-                    TempData["Error"] = "Invalid file type. Only PNG files are allowed.";
+                    string invalidPNG = @Localizer["invalidPNG"];
+                    TempData["Error"] = invalidPNG;
                     return RedirectToAction("Index");
                 }
 
@@ -157,11 +169,13 @@ namespace Triplite_Committee_Platform.Controllers
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                TempData["Message"] = "Signature was added successfully.";
+                string signAdd = @Localizer["signAdd"];
+                TempData["Message"] = signAdd;
             }
             else
             {
-                TempData["Message"] = "An error occurred while uploading your Signature.";
+                string errorSignUpload = @Localizer["errorSignUpload"];
+                TempData["Message"] = errorSignUpload;
             }
 
             return RedirectToAction("Index");
@@ -189,11 +203,13 @@ namespace Triplite_Committee_Platform.Controllers
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                TempData["Message"] = "Signature was removed successfully.";
+                string signRemove = @Localizer["signRemove"];
+                TempData["Message"] = signRemove;
             }
             else
             {
-                TempData["Message"] = "An error occurred while removing your Signature.";
+                string errorSignRemove = @Localizer["errorSignRemove"];
+                TempData["Message"] = errorSignRemove;
             }
 
             return RedirectToAction("Index");

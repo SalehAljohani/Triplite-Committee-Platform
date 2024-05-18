@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.Services;
@@ -19,11 +20,13 @@ namespace Triplite_Committee_Platform.Controllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<UserModel> _userManager;
+        private readonly IStringLocalizer<SupportDetailController> Localizer;
 
-        public SupportDetailController(AppDbContext context, UserManager<UserModel> userManager)
+        public SupportDetailController(AppDbContext context, UserManager<UserModel> userManager, IStringLocalizer<SupportDetailController>localizer)
         {
             _context = context;
             _userManager = userManager;
+            Localizer = localizer;
         }
 
         // GET: SupportDetail
@@ -46,14 +49,18 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
+                return RedirectToAction("Create");
             }
 
             var SupportDetailModel = await _context.SupportDetail
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (SupportDetailModel == null)
             {
-                return NotFound();
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
+                return RedirectToAction("Create");
             }
 
             return View(SupportDetailModel);
@@ -65,7 +72,8 @@ namespace Triplite_Committee_Platform.Controllers
             var existingSupportDetail = _context.SupportDetail.FirstOrDefault();
             if (existingSupportDetail != null)
             {
-                TempData["Message"] = "Support Page already exists, you can edit its Information below";
+                string suppAlreadyExist = @Localizer["suppAlreadyExist"];
+                TempData["Message"] = suppAlreadyExist;
                 return RedirectToAction("Edit", new { id = existingSupportDetail.Id });
             }
             return View();
@@ -89,13 +97,17 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
+                return RedirectToAction("Create");
             }
 
             var SupportDetailModel = await _context.SupportDetail.FindAsync(id);
             if (SupportDetailModel == null)
             {
-                return NotFound();
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
+                return RedirectToAction("Create");
             }
             return View(SupportDetailModel);
         }
@@ -109,7 +121,9 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id != SupportDetailModel.Id)
             {
-                return NotFound();
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
+                return RedirectToAction("Create");
             }
 
             if (ModelState.IsValid)
@@ -123,7 +137,9 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (!SupportDetailModelExists(SupportDetailModel.Id))
                     {
-                        return NotFound();
+                        string suppNotExist = @Localizer["suppNotExist"];
+                        TempData["Message"] = suppNotExist;
+                        return RedirectToAction("Create");
                     }
                     else
                     {
@@ -140,14 +156,18 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
+                return RedirectToAction("Create");
             }
 
             var SupportDetailModel = await _context.SupportDetail
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (SupportDetailModel == null)
             {
-                return NotFound();
+                string suppNotExist = @Localizer["suppNotExist"];
+                TempData["Message"] = suppNotExist;
+                return RedirectToAction("Create");
             }
 
             return View(SupportDetailModel);

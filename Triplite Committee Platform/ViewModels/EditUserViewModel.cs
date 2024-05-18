@@ -8,14 +8,14 @@ namespace Triplite_Committee_Platform.ViewModels
     {
         [AllowNull] public IList<string>? ListRoles { get; set; }
 
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
+        [StringLength(20, ErrorMessage = "passLength", MinimumLength = 8)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "pass")]
         public string? Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "confirmPass")]
+        [Compare("Password", ErrorMessage = "notMatch")]
         public string? ConfirmPassword { get; set; }
     }
 }

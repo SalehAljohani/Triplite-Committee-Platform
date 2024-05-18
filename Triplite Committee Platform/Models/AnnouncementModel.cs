@@ -9,21 +9,21 @@ namespace Triplite_Committee_Platform.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Title is Required.")]
-        [StringLength(100, ErrorMessage = "Title Cannot Exceed 100 Characters.")]
+        [Required(ErrorMessage = "titleReq1")]
+        [StringLength(100, ErrorMessage = "titleReq2")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "Description is Required.")]
-        [StringLength(600, ErrorMessage = "Description Cannot Exceed 600 Characters.")]
+        [Required(ErrorMessage = "descReq1")]
+        [StringLength(600, ErrorMessage = "descReq2")]
         public string Description { get; set; }
 
-        [Display(Name = "File Link")]
+        [Display(Name = "fileLink")]
         public string? Link { get; set; }
 
         [ForeignKey("DeptNo")]
         public DepartmentModel? Department { get; set; }
 
-        [Required(ErrorMessage = "Must Pick a Department.")]
+        [Required(ErrorMessage = "pickDept")]
         public int DeptNo { get; set; }
     }
 }

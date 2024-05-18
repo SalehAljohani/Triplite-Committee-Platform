@@ -1,6 +1,6 @@
 ﻿@model Triplite_Committee_Platform.ViewModels.LoginViewModel
 @{
-    ViewData["Title"] = "Confirm Email";
+    ViewData["Title"] = @Localizer["confirmEmail"];
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
@@ -20,11 +20,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-5 mt-5">
                 <input asp-for="Email" class="form-control w-100" autocomplete="username" aria-required="true" placeholder="" />
-                <label asp-for="Email" class="form-label">Email</label>
+                <label asp-for="Email" class="form-label">@Localizer["email"]</label>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="text-center">
-                <button type="submit" class="w-50 mb-5 btn btn-lg btn-primary">Confirm Email</button>
+                <button type="submit" class="w-50 mb-5 btn btn-lg btn-primary">@Localizer["confirmEmail"]</button>
             </div>
         </form>
     </div>
@@ -34,12 +34,12 @@
     <div class="col-sm-1"></div>
     <div class="col-sm-5">
         <p class="fs-6">
-            <a id="Login" class="text-light text-decoration-none text-start" asp-action="Index" asp-controller="Login"><strong>Go back to Login</strong></a>
+            <a id="Login" class="text-light text-decoration-none text-start" asp-action="Index" asp-controller="Login"><strong>@Localizer["backToLog"]</strong></a>
         </p>
     </div>
     <div class="col-sm-5 text-end">
         <p class="fs-6">
-            <a class="text-light text-decoration-none" asp-area="" asp-controller="Login" asp-action="Support"><strong>Contact Support</strong></a>
+            <a class="text-light text-decoration-none" asp-area="" asp-controller="Login" asp-action="Support"><strong>@Localizer["contactSupp"]</strong></a>
         </p>
     </div>
     <div class="col-sm-1"></div>

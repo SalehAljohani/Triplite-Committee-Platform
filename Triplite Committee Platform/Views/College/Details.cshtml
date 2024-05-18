@@ -13,8 +13,8 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Department Name</th>
-                    <th>Action</th>
+                    <th scope="col">@Localizer["deptName"]</th>
+                    <th>@Localizer["action"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +44,7 @@
     </div>
 </div>
 <div class="text-center">
-    <a asp-action="Create" asp-controller="Department" asp-route-id="@Model?.CollegeNo" class="btn btn-success btn-md me-3">Add Departments</a>
-    <a asp-action="Edit" class="btn btn-primary me-3 ms-3" asp-route-id="@Model?.CollegeNo">Edit College</a>
-    <a asp-action="Index" class="btn btn-secondary ms-3">Back to List</a>
+    <a asp-action="Create" asp-controller="Department" asp-route-id="@Model?.CollegeNo" class="btn btn-success btn-md me-3">@Localizer["addDept"]</a>
+    <a asp-action="Edit" class="btn btn-primary me-3 ms-3" asp-route-id="@Model?.CollegeNo">@Localizer["editCollege"]</a>
+    <a asp-action="Index" class="btn btn-secondary ms-3">@Localizer["backToList"]</a>
 </div>

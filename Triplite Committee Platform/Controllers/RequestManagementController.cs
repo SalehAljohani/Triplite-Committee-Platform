@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Triplite_Committee_Platform.Data;
 using Triplite_Committee_Platform.Models;
 using Triplite_Committee_Platform.Services;
@@ -14,11 +15,13 @@ namespace Triplite_Committee_Platform.Controllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<UserModel> _userManager;
+        private readonly IStringLocalizer<RequestManagementController> Localizer;
 
-        public RequestManagementController(AppDbContext context, UserManager<UserModel> userManager)
+        public RequestManagementController(AppDbContext context, UserManager<UserModel> userManager, IStringLocalizer<RequestManagementController> localizer)
         {
             _context = context;
             _userManager = userManager;
+            Localizer = localizer;
         }
 
         public async Task<IActionResult> Index()
@@ -43,7 +46,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = "Request Type Not Found.";
+                string reqTypeNotFound = @Localizer["reqTypeNotFound"];
+                TempData["Error"] = reqTypeNotFound;
                 return RedirectToAction("Index");
             }
 
@@ -51,7 +55,8 @@ namespace Triplite_Committee_Platform.Controllers
 
             if (requestType == null)
             {
-                TempData["Error"] = "Request Type Not Found.";
+                string reqTypeNotFound = @Localizer["reqTypeNotFound"];
+                TempData["Error"] = reqTypeNotFound;
             }
 
             return View(requestType);
@@ -70,7 +75,8 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 if (_context.RequestType.Any(r => r.RequestTypeName == requestTypeModel.RequestTypeName))
                 {
-                    TempData["Error"] = "Request Type Already Exists.";
+                    string reqTypeExist = @Localizer["reqTypeExist"];
+                    TempData["Error"] = reqTypeExist;
                     return View(requestTypeModel);
                 }
                 _context.Add(requestTypeModel);
@@ -93,7 +99,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = "Request Type Not Found.";
+                string reqTypeNotFound = @Localizer["reqTypeNotFound"];
+                TempData["Error"] = reqTypeNotFound;
                 return RedirectToAction("Index");
             }
 
@@ -140,7 +147,8 @@ namespace Triplite_Committee_Platform.Controllers
                 {
                     if (!RequestTypeModelExists(requestTypeModel.RequestTypeID))
                     {
-                        TempData["Error"] = "Request Type Not Found.";
+                        string reqTypeNotFound = @Localizer["reqTypeNotFound"];
+                        TempData["Error"] = reqTypeNotFound;
                         return RedirectToAction("Index");
                     }
                     else
@@ -157,7 +165,8 @@ namespace Triplite_Committee_Platform.Controllers
         {
             if (id == null)
             {
-                TempData["Error"] = "Request Type Not Found.";
+                string reqTypeNotFound = @Localizer["reqTypeNotFound"];
+                TempData["Error"] = reqTypeNotFound;
                 return RedirectToAction("Index");
             }
 
@@ -165,7 +174,8 @@ namespace Triplite_Committee_Platform.Controllers
 
             if (requestTypeModel == null)
             {
-                TempData["Error"] = "Request Type Not Found.";
+                string reqTypeNotFound = @Localizer["reqTypeNotFound"];
+                TempData["Error"] = reqTypeNotFound;
             }
             return View(requestTypeModel);
         }
