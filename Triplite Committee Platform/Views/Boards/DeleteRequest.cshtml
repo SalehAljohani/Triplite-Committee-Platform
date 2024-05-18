@@ -1,14 +1,13 @@
 ﻿@model Triplite_Committee_Platform.Models.ScholarshipModel
-
 @{
-    ViewData["Title"] = "Scholarship Details";
+    ViewData["Title"] = "Delete Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="card p-3 mt-5 w-75 rounded-4 mx-auto">
 
     <div class="text-center mb-5">
-        <strong> <h3 class="mb-4 pt-4">Scholarship Request</h3></strong>
+        <strong> <h3 class="mb-4 pt-4">New Scholarship Request</h3></strong>
     </div>
     @if (TempData["Success"] != null)
     {
@@ -42,8 +41,7 @@
             <div class="col-sm-4"></div>
         </div>
     }
-
-    <form method="post" asp-action="RedirectedBoard">
+    <form method="post" asp-action="DeleteRequest">
         <div asp-validation-summary="All"></div>
         <div class="row text-dark">
             <div class="col-sm-6">
@@ -145,16 +143,16 @@
                 </div>
 
                 <div class="mb-3 form-floating mx-auto w-75 text-center">
-                    <p class="form-control">@ViewBag.RequestType</p>
+                    <p class="fs-5 form-control pb-5" id="reqType">@ViewBag.RequestType.RequestTypeName</p>
                     <label for="reqType">Request Type</label>
 
                 </div>
             </div>
-            <input asp-for="Status" hidden value="college" />
-            <input asp-for="DeptNo" hidden value="" />
-            <input name="BoardNo" hidden value="@ViewBag.BoardNo" />
+            <input asp-for="Status" hidden value="@Model.Status" />
+            <input asp-for="DeptNo" hidden />
+            <input name="ReqTypeId" hidden value="@ViewBag.RequestType.RequestTypeID" />
             <div class="form-group mt-5 mb-3 text-center">
-                <input type="submit" value="Save & Continue" class="btn btn-primary w-25 mt-4 mb-3 fw-bold" />
+                <input type="submit" value="Delete" class="btn btn-danger w-25 mt-4 mb-3 fw-bold" />
             </div>
         </div>
     </form>
@@ -162,11 +160,5 @@
 
 
 <div class="text-center">
-    <a asp-controller="Boards" asp-action="CurrentBoards" class="btn btn-secondary">Back to List</a>
+    <a asp-controller="Scholarship" asp-action="NewScholarshipRequest" class="btn btn-secondary">Back to List</a>
 </div>
-<script>
-    function updateStatus(selectElement) {
-        var selectedValue = selectElement.value;
-        document.getElementById("statusInput").value = selectedValue;
-    }
-</script>

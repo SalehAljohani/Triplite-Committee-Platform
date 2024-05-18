@@ -299,10 +299,17 @@ namespace Triplite_Committee_Platform.Controllers
             if (board != null)
             {
                 if (board.ReqStatus.ToLower() == "college")
+                {
                     ViewData["CollegeBoard"] = true;
+                }
+                else if (board.ReqStatus.ToLower() == "department")
+                {
+                    ViewData["existingBoard"] = true;
+                }
             }
             else
             {
+                ViewData["existingBoard"] = false;
                 ViewData["CollegeBoard"] = false;
             }
             if (board != null)
@@ -319,6 +326,63 @@ namespace Triplite_Committee_Platform.Controllers
                 }
             }
             return View(scholarshipDetails);
+        }
+
+        [ValidateRole("Head of Department")]
+        public async Task<IActionResult> DeleteRequest(int? id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            if (id == null)
+            {
+                TempData["Error"] = "Scholarship request was not found";
+                return RedirectToAction("NewScholarshipRequest", "Scholarship");
+            }
+
+            var scholarship = await _context.Scholarship.Where(s => s.DeptNo == user.DeptNo).FirstOrDefaultAsync(s => s.Id == id);
+            var board = await _context.Board.FirstOrDefaultAsync(b => b.Id == id);
+            if(board != null)
+            {
+                TempData["Error"] = "Scholarship request is already in a board";
+                return RedirectToAction("CurrentBoards", "Boards");
+            }
+            if (scholarship == null)
+            {
+                TempData["Error"] = "Scholarship request was not found";
+                return RedirectToAction("NewScholarshipRequest", "Scholarship");
+            }
+            var reqType = await _context.RequestType.FirstOrDefaultAsync(r => r.RequestTypeID.ToString() == scholarship.Status);
+            ViewData["RequestType"] = reqType;
+            return View(scholarship);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateRole("Head of Department")]
+        public async Task<IActionResult> DeleteRequest(ScholarshipModel model)
+        {
+            if (model == null)
+            {
+                TempData["Error"] = "Scholarship request was not found";
+                return RedirectToAction("NewScholarshipRequest", "Scholarship");
+            }
+
+            var scholarship = await _context.Scholarship.FirstOrDefaultAsync(s => s.Id == model.Id);
+            if (scholarship == null)
+            {
+                TempData["Error"] = "Scholarship request was not found";
+                return RedirectToAction("NewScholarshipRequest", "Scholarship");
+            }
+
+            _context.Scholarship.Remove(scholarship);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Scholarship request deleted successfully";
+            return RedirectToAction("NewScholarshipRequest", "Scholarship");
         }
 
         [HttpPost]
@@ -340,6 +404,16 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 TempData["Error"] = "Request Type was not found";
                 return RedirectToAction("NewScholarshipRequest", "Scholarship");
+            }
+            var board = await _context.Board.FirstOrDefaultAsync(b => b.Id == model.Id && b.ReqTypeID == reqType.RequestTypeID);
+            if (board != null)
+            {
+                var ScholarReq = new BoardDetailsViewModel
+                {
+                    Id = model.Id,
+                    ReqTypeID = reqType.RequestTypeID,
+                };
+                return RedirectToAction("DepartmentBoards", ScholarReq);
             }
 
             if (ModelState.IsValid)
@@ -421,6 +495,7 @@ namespace Triplite_Committee_Platform.Controllers
                 TempData["Error"] = "Board was not found";
                 return RedirectToAction("CurrentBoards", "Boards");
             }
+
             ViewData["RequestType"] = request.RequestTypeName;
             ViewData["BoardNo"] = board.BoardNo;
             return View(scholarship);
@@ -927,7 +1002,7 @@ namespace Triplite_Committee_Platform.Controllers
             {
                 if (model.Board.BoardNo != 0)
                 {
-                    if (model.Board.AddedReasons == null)
+                    if (model.Board.AddedReasons != null)
                     {
                         model.Board.Reasons += "\n" + model.Board.AddedReasons;
                         model.Board.AddedReasons = null;

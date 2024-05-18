@@ -144,7 +144,7 @@
                     <span asp-validation-for="University" class="text-danger"></span>
                 </div>
                 <div class="mb-3 form-floating mx-auto w-75">
-                    <input type="Date" asp-for="Beginning_date" class="form-control" placeholder="University" required min="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.AddYears(5).ToString("yyyy-MM-dd")">
+                    <input type="Date" asp-for="Beginning_date" class="form-control" placeholder="University"  required>
                     <label for="university" asp-for="Beginning_date">Start Date</label>
                     <span asp-validation-for="Beginning_date" class="text-danger"></span>
                 </div>
