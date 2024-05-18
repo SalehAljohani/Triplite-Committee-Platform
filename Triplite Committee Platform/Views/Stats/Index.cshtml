@@ -31,10 +31,13 @@
                         <td colspan="3">
                             <div class="mx-auto p-3">
                                 <dl class="row">
-                                    <dt class="col-sm-5 fw-bold">
+                                    <dt class="col-sm-3 fw-bold">
                                         Department Name
                                     </dt>
-                                    <dd class="col-sm-4 fw-bold text-center">Current Boards</dd>
+                                    <dd class="col-sm-3 fw-bold text-center">
+                                        Current Boards
+                                    </dd>
+                                    <dd class="col-sm-3 fw-bold text-center">Completed Boards</dd>
                                     <dd class="col-sm-3 fw-bold text-center">
                                         Progress
                                     </dd>
@@ -42,8 +45,9 @@
                                 @foreach (var departmentStats in collegeStats.Departments)
                                 {
                                     <dl class="row">
-                                        <dt class="col-sm-5 fw-light">@departmentStats.DepartmentName</dt>
-                                        <dd class="col-sm-4 text-center">@departmentStats.CurrentBoards</dd>
+                                        <dt class="col-sm-3 fw-light">@departmentStats.DepartmentName</dt>
+                                        <dd class="col-sm-3 text-center">@departmentStats.CurrentBoards</dd>
+                                        <dd class="col-sm-3 text-center">@departmentStats.CompletedBoards</dd>
                                         <dd class="col-sm-3">
                                             <div class="progress">
                                                 <div class="progress-bar progress-complete" role="progressbar" style="width: @(GetProgressPercentage(departmentStats.CompletedBoards, departmentStats.TotalBoard))%" aria-valuenow="@departmentStats.CompletedBoards" aria-valuemin="0" aria-valuemax="@departmentStats.TotalBoard">@GetProgressPercentage(departmentStats.CompletedBoards, departmentStats.TotalBoard)%</div>
@@ -90,7 +94,7 @@
         {
             return 0;
         }
-        var result = Math.Round((decimal)completed / total * 100, 2);
+        var result = 100 - Math.Round((decimal)completed / total * 100, 2);
         return result;
     }
 }

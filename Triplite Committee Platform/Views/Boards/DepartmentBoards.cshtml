@@ -72,7 +72,7 @@
             @if (Model.Board != null)
             {
                 <div class="form-check form-check-reverse mb-3">
-                    <input class="form-check-input" @(Model.Board.Decision ? "checked" : "") onclick="saveRecommendation()" type="radio" name="Recommendation" asp-for="Board.Decision" id="checkbox1" dir="rtl" value="">
+                    <input class="form-check-input" @(Model.Board.Decision ? "checked" : "") onclick="saveRecommendation()" type="radio" name="Recommendation" asp-for="Board.Decision" id="true" dir="rtl" value="">
                     <label class="form-check-label" for="checkbox1">
                         <strong>قبول </strong>
                         <p> توصي اللجنة المفوضة عن مجلس الكلية لشؤون الابتعاث الداخلي والخارجي بالموافقة على طلب المبتعث (@Model.Scholarship.Name) (@Model.RequestType.RequestTypeName) الى جامعة (@Model.Scholarship.University) من تاريخ (@Model.Scholarship.Beginning_date.ToShortDateString()) في التخصص العام (@Model.Scholarship.GeneralMajor) والتخصص الدقيق(@Model.Scholarship.SpecificMajor) </p>
@@ -80,7 +80,7 @@
                 </div>
                 <hr />
                 <div class="form-check form-check-reverse mb-3">
-                    <input class="form-check-input" @(Model.Board.Decision ? "" : "checked") onclick="saveRecommendation()" type="radio" asp-for="Board.Decision" name="Recommendation" value="" id="checkbox2" dir="rtl">
+                    <input class="form-check-input" @(Model.Board.Decision ? "" : "checked") onclick="saveRecommendation()" type="radio" asp-for="Board.Decision" name="Recommendation" value="" id="false" dir="rtl">
                     <label class="form-check-label" for="checkbox2">
                         <strong>رفض</strong>
                         <p> توصي اللجنة المفوضة عن مجلس الكلية لشؤون الابتعاث الداخلي والخارجي بالرفض على طلب المبتعث (@Model.Scholarship.Name) (@Model.RequestType.RequestTypeName) الى جامعة (@Model.Scholarship.University) من تاريخ (@Model.Scholarship.Beginning_date.ToShortDateString()) في التخصص العام (@Model.Scholarship.GeneralMajor) والتخصص الدقيق ( @Model.Scholarship.SpecificMajor) </p>
