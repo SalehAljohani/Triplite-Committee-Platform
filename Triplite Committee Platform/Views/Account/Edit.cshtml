@@ -1,0 +1,169 @@
+﻿@model Triplite_Committee_Platform.ViewModels.EditUserViewModel
+@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Edit User ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@inject UserManager<UserModel> UserManager
+
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong>@Localizer["userEdit"]</strong></h3>
+    <hr />
+    <dl class="row g-3">
+
+        <form asp-action="Edit">
+            <div asp-validation-summary="None" class="text-danger"></div>
+
+            <div class="card-body">
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label asp-for="Name" class="col-form-label text-center">@Localizer["name"]</label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <input asp-for="Name" class="form-control" autocomplete="Name" aria-required="true" placeholder="" maxlength="35" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+
+                    </dd>
+                </div>
+                <hr />
+
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label asp-for="UserName" class="col-form-label text-center">@Localizer["userName"]</label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <input asp-for="UserName" class="form-control" autocomplete="Id" aria-required="true" placeholder="" maxlength="10" maxlength="10" readonly disabled />
+
+                    </dd>
+                </div>
+                <hr />
+
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label asp-for="EmployeeID" class="col-form-label text-center">@Localizer["empID"]</label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <input asp-for="EmployeeID" class="form-control" autocomplete="Id" aria-required="true" placeholder="" maxlength="10" maxlength="10" readonly disabled />
+                        <span asp-validation-for="EmployeeID" class="text-danger"></span>
+
+                    </dd>
+                </div>
+                <hr />
+
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label asp-for="Email" class="col-form-label text-center">@Localizer["email"]</label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <input asp-for="Email" class="form-control" autocomplete="Email" aria-required="true" placeholder="" readonly disabled />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+
+                    </dd>
+                </div>
+                <hr />
+
+
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label class="col-form-label text-center" asp-for="EmailConfirmed">
+                            @Localizer["emailConfirmed"]
+                        </label>
+
+                    </dt>
+                    <dd class="col-sm-8 row ">
+                        <div><label class="col-form-label text-center">@Localizer["changeIt"]</label></div>
+                        <div><input type="checkbox" class="form-check-input form-control" asp-for="EmailConfirmed" /></div>
+
+
+                    </dd>
+                </div>
+                <hr />
+
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label asp-for="PhoneNumber" class="col-form-label text-center">@Localizer["phone"]</label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <input asp-for="PhoneNumber" class="form-control" autocomplete="Phone" aria-required="true" placeholder="" maxlength="10" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+                    </dd>
+                </div>
+                <hr />
+
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label asp-for="DeptNo" class="col-form-label text-center">@Localizer["dept"]</label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <select asp-for="DeptNo" asp-items="ViewBag.Departments" class="form-control">
+                            <option disabled selected>@Localizer["selectDept"]</option>
+                        </select>
+                        <span asp-validation-for="DeptNo" class="text-danger"></span>
+
+                    </dd>
+                </div>
+                <hr />
+
+
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label asp-for="ListRoles" class="col-form-label text-center">@Localizer["role"]</label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        @foreach (var role in ViewBag.Roles)
+                        {
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" id="@role" name="ListRoles" value="@role" @(Model.ListRoles.Contains(role.ToString()) ? "checked" : "") onclick="return clearError()" />
+                                <label class="form-check-label" for="@role">@role</label>
+                            </div>
+                        }
+                        <span asp-validation-for="ListRoles" id="MustPick" class="text-danger"></span>
+
+                    </dd>
+                </div>
+                <hr />
+
+
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label asp-for="Password" class="col-form-label text-center">@Localizer["pass"]</label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="@Localizer["pass"]" type="password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+
+                    </dd>
+                </div>
+                <hr />
+
+
+                <div class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        <label asp-for="ConfirmPassword" class="col-form-label text-center">@Localizer["confirmPass"]</label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="@Localizer["pass"]" type="password" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </dd>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group mt-5 mb-3 text-center">
+                <input type="submit" value="@Localizer["save"]" class="btn btn-primary w-25 mt-4 mb-3" />
+            </div>
+        </form>
+    </dl>
+</div>
+
+
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-secondary">@Localizer["backToList"]</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

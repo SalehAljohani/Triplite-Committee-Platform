@@ -1,0 +1,100 @@
+﻿@model List<Triplite_Committee_Platform.ViewModels.StatsViewModel>
+
+<style>
+
+</style>
+<div class="card w-75 mx-auto p-3 rounded-4 mt-5">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-sm-5 text-center">College Name</th>
+                <th class="col-sm-4 text-center">Number of Departments</th>
+                <th class="col-sm-3 text-center">Progress</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var collegeStats in Model)
+            {
+                <tr class="clickable-row" data-toggle="collapse" data-target="#departments-@collegeStats.College" data-parent="#accordion">
+                    <td>@collegeStats.College</td>
+                    <td class="text-center">@collegeStats.Departments.Count</td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar progress-complete" role="progressbar" style="width: @(GetProgressPercentage(collegeStats.CompletedBoards, collegeStats.TotalBoard))%" aria-valuenow="@collegeStats.CompletedBoards" aria-valuemin="0" aria-valuemax="@collegeStats.TotalBoard">@GetProgressPercentage(collegeStats.CompletedBoards, collegeStats.TotalBoard)%</div>
+                            <div class="progress-bar progress-current" role="progressbar" style="width: @(GetRemainingPercentage(collegeStats.CurrentBoards, collegeStats.TotalBoard))%" aria-valuenow="@collegeStats.CurrentBoards" aria-valuemin="0" aria-valuemax="@collegeStats.TotalBoard"></div>
+                        </div>
+                    </td>
+                </tr>
+                @if (collegeStats.Departments.Count > 0)
+                {
+                    <tr id="departments-@collegeStats.College" class="collapse">
+                        <td colspan="3">
+                            <div class="mx-auto p-3">
+                                <dl class="row">
+                                    <dt class="col-sm-3 fw-bold">
+                                        Department Name
+                                    </dt>
+                                    <dd class="col-sm-3 fw-bold text-center">
+                                        Current Boards
+                                    </dd>
+                                    <dd class="col-sm-3 fw-bold text-center">Completed Boards</dd>
+                                    <dd class="col-sm-3 fw-bold text-center">
+                                        Progress
+                                    </dd>
+                                </dl>
+                                @foreach (var departmentStats in collegeStats.Departments)
+                                {
+                                    <dl class="row">
+                                        <dt class="col-sm-3 fw-light">@departmentStats.DepartmentName</dt>
+                                        <dd class="col-sm-3 text-center">@departmentStats.CurrentBoards</dd>
+                                        <dd class="col-sm-3 text-center">@departmentStats.CompletedBoards</dd>
+                                        <dd class="col-sm-3">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-complete" role="progressbar" style="width: @(GetProgressPercentage(departmentStats.CompletedBoards, departmentStats.TotalBoard))%" aria-valuenow="@departmentStats.CompletedBoards" aria-valuemin="0" aria-valuemax="@departmentStats.TotalBoard">@GetProgressPercentage(departmentStats.CompletedBoards, departmentStats.TotalBoard)%</div>
+                                                <div class="progress-bar progress-current" role="progressbar" style="width: @(GetRemainingPercentage(departmentStats.CompletedBoards, departmentStats.TotalBoard))%" aria-valuenow="@departmentStats.CurrentBoards" aria-valuemin="0" aria-valuemax="@departmentStats.TotalBoard"></div>
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.clickable-row').click(function (event) {
+                $(this).next('.collapse').toggleClass('show');
+            });
+        });
+    </script>
+}
+
+
+
+@functions {
+    decimal GetProgressPercentage(int completed, int total)
+    {
+        if (total == 0)
+        {
+            return 0;
+        }
+        var result = Math.Round((decimal)completed / total * 100, 2);
+
+        return result;
+    }
+    decimal GetRemainingPercentage(int completed, int total)
+    {
+        if (total == 0)
+        {
+            return 0;
+        }
+        var result = 100 - Math.Round((decimal)completed / total * 100, 2);
+        return result;
+    }
+}

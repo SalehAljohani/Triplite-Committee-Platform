@@ -1,0 +1,158 @@
+﻿@model Triplite_Committee_Platform.ViewModels.BoardDetailsViewModel
+@{
+    ViewData["Title"] = "Report Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1 class="card-title text-center">التقرير</h1>
+<div class="card p-5 mt-5 w-75 mx-auto rounded-4 ">
+    <div class="row border-top border-bottom border-start">
+        <div class="col-sm-9" dir="rtl">
+            <p class="pt-3">
+                @Model.Board.Title
+            </p>
+        </div>
+        <div class="col-sm-3 align-content-center border-end border-start">
+            <h4 class="text-center pt-1" dir="rtl">الموضوع</h4>
+        </div>
+    </div>
+    <div class="row border-bottom">
+
+        <div class="col-sm-9 p-3 border-start text-center" dir="rtl">
+            <label class="text-end">
+                @Html.Raw(Model.Board.Reasons.Replace("\n", "<br>"))
+            </label>
+            <div id="textAboveTextarea"></div>
+            <div class="d-flex" id="addReasons">
+
+                <div class="col-9">
+                    <textarea class="form-control w-100 border border-dark mt-2 mb-2" rows="4"></textarea>
+                    <div id="textAboveTextarea"></div>
+                </div>
+                <div class="col-3" id="addButtonContainer">
+                    <a class="me-3 h-25 center" type="button" onclick="addTextAboveTextarea()"><i class="mt-5 fa-solid text-black fa-plus fs-4"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 align-content-center border-start border-end" dir="rtl">
+            <h4 class="text-center">الحيثيات</h4>
+        </div>
+    </div>
+    <div class="row border-bottom">
+        <div class="col-sm-9 p-3 border-start" dir="rtl">
+            <div class="form-check form-check-reverse mb-3">
+                <input class="form-check-input" @(Model.Board.Decision ? "checked" : "") onclick="saveRecommendation()" type="radio" name="Recommendation" asp-for="Board.Decision" id="true" dir="rtl" value="">
+                <label class="form-check-label" for="checkbox1">
+                    <strong>قبول </strong>
+                    <p> توصي اللجنة المفوضة عن مجلس الكلية لشؤون الابتعاث الداخلي والخارجي بالموافقة على طلب المبتعث (@Model.Scholarship.Name) (@Model.RequestType.RequestTypeName) الى جامعة (@Model.Scholarship.University) من تاريخ (@Model.Scholarship.Beginning_date.ToShortDateString()) في التخصص العام (@Model.Scholarship.GeneralMajor) والتخصص الدقيق(@Model.Scholarship.SpecificMajor) </p>
+                </label>
+            </div>
+            <hr />
+            <div class="form-check form-check-reverse mb-3">
+                <input class="form-check-input" @(Model.Board.Decision ? "" : "checked") onclick="saveRecommendation()" type="radio" asp-for="Board.Decision" name="Recommendation" value="" id="false" dir="rtl">
+                <label class="form-check-label" for="checkbox2">
+                    <strong>رفض</strong>
+                    <p> توصي اللجنة المفوضة عن مجلس الكلية لشؤون الابتعاث الداخلي والخارجي بالرفض على طلب المبتعث (@Model.Scholarship.Name) (@Model.RequestType.RequestTypeName) الى جامعة (@Model.Scholarship.University) من تاريخ (@Model.Scholarship.Beginning_date.ToShortDateString()) في التخصص العام (@Model.Scholarship.GeneralMajor) والتخصص الدقيق ( @Model.Scholarship.SpecificMajor) </p>
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-3 align-content-center border-end border-start" dir="rtl">
+            <h4 class="text-center">التوصيات</h4>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <form method="post" asp-action="SaveRedirectedBoard">
+        <input type="hidden" asp-for="Board.BoardNo" value="@Model.Board.BoardNo" />
+        <input type="hidden" asp-for="Board.Title" value="@Model.Board.Title" />
+        <input type="hidden" asp-for="Board.Reasons" value="@Model.Board.Reasons" />
+        <input type="hidden" asp-for="Board.ReqStatus" value="@Model.Board.ReqStatus" />
+        <input type="hidden" asp-for="Board.ReqDate" value="@Model.Board.ReqDate" />
+        <input type="hidden" asp-for="Board.Id" value="@Model.Scholarship.Id" />
+        <input type="hidden" asp-for="Board.AddedReasons" id="addedReasons" />
+        <input type="hidden" asp-for="Board.Recommendation" id="recommendation" />
+        <input type="hidden" asp-for="Board.DeptNo" value="@Model.Scholarship.DeptNo" />
+        <input type="hidden" asp-for="Board.ReqTypeID" value="@Model.RequestType.RequestTypeID" />
+        <input type="hidden" asp-for="Board.Decision" id="bDecision" />
+        <button type="submit" class="btn btn-lg btn-primary" dir="rtl">حفظ ومتابعة</button>
+    </form>
+</div>
+@section Scripts {
+
+    <script>
+        function addTextAboveTextarea() {
+            var textarea = document.querySelector('.form-control');
+            var textToAdd = textarea.value;
+            var textAboveTextarea = document.getElementById('textAboveTextarea');
+            var addButtonContainer = document.getElementById('addButtonContainer');
+            var addedReasons = document.getElementById('addedReasons');
+            addedReasons.value = textarea.value;
+
+            if (textToAdd.trim() !== '') {
+                var newLabel = document.createElement('div');
+                newLabel.className = 'added-label text-center';
+                newLabel.innerHTML = "<p class='mb-2 text-end'>" + textToAdd.replace(/\n/g, "<br>") + "</p>";
+
+                var editButton = document.createElement('button');
+                editButton.textContent = 'تحرير';
+                editButton.className = 'btn btn-sm btn-secondary edit-button ms-2';
+                editButton.onclick = function () {
+                    textAboveTextarea.removeChild(newLabel);
+                    textarea.style.display = 'block';
+                    addButtonContainer.style.display = 'block';
+                };
+
+
+                var deleteButton = document.createElement('button');
+                deleteButton.textContent = 'حذف';
+                deleteButton.className = 'btn btn-sm btn-danger delete-button me-1';
+                deleteButton.onclick = function () {
+                    textAboveTextarea.removeChild(newLabel);
+                    textarea.style.display = 'block';
+                    textarea.value = "";
+                    addButtonContainer.style.display = 'block';
+                };
+
+                newLabel.appendChild(editButton);
+                newLabel.appendChild(deleteButton);
+                textAboveTextarea.appendChild(newLabel);
+                textarea.style.display = 'none';
+                addButtonContainer.style.display = 'none';
+            } else {
+                textarea.placeholder = 'يرجى إدخال نص قبل الضغط على زر الإضافة.';
+                textarea.focus();
+            }
+        }
+        function saveInputValues() {
+            var label = document.querySelector('label');
+            var inputs = label.querySelectorAll('input[type="text"]');
+
+            inputs.forEach(function (input) {
+                var text = input.value.trim();
+                var placeholder = input.getAttribute('placeholder');
+                var newText = document.createTextNode(" " + text + " ");
+                var btn = document.getElementById('saveBtn');
+                btn.style.display = 'none';
+                label.replaceChild(newText, input);
+
+                var saveReason = document.getElementById('BoardReasons');
+                saveReason.value = label.innerHTML;
+            });
+        }
+        function saveRecommendation() {
+            var radioButtons = document.querySelectorAll('input[type="radio"]');
+            var recommendation = document.getElementById('recommendation');
+            var bDecision = document.getElementById('bDecision');
+            radioButtons.forEach(function (radio) {
+                if (radio.checked) {
+                    recommendation.value = radio.nextElementSibling.textContent;
+                    if (radio.id === 'true') {
+                        bDecision.value = 'true';
+                    } else {
+                        bDecision.value = 'false';
+                    }
+                }
+            });
+        }
+    </script>
+}

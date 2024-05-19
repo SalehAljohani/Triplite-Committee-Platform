@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Triplite_Committee_Platform.Models.DepartmentModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+@if (TempData["DeleteMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["DeleteMessage"]
+    </div>
+}
+<p>
+    <a asp-action="Create">@Localizer["createNew"]</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.College)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.College.CollegeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeptName)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.DeptNo">@Localizer["edit"]</a> |
+                    <a asp-action="Details" asp-route-id="@item.DeptNo">@Localizer["details"]</a> |
+                    <a asp-action="Delete" asp-route-id="@item.DeptNo">@Localizer["delete"]</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

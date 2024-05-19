@@ -1,0 +1,50 @@
+﻿@model Triplite_Committee_Platform.Models.CollegeModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong>@Model?.CollegeName</strong></h3>
+    <hr />
+    <div>
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">@Localizer["deptName"]</th>
+                    <th>@Localizer["action"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.Departments != null)
+                {
+                    var count = 0;
+                    @foreach (var item in ViewBag.Departments)
+                    {
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td>@item.DeptName</td>
+                            <td>
+                                <div class="text-center">
+                                    <a asp-action="Edit" asp-controller="Department" asp-route-id="@item.DeptNo" class="btn btn-md"><i class="fa-solid fa-pen fs-5 text-primary"></i></a>
+                                    <a asp-action="Details" asp-controller="Department" asp-route-id="@item.DeptNo" class="btn btn-md"><i class="fa-solid fa-circle-info fs-5 text-secondary"></i></a>
+                                    <a asp-action="Delete" asp-controller="Department" asp-route-id="@item.DeptNo" class="btn btn-md"><i class="fa-solid fa-trash fs-5 text-danger"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                }
+            </tbody>
+        </table>
+        <dl class="row ps-5">
+        </dl>
+    </div>
+</div>
+<div class="text-center">
+    <a asp-action="Create" asp-controller="Department" asp-route-id="@Model?.CollegeNo" class="btn btn-success btn-md me-3">@Localizer["addDept"]</a>
+    <a asp-action="Edit" class="btn btn-primary me-3 ms-3" asp-route-id="@Model?.CollegeNo">@Localizer["editCollege"]</a>
+    <a asp-action="Index" class="btn btn-secondary ms-3">@Localizer["backToList"]</a>
+</div>

@@ -1,0 +1,219 @@
+﻿@model Triplite_Committee_Platform.ViewModels.ProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="alert alert-success text-center alert-dismissible fade show col-sm-4" role="alert">
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@Localizer["close"]"></button>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="alert alert-danger text-center alert-dismissible fade show col-sm-4" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@Localizer["close"]"></button>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+}
+
+<div class="container py-3">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="~/img/user.png" alt="avatar" class="" style="width: 150px;">
+                    <h5 class="my-4">@Model.Name</h5>
+                    <p class="text-muted mb-1 pt-4">@Model.activeRole</p>
+                    <p class="text-muted mb-3">@Model.Department.DeptName</p>
+                    @*                     <div class="d-flex justify-content-center mb-2">
+                    <button type="button" class="btn btn-primary" onclick="saveInformation()">Save information</button>
+                    <button type="button" class="btn btn-outline-primary ms-1" onclick="changeInformation()">Change information</button>
+                    </div> *@
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">@Localizer["fullName"]</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.Name</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">@Localizer["email"]</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0 text-uppercase">@Model.Email</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">@Localizer["phone"]</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.PhoneNumber</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">@Localizer["empID"]</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.EmployeeID</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">@Localizer["college"]</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.College.CollegeName</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">@Localizer["dept"]</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.Department.DeptName</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            @if (Model.Signature == null)
+            {
+                <form method="post" asp-action="AddSign" enctype="multipart/form-data">
+                    <div class="card mb-4 mb-md-0">
+                        <div class="card-body">
+                            <div class="container">
+                                <div class="mb-3">
+                                    <label for="signature" class="form-label"><strong>@Localizer["sign"]</strong></label>
+                                    <div class="mt-2 card border">
+                                        <canvas id="signature-pad" class="signature-pad" style="width: 100%; height: 100%;" width="570px" height="130px"></canvas>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="signatureData" id="signature-data" />
+                                <div class="text-center row">
+                                    <div class="col-sm-5">
+                                        <button type="submit" class="btn btn-primary" id="add-signature">@Localizer["addSign"]</button>
+                                    </div>
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-5">
+                                        <button type="button" class="btn btn-danger" id="delete-signature">@Localizer["deleteSign"]</button>
+                                    </div>
+                                </div>
+                                <h3 class="text-center fw-bold mt-3 mb-4">@Localizer["or"]</h3>
+                                <div class="input-group mb-3">
+                                    <input type="file" name="file" id="signatureUp" class="form-control" accept="image/*" aria-describedby="signature" aria-label="Upload" />
+                                    <button class="btn btn-outline-success" type="submit" id="signatureBtn">@Localizer["upload"]</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <form method="post" asp-action="RemoveSign">
+                    <div class="card mb-4 mb-md-0">
+                        <div class="card-body">
+                            <div class="container">
+                                <div>
+                                    <label for="signature" class="form-label"><strong>@Localizer["sign"]</strong></label>
+                                    <div class="mt-5 mb-5 card border">
+                                        <img src="~/signatures/@Model.Signature?version=@DateTime.Now.Ticks" alt="signature" class="img-fluid" />
+                                    </div>
+                                    <div class="text-center mt-5 mb-5 pt-3">
+                                        <button type="submit" class="btn btn-danger" id="delete-signature">@Localizer["deleteSign"]</button>
+                                    </div>
+                                    <div class="pt-1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            }
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+                <div class="card-body">
+                    <p class="mb-4">
+                        <span class="text-primary font-italic me-1"><i class="mdi mdi-lock-outline"></i></span> <strong>@Localizer["resetPass"]</strong>
+                    </p>
+                    <form method="post" asp-action="UpdatePassword">
+                        <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+                        <div class="mb-3">
+                            <label for="oldPassword" class="form-label">@Localizer["oldPass"]</label>
+                            <input type="password" asp-for="oldPassword" class="form-control" id="oldPassword" required>
+                            <span asp-validation-for="oldPassword" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">@Localizer["newPass"]</label>
+                            <input type="password" asp-for="newPassword" class="form-control" id="newPassword" required>
+                            <span asp-validation-for="newPassword" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">@Localizer["confirmPass"]</label>
+                            <input type="password" asp-for="confirmPassword" class="form-control" id="confirmPassword" required>
+                            <span asp-validation-for="confirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mb-4"><i class="mdi mdi-key"></i> @Localizer["changePass"]</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+        <script>
+            var canvas = document.getElementById('signature-pad');
+            var signaturePad = new SignaturePad(canvas);
+
+            document.getElementById('add-signature').addEventListener('click', function () {
+                if (!signaturePad.isEmpty()) {
+                    var signatureData = signaturePad.toDataURL();
+                    document.getElementById('signature-data').value = signatureData;
+                    console.log(signatureData);
+                }
+            });
+
+            document.getElementById('delete-signature').addEventListener('click', function () {
+                signaturePad.clear();
+                localStorage.removeItem('signature');
+            });
+        </script>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

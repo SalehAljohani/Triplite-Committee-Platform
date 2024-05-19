@@ -1,0 +1,78 @@
+﻿@model Triplite_Committee_Platform.Models.DepartmentModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="alert alert-danger col-sm-4 text-center" role="alert">
+            @TempData["Message"]
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+}
+@if (ViewData["UserMessage"] != null)
+{
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-center border-0 rounded-4 alert alert-danger" role="alert">
+            <br />
+            <strong class="fs-5 text-danger">@ViewData["UserMessage"]</strong>
+            <a asp-action="Index" asp-controller="Account" class="btn btn-danger w-auto mx-auto mt-5 mb-3">@Localizer["viewUsersList"]</a>
+        </div>
+        <div class="col-sm-4"></div>
+        <br />
+    </div>
+}
+
+<div class="card w-50 mx-auto mt-3 rounded-4">
+    <h3 class="mt-4 text-center"><strong class="text-uppercase">@Localizer["deletePhrase"]  <span class="text-danger">@Model?.DeptName</span> @Localizer["dept"]</strong></h3>
+    <p class=" text-uppercase text-center text-dark fw-bold mt-5">@Localizer["deptBelongsPhrase"] <span class="text-danger">@Model?.DeptName</span> @Localizer["college"]</p>
+    <div class="text-center pb-3"> 
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="DeptNo" />
+            @if (ViewData["UserMessage"] != null)
+            {
+                <input disabled value="Delete" class="btn btn-secondary" />
+            }
+            else
+            {
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirm">
+                    @Localizer["delete"]
+                </button>
+                <div class="modal fade" id="deleteConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="deleteConfirmLabel">@Localizer["deleteConfirm"]</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["close"]"></button>
+                            </div>
+                            <div class="modal-body">
+                                @Localizer["deletePhrase"] <strong class="text-danger text-uppercase">[@Model?.DeptName]</strong> @Localizer["dept"]
+                            </div>
+                            <hr />
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-secondary me-3 w-25" data-bs-dismiss="modal">@Localizer["no"]</button>
+                                <button type="submit" class="btn btn-danger ms-3 w-25">@Localizer["yes"]</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+    </form>
+    </div>
+    
+</div>
+<div class="text-center">
+    <a asp-action="Index" asp-controller="College" class="btn btn-secondary">@Localizer["backToList"]</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
