@@ -34,9 +34,33 @@ namespace Triplite_Committee_Platform.Controllers
             }
             return View();
         }
+        [ValidateRole("Vice Dean")]
         public async Task<IActionResult> RegisterScholarship()
         {
-            await populateData();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            var userDept = await _context.Department.Where(d => d.DeptNo == user.DeptNo).FirstOrDefaultAsync();
+            if (userDept == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            var college = await _context.College.Where(c => c.CollegeNo == userDept.DeptNo).FirstOrDefaultAsync();
+            if(college == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            var deptList = await _context.Department.Where(d => d.CollegeNo == college.CollegeNo).ToListAsync();
+            var request = await _context.RequestType.ToListAsync();
+            if(request == null || deptList == null)
+            {
+                TempData["Error"] = "Error occured while fetching data.";
+                return RedirectToAction("RegisterScholarship");
+            }
+            ViewData["Request"] = new SelectList(request, "RequestTypeID", "RequestTypeName");
+            ViewData["Departments"] = new SelectList(deptList, "DeptNo", "DeptName");
             return View();
         }
 
@@ -52,13 +76,12 @@ namespace Triplite_Committee_Platform.Controllers
             else
             {
                 TempData["Error"] = "Department is required.";
-                await populateData();
-                return View(model);
+                return RedirectToAction("RegisterScholarship");
             }
             if (!ModelState.IsValid)
             {
-                await populateData();
-                return View(model);
+                TempData["Error"] = "Please fill all required fields.";
+                return RedirectToAction("RegisterScholarship");
             }
             model.Status = model.Status.ToLower();
             await _context.Scholarship.AddAsync(model);
@@ -69,23 +92,6 @@ namespace Triplite_Committee_Platform.Controllers
             return RedirectToAction("RegisterScholarship");
         }
 
-        private async Task populateData()
-        {
-            var college = await _context.College.ToListAsync();
-            var department = await _context.Department.ToListAsync();
-            var request = await _context.RequestType.ToListAsync();
-
-            ViewData["Request"] = new SelectList(request, "RequestTypeID", "RequestTypeName");
-            ViewData["Colleges"] = new SelectList(college, "CollegeNo", "CollegeName");
-            var departmentsData = department.Select(d => new
-            {
-                DeptNo = d.DeptNo,
-                DeptName = d.DeptName,
-                CollegeNo = d.CollegeNo
-            }).ToList();
-
-            ViewData["Departments"] = Newtonsoft.Json.JsonConvert.SerializeObject(departmentsData);
-        }
         [ValidateRole("Head of Department", "Department Member")]
         public async Task<IActionResult> NewScholarshipRequest()
         {

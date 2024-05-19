@@ -144,26 +144,16 @@
                     <span asp-validation-for="University" class="text-danger"></span>
                 </div>
                 <div class="mb-3 form-floating mx-auto w-75">
-                    <input type="Date" asp-for="Beginning_date" class="form-control" placeholder="University"  required>
+                    <input type="Date" asp-for="Beginning_date" class="form-control" placeholder="University" required>
                     <label for="university" asp-for="Beginning_date">Start Date</label>
                     <span asp-validation-for="Beginning_date" class="text-danger"></span>
                 </div>
-                <div class="row w-75 mx-auto">
-                    @if (ViewBag.Colleges != null)
-                    {
-                        <div class="mb-3 form-floating w-50">
-                            <select id="College" name="College" asp-items="ViewBag.Colleges" name="SelectedCollege" onchange="enableDepartmentSelection(this)" class="form-select text-center" asp-for="Degree" required>
-                                <option disabled selected>Select College</option>
-                            </select>
-                        </div>
-                    }
+                <div class="mb-3 form-floating mx-auto w-75">
                     @if (ViewBag.Departments != null)
                     {
-                        <div class="mb-3 form-floating w-50">
-                            <select id="Department" name="SelectedDepartment" class="form-select text-center" asp-items="ViewBag.Department" asp-for="DeptNo" disabled required>
-                                <option disabled selected>Select Department</option>
-                            </select>
-                        </div>
+                        <select id="Dept" name="SelectedDepartment" asp-items="ViewBag.Departments" class="form-select text-center" asp-for="DeptNo" required>
+                            <option disabled selected>Select Department</option>
+                        </select>
                     }
                 </div>
             </div>
@@ -173,25 +163,3 @@
         </div>
     </form>
 </div>
-
-<script>
-        var allDepartments = JSON.parse('@Html.Raw(ViewData["Departments"])');
-
-        function enableDepartmentSelection(selectElement) {
-            var departmentSelect = document.getElementsByName("SelectedDepartment")[0];
-            var collegeId = selectElement.value;
-
-            departmentSelect.disabled = collegeId === "";
-            departmentSelect.innerHTML = '<option value=""> Select Department </option>';
-
-            if (collegeId !== "") {
-                allDepartments.forEach(function (department) {
-                    if (department.CollegeNo.toString() === collegeId.toString()) {
-                        let option = new Option(department.DeptName, department.DeptNo);
-                        departmentSelect.add(option);
-                    }
-                });
-                departmentSelect.disabled = departmentSelect.options.length <= 1;
-            }
-        }
-    </script>
